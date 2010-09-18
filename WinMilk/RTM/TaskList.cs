@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 
-namespace PhoneMilk.RTM {
+namespace WinMilk.RTM {
 	public class TaskList {
 		private LinkedList<Task> list;
 		public LinkedList<Task> List 

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WinMilk")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft IT")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WinMilk")]
-[assembly: AssemblyCopyright("Copyright © Microsoft IT 2009")]
+[assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("71f6d153-0759-4d6e-9bcd-de9a49d8f232")]
+[assembly: Guid("1b6fa937-bc06-45aa-bc83-c619c77fded3")]
 
 // Version information for an assembly consists of the following four values:
 //

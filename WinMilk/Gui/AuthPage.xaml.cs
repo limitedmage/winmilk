@@ -11,7 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 
-namespace PhoneMilk.Gui {
+namespace WinMilk.Gui {
 	public partial class AuthPage : PhoneApplicationPage {
 		private RTM.RestClient rtm;
 
@@ -31,7 +31,7 @@ namespace PhoneMilk.Gui {
 			this.rtm.GetToken((string token) => {
 				Helper.IsolatedStorageHelper.SaveObject<string>("token", token);
 
-				this.NavigationService.Navigate(new Uri("/Gui/TaskListPage.xaml", UriKind.Relative));
+				this.NavigationService.Navigate(new Uri("/Gui/PanoramaTaskListPage.xaml", UriKind.Relative));
 			});
 
 		}

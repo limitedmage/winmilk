@@ -19,7 +19,7 @@ using System.IO.IsolatedStorage;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-namespace PhoneMilk.Helper
+namespace WinMilk.Helper
 {
 	public static class IsolatedStorageHelper
 	{

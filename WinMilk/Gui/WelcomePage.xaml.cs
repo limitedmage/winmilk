@@ -11,7 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 
-namespace PhoneMilk.Gui {
+namespace WinMilk.Gui {
 	public partial class WelcomePage : PhoneApplicationPage {
 		public WelcomePage() {
 			InitializeComponent();

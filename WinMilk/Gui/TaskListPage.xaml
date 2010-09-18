@@ -1,13 +1,18 @@
-﻿<navigation:PhoneApplicationPage 
-	x:Class="PhoneMilk.Gui.TaskListPage"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:navigation="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Navigation"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	SupportedOrientations="Portrait"
-	mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480"
-	Loaded="PhoneApplicationPage_Loaded">
+﻿<phone:PhoneApplicationPage 
+	x:Class="WinMilk.Gui.TaskListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"
+    Loaded="PhoneApplicationPage_Loaded">
 
 	<Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
 		<Grid.RowDefinitions>
@@ -16,12 +21,12 @@
 		</Grid.RowDefinitions>
 
 		<!--This is the name of the application and page title-->
-		<Grid Grid.Row="0" x:Name="TitleGrid">
-			<TextBlock x:Name="ApplicationName" Text="WINMILK" Style="{StaticResource PhoneTextPageTitle1Style}"/>
-			<TextBlock x:Name="ListName" Text="tasks" Style="{StaticResource PhoneTextPageTitle2Style}"/>
-		</Grid>
-        
-		<!--This section is empty. Place new content here Grid.Row="1"-->
+        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="ApplicationTitle" Text="WINMILK" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="tasks" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
+
+        <!--This section is empty. Place new content here Grid.Row="1"-->
 		<Grid Grid.Row="1" x:Name="ContentGrid">
 			<ListBox Height="624" HorizontalAlignment="Left" Margin="6,0,0,0" Name="listBox1" VerticalAlignment="Top" Width="468">	
 				<ListBox.ItemTemplate>
@@ -58,4 +63,4 @@
 			</ListBox>
 		</Grid>
 	</Grid>
-</navigation:PhoneApplicationPage>
+</phone:PhoneApplicationPage>

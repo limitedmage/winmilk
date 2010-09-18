@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace PhoneMilk.RTM {
+namespace WinMilk.RTM {
 	public class RestClient {
 		private static string ReqUrl = "http://api.rememberthemilk.com/services/rest/";
 		private static string AuthUrl = "http://api.rememberthemilk.com/services/auth/";
@@ -160,12 +160,18 @@ namespace PhoneMilk.RTM {
 
 		public void GetTaskList(TasksDelegate callback) 
 		{
+			//
+			// First get the list of TaskLists, so we can know names of lists
+			//
 			this.GetLists((List<TaskList> tasklists) =>
 			{
 				Dictionary<string, string> parameters = new Dictionary<string, string>();
 				parameters.Add("method", "rtm.tasks.getList");
 				parameters.Add("filter", "status:incomplete");
 
+				//
+				// Then get the list of all incomplete tasks
+				//
 				this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
 				{
 					if (e.Error != null)
@@ -176,18 +182,18 @@ namespace PhoneMilk.RTM {
 					List<Task> list;
 					XDocument xml = XDocument.Parse(e.Result);
 
-					list = (from element in xml.Descendants("taskseries")
+					list = (from element in xml.Descendants("task")
 							  select new Task(
-								  element.Attribute("name").Value,
-								  element.Descendants("tag").Select(node => node.Value).ToList<string>(),
-								  element.Descendants("task").Attributes("priority").Select(n => Task.StringToPriority(n.Value)).First(),
+								  element.Parent.Attribute("name").Value,														// name of the task series
+								  element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// tags of the task series
+								  Task.StringToPriority(element.Attribute("priority").Value),							// priority of the task
 								  (from tasklist in tasklists
-									where tasklist.Id == int.Parse(element.Parent.Attribute("id").Value)
+									where tasklist.Id == int.Parse(element.Parent.Parent.Attribute("id").Value)
 									select tasklist.Name
-									).First(),
-									element.Descendants("task").Attributes("has_due_time").First().Value == "0" ? false : true,
-								   element.Descendants("task").Attributes("due").First().Value
-								  )
+									).First(),																							// list name
+									element.Attribute("has_due_time").Value == "0" ? false : true,						// if task has due time
+									element.Attribute("due").Value																// task due date, in string ISO 8601 format
+								)
 							 ).ToList<Task>();
 
 					callback(list);
