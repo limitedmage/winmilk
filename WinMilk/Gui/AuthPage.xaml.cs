@@ -31,11 +31,8 @@ namespace WinMilk.Gui {
 			this.rtm.GetToken((string token) => {
 				Helper.IsolatedStorageHelper.SaveObject<string>("token", token);
 
-				this.NavigationService.Navigate(new Uri("/Gui/PanoramaTaskListPage.xaml", UriKind.Relative));
+                this.NavigationService.GoBack();
 			});
-
 		}
-
-
 	}
 }

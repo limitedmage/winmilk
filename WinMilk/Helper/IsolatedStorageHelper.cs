@@ -33,6 +33,11 @@ namespace WinMilk.Helper
 			return default(T);
 		}
 
+        public static bool Contains(string key)
+        {
+            return IsolatedStorageSettings.ApplicationSettings.Contains(key);
+        }
+
 		public static void SaveObject<T>(string key, T objectToSave)
 		{
 			string serializedObject = Serialize(objectToSave);

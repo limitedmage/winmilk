@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WinMilk")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A Remember the Milk client for Windows Phone 7")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Juliana Pena")]
 [assembly: AssemblyProduct("WinMilk")]
 [assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
