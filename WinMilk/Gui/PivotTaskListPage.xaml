@@ -8,13 +8,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
+    xmlns:progress="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    Loaded="PhoneApplicationPage_Loaded">
+    Loaded="PhoneApplicationPage_Loaded"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <phone:PhoneApplicationPage.Resources>
 
@@ -87,6 +89,7 @@
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>
+        <progress:ProgressBarWithText Text="Loading..." ShowProgress="{Binding IsTasksLoading}" />
     </Grid>
 
     <!--Sample code showing usage of ApplicationBar-->

@@ -17,9 +17,32 @@ namespace WinMilk.Gui
     {
         private RTM.RestClient rtm;
 
+        #region IsTasksLoading
+
+        /// <summary>
+        /// IsLoading Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IsTasksLoadingProperty =
+            DependencyProperty.Register("IsTasksLoading", typeof(bool), typeof(PivotTaskListPage),
+                new PropertyMetadata((bool)false));
+
+        /// <summary>
+        /// Gets or sets the IsTwitsLoading property. This dependency property 
+        /// indicates whether we are currently loading twits.
+        /// </summary>
+        public bool IsTasksLoading
+        {
+            get { return (bool)GetValue(IsTasksLoadingProperty); }
+            set { SetValue(IsTasksLoadingProperty, value); }
+        }
+
+        #endregion
+
         public PivotTaskListPage()
         {
             InitializeComponent();
+
+            this.IsTasksLoading = false;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -42,8 +65,11 @@ namespace WinMilk.Gui
             {
                 rtm = new RTM.RestClient(Helper.IsolatedStorageHelper.GetObject<string>("token"));
 
+                this.IsTasksLoading = true;
                 rtm.GetTaskList((List<RTM.Task> list) =>
                 {
+                    this.IsTasksLoading = false;
+
                     list.Sort((RTM.Task a, RTM.Task b) =>
                     {
                         return a.Due.CompareTo(b.Due);

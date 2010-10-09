@@ -74,6 +74,11 @@
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Controls\DynamicTextBlock.cs" />
+    <Compile Include="Gui\Controls\ProgressBar\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Gui\Controls\ProgressBar\ProgressBarWithText.xaml.cs">
+      <DependentUpon>ProgressBarWithText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Controls\ProgressBar\RelativeAnimatingContentControl.cs" />
     <Compile Include="Gui\Loc\LocData.cs" />
     <Compile Include="Gui\Loc\LocString.cs" />
     <Compile Include="Gui\PivotTaskListPage.xaml.cs">
@@ -97,6 +102,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\AuthPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\Controls\ProgressBar\ProgressBarWithText.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
