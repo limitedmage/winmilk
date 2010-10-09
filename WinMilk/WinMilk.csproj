@@ -67,23 +67,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\AddTaskPage.xaml.cs">
+      <DependentUpon>AddTaskPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Controls\DynamicTextBlock.cs" />
     <Compile Include="Gui\Loc\LocData.cs" />
     <Compile Include="Gui\Loc\LocString.cs" />
-    <Compile Include="Gui\PanoramaTaskListPage.xaml.cs">
-      <DependentUpon>PanoramaTaskListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\PivotTaskListPage.xaml.cs">
       <DependentUpon>PivotTaskListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\TaskListPage.xaml.cs">
-      <DependentUpon>TaskListPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\WelcomePage.xaml.cs">
-      <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\IsolatedStorageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +92,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Gui\AddTaskPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\AuthPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,21 +104,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Gui\PanoramaTaskListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Gui\PivotTaskListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\TaskListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\WelcomePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

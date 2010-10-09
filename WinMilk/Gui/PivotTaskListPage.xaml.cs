@@ -72,5 +72,10 @@ namespace WinMilk.Gui
         {
             this.LoadData();
         }
+
+        private void add_Click(object sender, EventArgs e)
+        {
+            this.NavigationService.Navigate(new Uri("/Gui/AddTaskPage.xaml", UriKind.Relative));
+        }
     }
 }

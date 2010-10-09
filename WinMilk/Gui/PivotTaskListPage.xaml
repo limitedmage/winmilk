@@ -92,7 +92,7 @@
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="add" IconUri="/icons/appbar.add.rest.png" Text="add task"/>
+            <shell:ApplicationBarIconButton x:Name="add" IconUri="/icons/appbar.add.rest.png" Text="add task" Click="add_Click"/>
             <shell:ApplicationBarIconButton x:Name="sync" IconUri="/icons/appbar.sync.rest.png" Text="refresh" Click="sync_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="settings" Text="settings"/>
