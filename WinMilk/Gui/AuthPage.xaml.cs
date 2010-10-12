@@ -10,29 +10,72 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using WinMilk.Gui.Controls.ProgressBar;
 
-namespace WinMilk.Gui {
-	public partial class AuthPage : PhoneApplicationPage {
-		private RTM.RestClient rtm;
+namespace WinMilk.Gui
+{
+    public partial class AuthPage : PhoneApplicationPage
+    {
 
-		public AuthPage() {
-			this.rtm = new RTM.RestClient();
-			InitializeComponent();
-		}
+        #region IsLoading
 
-		private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e) {
+        /// <summary>
+        /// IsLoading Dependency Property
+        /// </summary>
+        public static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(AuthPage),
+                new PropertyMetadata((bool)false));
 
-			this.rtm.GetAuthUrl((string url) => {
-				webBrowser1.Navigate(new Uri(url));
-			});
-		}
+        /// <summary>
+        /// Gets or sets the IsLoading property. This dependency property 
+        /// indicates whether we are currently loading.
+        /// </summary>
+        public bool IsLoading
+        {
+            get { return (bool)GetValue(IsLoadingProperty); }
+            set { SetValue(IsLoadingProperty, value); }
+        }
 
-		private void AuthDoneButton_Click(object sender, RoutedEventArgs e) {
-			this.rtm.GetToken((string token) => {
-				Helper.IsolatedStorageHelper.SaveObject<string>("token", token);
+        #endregion
+
+        public AuthPage()
+        {
+            InitializeComponent();
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            this.IsLoading = true;
+
+            App.Rest.GetAuthUrl((string url) =>
+            {
+                this.IsLoading = false;
+                webBrowser1.Navigate(new Uri(url));
+            });
+        }
+
+        private void AuthDoneButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsLoading = true;
+            App.Rest.GetToken((string token) =>
+            {
+                this.IsLoading = false;
+
+                TaskListPage.s_Reload = true;
 
                 this.NavigationService.GoBack();
-			});
-		}
-	}
+            });
+        }
+
+        private void webBrowser1_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            this.IsLoading = false;
+        }
+
+        private void webBrowser1_Navigating(object sender, NavigatingEventArgs e)
+        {
+            this.IsLoading = true;
+        }
+    }
 }

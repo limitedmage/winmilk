@@ -12,234 +12,332 @@ using System.Windows.Shapes;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace WinMilk.RTM {
-	public class RestClient {
-		private static string ReqUrl = "http://api.rememberthemilk.com/services/rest/";
-		private static string AuthUrl = "http://api.rememberthemilk.com/services/auth/";
+namespace WinMilk.RTM
+{
+    public class RestClient
+    {
+        private static string ReqUrl = "http://api.rememberthemilk.com/services/rest/";
+        private static string AuthUrl = "http://api.rememberthemilk.com/services/auth/";
 
-		private static string MilkApiKey = "624a977e8a0e4ce69dec0196ce6479dd";
-		private static string MilkSharedKey = "ea04c412d8a8ce87";
+        private static string MilkApiKey = "624a977e8a0e4ce69dec0196ce6479dd";
+        private static string MilkSharedKey = "ea04c412d8a8ce87";
 
-		private string ApiKey;
-		private string SharedKey;
-		private string Frob;
+        private string _apiKey;
+        private string _sharedKey;
+        private string _frob;
 
-		private List<TaskList> taskLists;
+        private List<Task> _tasks;
+        private List<string> _tags;
+        private List<TaskList> _lists;
 
-		private string Token;
+        private string _token;
 
-		public RestClient() {
-			this.ApiKey = RestClient.MilkApiKey;
-			this.SharedKey = RestClient.MilkSharedKey;
-			this.Token = null;
-		}
+        public RestClient()
+        {
+            _apiKey = RestClient.MilkApiKey;
+            _sharedKey = RestClient.MilkSharedKey;
+            _token = null;
 
-		public RestClient(string Token) {
-			this.ApiKey = MilkApiKey;
-			this.SharedKey = MilkSharedKey;
-			this.Token = Token;
-		}
+            LoadData();
+        }
 
-		public RestClient(string ApiKey, string SharedKey) {
-			this.ApiKey = RestClient.MilkApiKey;
-			this.SharedKey = RestClient.MilkSharedKey;
-			this.Token = null;
-		}
+        public bool HasAuthToken
+        {
+            get { return _token != null; }
+        }
 
-		public RestClient(string ApiKey, string SharedKey, string Token) {
-			this.ApiKey = ApiKey;
-			this.SharedKey = SharedKey;
-			this.Token = Token;
-		}
+        public void GetRequest(Dictionary<string, string> parameters, DownloadStringCompletedEventHandler callback)
+        {
+            parameters.Add("api_key", this._apiKey);
+            if (_token != null)
+            {
+                parameters.Add("auth_token", _token);
+            }
 
-		public void GetRequest(Dictionary<string, string> parameters, DownloadStringCompletedEventHandler callback) {
-			parameters.Add("api_key", this.ApiKey);
-			if (this.Token != null) {
-				parameters.Add("auth_token", this.Token);
-			}
+            parameters.Add("api_sig", this.SignParameters(parameters));
 
-			parameters.Add("api_sig", this.SignParameters(parameters));
+            // append params to url
+            string urlWithParams = this.CreateUrl(ReqUrl, parameters);
 
-			// append params to url
-			string urlWithParams = this.CreateUrl(ReqUrl, parameters);
+            WebClient client = new WebClient();
+            client.DownloadStringCompleted += callback;
+            client.DownloadStringAsync(new Uri(urlWithParams));
+        }
 
-			WebClient client = new WebClient();
-			client.DownloadStringCompleted += callback;
-			client.DownloadStringAsync(new Uri(urlWithParams));
-		}
+        public string SignParameters(Dictionary<string, string> parameters)
+        {
+            string sum = String.Empty;
 
-		public string SignParameters(Dictionary<string, string> parameters) {
-			string sum = String.Empty;
+            List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>(parameters);
+            paramList.Sort((KeyValuePair<string, string> x, KeyValuePair<string, string> y) =>
+            {
+                return x.Key.CompareTo(y.Key);
+            });
 
-			List<KeyValuePair<string, string>> paramList = new List<KeyValuePair<string, string>>(parameters);
-			paramList.Sort((KeyValuePair<string, string> x, KeyValuePair<string, string> y) => {
-				return x.Key.CompareTo(y.Key);
-			});
-			
 
-			sum += this.SharedKey;
-			foreach (KeyValuePair<string, string> pair in paramList) {
-				sum += pair.Key;
-				sum += pair.Value;
-			}
+            sum += _sharedKey;
+            foreach (KeyValuePair<string, string> pair in paramList)
+            {
+                sum += pair.Key;
+                sum += pair.Value;
+            }
 
-			return JeffWilcox.Utilities.Silverlight.MD5CryptoServiceProvider.GetMd5String(sum);
-		}
+            return JeffWilcox.Utilities.Silverlight.MD5CryptoServiceProvider.GetMd5String(sum);
+        }
 
-		public string CreateUrl(string url, Dictionary<string, string> parameters) {
-			string urlWithParams = url + "?";
+        public string CreateUrl(string url, Dictionary<string, string> parameters)
+        {
+            string urlWithParams = url + "?";
 
-			var parArray = new string[parameters.Count];
-			parameters.Keys.CopyTo(parArray, 0);
-			for (int i = 0; i < parArray.Length - 1; i++) {
-				urlWithParams += parArray[i] + "=" + parameters[parArray[i]] + "&";
-			}
-			if (parArray.Length > 0) {
-				urlWithParams += parArray[parArray.Length - 1] + "=" + parameters[parArray[parArray.Length - 1]];
-			}
+            var parArray = new string[parameters.Count];
+            parameters.Keys.CopyTo(parArray, 0);
+            for (int i = 0; i < parArray.Length - 1; i++)
+            {
+                urlWithParams += parArray[i] + "=" + parameters[parArray[i]] + "&";
+            }
+            if (parArray.Length > 0)
+            {
+                urlWithParams += parArray[parArray.Length - 1] + "=" + parameters[parArray[parArray.Length - 1]];
+            }
 
-			return urlWithParams;
+            return urlWithParams;
 
-		}
+        }
 
-		public void GetAuthUrl(AuthUrlDelegate UrlCallback) {
+        public void GetAuthUrl(AuthUrlDelegate UrlCallback)
+        {
 
-			Dictionary<string, string> parameters = new Dictionary<string, string>();
-			parameters.Add("method", "rtm.auth.getFrob");
-			this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) => {
-				if (e.Error != null)
-					return;
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("method", "rtm.auth.getFrob");
+            this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                    return;
 
-				string frob = string.Empty;
+                string frob = string.Empty;
 
-				XElement xml = XElement.Parse(e.Result);
-				IEnumerable<XElement> descendents = xml.Descendants("frob");
-				foreach (XElement d in descendents) {
-					frob = d.Value;
-				}
+                XElement xml = XElement.Parse(e.Result);
+                IEnumerable<XElement> descendents = xml.Descendants("frob");
+                foreach (XElement d in descendents)
+                {
+                    frob = d.Value;
+                }
 
-				this.Frob = frob;
+                _frob = frob;
 
-				Dictionary<string, string> authParams = new Dictionary<string, string>();
-				authParams.Add("api_key", ApiKey);
-				authParams.Add("perms", "delete");
-				authParams.Add("frob", frob);
-				authParams.Add("api_sig", this.SignParameters(authParams));
+                Dictionary<string, string> authParams = new Dictionary<string, string>();
+                authParams.Add("api_key", _apiKey);
+                authParams.Add("perms", "delete");
+                authParams.Add("frob", frob);
+                authParams.Add("api_sig", this.SignParameters(authParams));
 
-				// append params to url
-				string urlWithParams = this.CreateUrl(AuthUrl, authParams);
+                // append params to url
+                string urlWithParams = this.CreateUrl(AuthUrl, authParams);
 
-				UrlCallback(urlWithParams);
-			}));
-		}
+                UrlCallback(urlWithParams);
+            }));
+        }
 
-		public void GetToken(TokenDelegate callback) 
-		{ 
-			Dictionary<string, string> parameters = new Dictionary<string,string>();
-			parameters.Add("method", "rtm.auth.getToken");
-			parameters.Add("frob", this.Frob);
+        public void GetToken(TokenDelegate callback)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("method", "rtm.auth.getToken");
+            parameters.Add("frob", _frob);
 
-			this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) => {
-				if (e.Error != null)
-					return;
+            this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                    return;
 
-				string token = string.Empty;
+                XElement xml = XElement.Parse(e.Result);
+                IEnumerable<XElement> descendents = xml.Descendants("token");
+                _token = descendents.First().Value;
 
-				XElement xml = XElement.Parse(e.Result);
-				IEnumerable<XElement> descendents = xml.Descendants("token");
-				foreach (XElement d in descendents) {
-					token = d.Value;
-				}
+                SaveData();
 
-				this.Token = token;
+                callback(_token);
 
-				callback(token);
+            }));
+        }
 
-			}));
-		}
+        public void GetAllIncompleteTasks(TasksDelegate callback, bool force)
+        {
 
-		public void GetTaskList(TasksDelegate callback) 
-		{
-			//
-			// First get the list of TaskLists, so we can know names of lists
-			//
-			this.GetLists((List<TaskList> tasklists) =>
-			{
-				Dictionary<string, string> parameters = new Dictionary<string, string>();
-				parameters.Add("method", "rtm.tasks.getList");
-				parameters.Add("filter", "status:incomplete");
+            if (_tasks != null && !force)
+            {
+                callback(_tasks);
+            }
 
-				//
-				// Then get the list of all incomplete tasks
-				//
-				this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
-				{
-					if (e.Error != null)
-					{
-						return;
-					}
+            //
+            // First get the list of TaskLists, so we can know names of lists
+            //
+            this.GetLists((List<TaskList> tasklists) =>
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("method", "rtm.tasks.getList");
+                parameters.Add("filter", "status:incomplete");
 
-					List<Task> list;
-					XDocument xml = XDocument.Parse(e.Result);
+                //
+                // Then get the list of all incomplete tasks
+                //
+                this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
+                {
+                    if (e.Error != null)
+                    {
+                        return;
+                    }
 
-					list = (from element in xml.Descendants("task")
-							  select new Task(
-								  element.Parent.Attribute("name").Value,														// name of the task series
-								  element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// tags of the task series
-								  Task.StringToPriority(element.Attribute("priority").Value),							// priority of the task
-								  (from tasklist in tasklists
-									where tasklist.Id == int.Parse(element.Parent.Parent.Attribute("id").Value)
-									select tasklist.Name
-									).First(),																							// list name
-									element.Attribute("has_due_time").Value == "0" ? false : true,						// if task has due time
-									element.Attribute("due").Value																// task due date, in string ISO 8601 format
-								)
-							 ).ToList<Task>();
+                    List<Task> list;
+                    XDocument xml = XDocument.Parse(e.Result);
 
-					callback(list);
+                    list = (from element in xml.Descendants("task")
+                            select new Task(
+                                int.Parse(element.Attribute("id").Value),                                       // task id
+                                element.Parent.Attribute("name").Value,		                                    // task series name
+                                element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// task series tags
+                                Task.StringToPriority(element.Attribute("priority").Value),					    // task priority
+                                (from tasklist in tasklists
+                                 where tasklist.Id == int.Parse(element.Parent.Parent.Attribute("id").Value)
+                                 select tasklist.Name
+                                 ).First(),																	    // list name
+                                element.Attribute("has_due_time").Value == "0" ? false : true,				    // if task has due time
+                                element.Attribute("due").Value												    // task due date, in string ISO 8601 format
+                              )
+                            ).ToList<Task>();
 
-				}));
-			});
-		}
+                    _tasks = list;
 
-		public void GetLists(TaskListDelegate callback)
-		{
-			if (this.taskLists != null)
-			{
-				callback(this.taskLists);
-			}
-			else
-			{
-				Dictionary<string, string> parameters = new Dictionary<string, string>();
-				parameters.Add("method", "rtm.lists.getList");
+                    callback(list);
 
-				this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
-				{
-					if (e.Error != null)
-					{
-						return;
-					}
+                }));
+            }, force);
+        }
 
-					List<TaskList> list;
-					XDocument xml = XDocument.Parse(e.Result);
+        public void GetTasksDueOn(DateTime day, TasksDelegate callback)
+        {
+            GetAllIncompleteTasks((List<Task> tasks) => 
+            {
+                List<Task> dueDay = (from task in tasks
+                              where task.Due.Date == day.Date
+                              select task)
+                             .ToList<Task>();
 
-					list = (from element in xml.Descendants("list")
-							  select new TaskList(
-								  int.Parse(element.Attribute("id").Value),
-								  element.Attribute("name").Value
-								  )
-							 ).ToList<TaskList>();
+                callback(dueDay);
+            }, false);
+        }
 
-					this.taskLists = list;
+        public void GetTasksDueOnOrBefore(DateTime day, TasksDelegate callback)
+        {
+            GetAllIncompleteTasks((List<Task> tasks) =>
+            {
+                List<Task> dueDay = (from task in tasks
+                              where task.Due.Date <= day.Date
+                              select task)
+                             .ToList<Task>();
 
-					callback(list);
-				}));
-			}
-		}
-	}
+                callback(dueDay);
+            }, false);
+        }
 
-	public delegate void AuthUrlDelegate(string url);
-	public delegate void TokenDelegate(string token);
-	public delegate void TasksDelegate(List<Task> list);
-	public delegate void TaskListDelegate(List<TaskList> list);
+        public void GetTask(int id, TaskDelegate callback)
+        {
+            GetAllIncompleteTasks((List<Task> tasks) =>
+            {
+                Task task = (from t in tasks
+                             where t.Id == id
+                             select t).First();
+
+                callback(task);
+            }, false);
+        }
+
+        public void PopulateTags()
+        {
+            if (_tags == null)
+            {
+                _tags = new List<string>();
+            }
+
+            if (_tasks != null)
+            {
+                foreach (Task t in _tasks)
+                {
+                    foreach (string tag in t.Tags)
+                    {
+                        if (!_tags.Contains(tag))
+                        {
+                            _tags.Add(tag);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public void GetLists(TaskListDelegate callback, bool force)
+        {
+            if (this._lists != null)
+            {
+                callback(this._lists);
+            }
+            else
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("method", "rtm.lists.getList");
+
+                this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
+                {
+                    if (e.Error != null)
+                    {
+                        return;
+                    }
+
+                    List<TaskList> list;
+                    XDocument xml = XDocument.Parse(e.Result);
+
+                    list = (from element in xml.Descendants("list")
+                            select new TaskList(
+                                int.Parse(element.Attribute("id").Value),
+                                element.Attribute("name").Value
+                                )
+                             ).ToList<TaskList>();
+
+                    _lists = list;
+
+                    callback(list);
+                }));
+            }
+        }
+
+        public void SaveData()
+        {
+            Helper.IsolatedStorageHelper.SaveObject<string>("token", _token);
+            Helper.IsolatedStorageHelper.SaveObject<List<Task>>("tasks", _tasks);
+            Helper.IsolatedStorageHelper.SaveObject<List<TaskList>>("lists", _lists);
+            Helper.IsolatedStorageHelper.SaveObject<List<string>>("tags", _tags);
+        }
+
+        public void LoadData()
+        {
+            _token = Helper.IsolatedStorageHelper.GetObject<string>("token");
+            _tasks = Helper.IsolatedStorageHelper.GetObject<List<Task>>("tasks");
+            _lists = Helper.IsolatedStorageHelper.GetObject<List<TaskList>>("lists");
+            _tags = Helper.IsolatedStorageHelper.GetObject<List<string>>("tags");
+        }
+
+        public void DeleteData()
+        {
+            Helper.IsolatedStorageHelper.DeleteObject("token");
+            Helper.IsolatedStorageHelper.DeleteObject("tasks");
+            Helper.IsolatedStorageHelper.DeleteObject("lists");
+            Helper.IsolatedStorageHelper.DeleteObject("tags");
+            LoadData();
+        }
+    }
+
+    public delegate void AuthUrlDelegate(string url);
+    public delegate void TokenDelegate(string token);
+    public delegate void TaskDelegate(Task task);
+    public delegate void TasksDelegate(List<Task> list);
+    public delegate void TaskListDelegate(List<TaskList> list);
 }

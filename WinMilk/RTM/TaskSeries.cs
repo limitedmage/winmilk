@@ -9,43 +9,32 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace WinMilk.RTM {
-	public class TaskSeries {
-		
-		private int id;
-		public int Id {
-			get { return this.id; }
-		}
+namespace WinMilk.RTM
+{
+    [DataContract]
+    public class TaskSeries
+    {
+        [DataMember]
+        public int Id { get; set; }
 
-		private DateTime created;
-		public DateTime Created {
-			get { return this.created; }
-		}
-		
-		private DateTime modified;
-		public DateTime Modififed {
-			get { return this.modified; }
-		}
-		
-		private string name;
-		public string Name {
-			get { return this.name; }
-		}
+        [DataMember]
+        public DateTime Created { get; set; }
 
-		private LinkedList<string> tags;
-		public LinkedList<string> Tags {
-			get { return this.tags; }
-		}
+        [DataMember]
+        public DateTime Modififed { get; set; }
 
-		private LinkedList<string> notes;
-		public LinkedList<string> Notes {
-			get { return this.notes; }
-		}
+        [DataMember]
+        public string Name { get; set; }
 
-		private LinkedList<Task> tasks;
-		public LinkedList<Task> Tasks {
-			get { return this.tasks; }
-		}
-	}
+        [DataMember]
+        public LinkedList<string> Tags { get; set; }
+
+        [DataMember]
+        public LinkedList<string> Notes { get; set; }
+
+        [DataMember]
+        public LinkedList<Task> Tasks { get; set; }
+    }
 }

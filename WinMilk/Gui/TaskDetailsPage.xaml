@@ -1,0 +1,122 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="WinMilk.Gui.TaskDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <controls:Pivot Title="WINMILK">
+            <controls:PivotItem Header="task">
+                <ScrollViewer Name="TaskDetailsPanel">
+                    <StackPanel Orientation="Vertical">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Fill="{Binding PriorityColor}"/>
+                            <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" TextWrapping="Wrap" />
+                        </Grid>
+
+                        <Grid Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="When" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+		        				<TextBlock.Foreground>
+		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
+		        				</TextBlock.Foreground>
+                            </TextBlock>
+							<StackPanel Orientation="Vertical" Grid.Column="1" >
+                            	<TextBlock Text="{Binding LongDueDateString}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap"/>
+								<!--<TextBlock Text="Estimated 10 mins" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>
+								<TextBlock Text="Repeats Weekly" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>-->
+							</StackPanel>
+                        </Grid>
+
+                        <Grid Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="List" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+		        				<TextBlock.Foreground>
+		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
+		        				</TextBlock.Foreground>
+                            </TextBlock>
+                            <TextBlock Text="{Binding List}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
+                        </Grid>
+
+                        <Grid Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Tags" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+		        				<TextBlock.Foreground>
+		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
+		        				</TextBlock.Foreground>
+                            </TextBlock>
+                            <TextBlock Text="{Binding TagsString}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
+                        </Grid>
+						
+						<!--<Grid Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Where" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+		        				<TextBlock.Foreground>
+		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
+		        				</TextBlock.Foreground>
+                            </TextBlock>
+                            <TextBlock Text="Home" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
+                        </Grid>
+
+                        <Grid Margin="0,20,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="URL" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+		        				<TextBlock.Foreground>
+		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
+		        				</TextBlock.Foreground>
+                            </TextBlock>
+                            <TextBlock Text="http://julianapena.com" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
+                        </Grid>-->
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:PivotItem>
+
+            <controls:PivotItem Header="notes">
+            	<ListBox></ListBox>
+			</controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
+            <shell:ApplicationBarIconButton x:Name="CompleteButton" IconUri="/icons/appbar.check.rest.png" Text="complete"/>
+            <shell:ApplicationBarIconButton x:Name="PostponeButton" IconUri="/icons/appbar.next.rest.png" Text="postpone"/>
+            <shell:ApplicationBarIconButton x:Name="EditButton" IconUri="/icons/appbar.edit.rest.png" Text="edit"/>
+			<shell:ApplicationBarIconButton x:Name="AddNoteButton" IconUri="/icons/appbar.add.rest.png" Text="add note"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+
+</phone:PhoneApplicationPage>

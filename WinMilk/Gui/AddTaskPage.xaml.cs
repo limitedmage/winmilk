@@ -20,14 +20,39 @@ namespace WinMilk.Gui
             InitializeComponent();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void btnCancel_Click(object sender, EventArgs e)
         {
             this.NavigationService.GoBack();
         }
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
+        private void btnAdd_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void NoDueRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            if (taskDueDateNoTime != null) taskDueDateNoTime.Visibility = Visibility.Collapsed;
+            if (taskDueDateTime != null)   taskDueDateTime.Visibility = Visibility.Collapsed;
+        }
+
+        private void DueDayRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            if (taskDueDateNoTime != null) taskDueDateNoTime.Visibility = Visibility.Visible;
+            if (taskDueDateTime != null) taskDueDateTime.Visibility = Visibility.Collapsed;
+        }
+
+        private void DueTimeRadio_Checked(object sender, RoutedEventArgs e)
+        {
+            if (taskDueDateNoTime != null) taskDueDateNoTime.Visibility = Visibility.Collapsed;
+            if (taskDueDateTime != null) taskDueDateTime.Visibility = Visibility.Visible;
+        }
+
+        private void taskList_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	// TODO: Add event handler implementation here.
+			
+            
         }
     }
 }

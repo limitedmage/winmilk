@@ -21,56 +21,59 @@ using System.Text;
 
 namespace WinMilk.Helper
 {
-	public static class IsolatedStorageHelper
-	{
-		public static T GetObject<T>(string key)
-		{
-			if (IsolatedStorageSettings.ApplicationSettings.Contains(key)) 
-			{
-				string serializedObject = IsolatedStorageSettings.ApplicationSettings[key].ToString();
-				return Deserialize<T>(serializedObject);
-			}
-			return default(T);
-		}
+    public static class IsolatedStorageHelper
+    {
+        public static T GetObject<T>(string key)
+        {
+            if (IsolatedStorageSettings.ApplicationSettings.Contains(key))
+            {
+                string serializedObject = IsolatedStorageSettings.ApplicationSettings[key].ToString();
+                return Deserialize<T>(serializedObject);
+            }
+            return default(T);
+        }
 
         public static bool Contains(string key)
         {
             return IsolatedStorageSettings.ApplicationSettings.Contains(key);
         }
 
-		public static void SaveObject<T>(string key, T objectToSave)
-		{
-			string serializedObject = Serialize(objectToSave);
-			IsolatedStorageSettings.ApplicationSettings[key] = serializedObject;
-		}
+        public static void SaveObject<T>(string key, T objectToSave)
+        {
+            if (objectToSave != null)
+            {
+                string serializedObject = Serialize(objectToSave);
+                IsolatedStorageSettings.ApplicationSettings[key] = serializedObject;
+            }
+        }
 
-		public static void DeleteObject(string key)
-		{
-			IsolatedStorageSettings.ApplicationSettings.Remove(key);
-		}
+        public static void DeleteObject(string key)
+        {
+            IsolatedStorageSettings.ApplicationSettings.Remove(key);
+        }
 
-		private static string Serialize(object objectToSerialize)
-		{
-			using (MemoryStream ms = new MemoryStream())
-			{
-				DataContractJsonSerializer serializer = new DataContractJsonSerializer(objectToSerialize.GetType());
-				serializer.WriteObject(ms, objectToSerialize);
-				ms.Position = 0;
+        private static string Serialize(object objectToSerialize)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(objectToSerialize.GetType());
+                serializer.WriteObject(ms, objectToSerialize);
+                ms.Position = 0;
 
-				using (StreamReader reader = new StreamReader(ms))
-				{
-					return reader.ReadToEnd();
-				}
-			}
-		}
+                using (StreamReader reader = new StreamReader(ms))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
+        }
 
-		private static T Deserialize<T>(string jsonString)
-		{
-			using (MemoryStream ms = new MemoryStream(Encoding.Unicode.GetBytes(jsonString)))
-			{
-				DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-				return (T)serializer.ReadObject(ms);
-			}
-		}
-	}
+        private static T Deserialize<T>(string jsonString)
+        {
+            using (MemoryStream ms = new MemoryStream(Encoding.Unicode.GetBytes(jsonString)))
+            {
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
+                return (T)serializer.ReadObject(ms);
+            }
+        }
+    }
 }

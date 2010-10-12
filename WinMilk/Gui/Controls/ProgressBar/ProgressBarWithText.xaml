@@ -151,7 +151,7 @@
                 HorizontalAlignment="Center" 
                 />
             <ProgressBar 
-                Foreground="White" 
+                Foreground="{StaticResource PhoneForegroundBrush}" 
                 IsIndeterminate="{Binding ShowProgress}" 
                 Style="{StaticResource PerformanceProgressBar}" 
                 Margin="0,5,0,0" 

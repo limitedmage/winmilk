@@ -9,154 +9,169 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace WinMilk.RTM {
-	public class Task {
+namespace WinMilk.RTM
+{
+    [DataContract]
+    public class Task
+    {
 
-		private int listId;
-		public int ListId 
-		{
-			get { return this.listId; }
-		}
+        [DataMember]
+        public int ListId { get; set; }
 
-		private string list;
-		public string List
-		{
-			get { return this.list; }
-		}
+        [DataMember]
+        public string List { get; set; }
 
-		private int taskSeriesId;
-		public int TaskSeriesId 
-		{
-			get { return this.taskSeriesId; }
-		}
+        [DataMember]
+        public int TaskSeriesId { get; set; }
 
-		private int id;
-		public int Id 
-		{
-			get { return this.id; }
-		}
+        [DataMember]
+        public int Id { get; set; }
 
-		private int priority;
-		public int Priority {
-			get { return this.priority; }
-		}
+        [DataMember]
+        public int Priority { get; set; }
 
-		public string PriorityColor
-		{
-			get
-			{
-				switch (priority)
-				{
-					case 1:
-						return "#EA5200";
-					case 2:
-						return "#0060BF";
-					case 3:
-						return "#359AFF";
-					default:
-						return SystemColors.WindowColor.ToString();
-				}
-			}
-		}
-		
-		private int postponed;
-		public int Postponed {
-			get { return this.postponed; }
-		}
+        public string PriorityColor
+        {
+            get
+            {
+                switch (Priority)
+                {
+                    case 1:
+                        return "#EA5200";
+                    case 2:
+                        return "#0060BF";
+                    case 3:
+                        return "#359AFF";
+                    default:
+                        return Colors.Transparent.ToString();
+                }
+            }
+        }
 
-		private DateTime added;
-		public DateTime Added {
-			get { return this.added; }
-		}
+        [DataMember]
+        public int Postponed { get; set; }
 
-		private bool hasDueTime;
-		private bool hasDue;
-		private DateTime due;
+        [DataMember]
+        public DateTime Added { get; set; }
 
-		public DateTime Due 
-		{
-			get
-			{
-				return this.due;
-			}
-		}
+        [DataMember]
+        public bool HasDueTime { get; set; }
 
-		public string DueDateString
-		{
-			get
-			{
-				if (this.hasDue) 
-				{
-					if (this.hasDueTime)
-					{
-						return this.due.ToString("d MMM h:mm tt");
-					}
-					else 
-					{
-						return this.due.ToString("d MMM");
-					}
-				}
-				else
-				{
-					return "";
-				}
-			}
-		}
+        [DataMember]
+        public bool HasDue { get; set; }
 
-		private DateTime deleted;
-		public DateTime Deleted {
-			get { return this.deleted; }
-		}
+        [DataMember]
+        public DateTime Due { get; set; }
 
-		
+        public string DueDateString
+        {
+            get
+            {
+                string dueString = "";
+                if (this.HasDue)
+                {
+                    if (this.Due.Date == DateTime.Today)
+                    {
+                        dueString += "Today";
+                    }
+                    else if (DateTime.Today.AddDays(1) == this.Due.Date)
+                    {
+                        dueString += "Tomorrow";
+                    }
+                    else if (DateTime.Today.AddDays(6) >= this.Due.Date)
+                    {
+                        dueString += this.Due.ToString("dddd");
+                    }
+                    else
+                    {
+                        dueString += this.Due.ToString("ddd d MMM");
+                    }
 
-		private string estimate;
-		public string Estimate {
-			get { return this.estimate; }
-		}
+                    if (this.HasDueTime)
+                    {
+                        dueString += " " + this.Due.ToString("t");
+                    }
+                }
 
-		private string name;
-		public string Name {
-			get { return this.name; }
-		}
+                return dueString;
+            }
+        }
 
-		private List<string> tags;
-		public List<string> Tags {
-			get { return this.tags; }
-		}
-		public string TagsString
-		{
-			get
-			{
-				return string.Join(", ", tags.ToArray());
-			}
-		}
+        public string LongDueDateString
+        {
+            get
+            {
+                string dueString = "Never";
+                if (this.HasDue)
+                {
+                    if (this.HasDueTime)
+                    {
+                        dueString = this.Due.ToString("f");
+                    }
+                    else
+                    {
+                        dueString = this.Due.ToString("D");
+                    }
+                }
 
-		public Task(string name, List<string> tags, int priority, string list, bool hasDueTime, string due) {
-			this.name = name;
-			this.tags = tags;
-			this.priority = priority;
-			this.list = list;
-			this.hasDueTime = hasDueTime;
+                return dueString;
+            }
+        }
 
-			if (due == "")
-			{
-				// empty due date means no due date
-				this.hasDue = false;
-			}
-			else
-			{
-				this.due = DateTime.Parse(due);
-				this.hasDue = true;
-			}
-		}
+        [DataMember]
+        public DateTime Deleted { get; set; }
 
-		public static int StringToPriority(string priority) {
-			if (priority == "1") return 1;
-			else if (priority == "2") return 2;
-			else if (priority == "3") return 3;
-			else return 0;
-		}
-	}
+        [DataMember]
+        public string Estimate { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
+
+        [DataMember]
+        public List<string> Tags { get; set; }
+
+        public string TagsString
+        {
+            get
+            {
+                return string.Join(", ", Tags.ToArray());
+            }
+        }
+
+        public Task()
+            : this(0, "", new List<string>(), 0, "", false, "")
+        {
+        }
+
+        public Task(int id, string name, List<string> tags, int priority, string list, bool hasDueTime, string due)
+        {
+            Id = id;
+            Name = name;
+            Tags = tags;
+            Priority = priority;
+            List = list;
+            HasDueTime = hasDueTime;
+
+            if (due == "")
+            {
+                // empty due date means no due date
+                HasDue = false;
+            }
+            else
+            {
+                Due = DateTime.Parse(due);
+                HasDue = true;
+            }
+        }
+
+        public static int StringToPriority(string priority)
+        {
+            if (priority == "1") return 1;
+            else if (priority == "2") return 2;
+            else if (priority == "3") return 3;
+            else return 0;
+        }
+    }
 }

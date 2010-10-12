@@ -9,41 +9,36 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
-namespace WinMilk.RTM {
-	public class TaskList {
-		private LinkedList<Task> list;
-		public LinkedList<Task> List 
-		{
-			get { return this.list; }
-		}
+namespace WinMilk.RTM
+{
+    [DataContract]
+    public class TaskList
+    {
+        [DataMember]
+        public LinkedList<Task> List { get; set; }
+        
+        [DataMember]
+        public int Id { get; set; }
 
-		private int id;
-		public int Id
-		{
-			get { return this.id; }
-		}
+        [DataMember]
+        public string Name { get; set; }
 
-		private string name;
-		public string Name
-		{
-			get { return this.name; }
-		}
+        public TaskList(int id, string name)
+        {
+            this.Id = id;
+            this.Name = name;
+        }
 
-		public TaskList(int id, string name) 
-		{
-			this.id = id;
-			this.name = name;
-		}
+        public void add(Task t)
+        {
 
-		public void add(Task t) 
-		{ 
-			
-		}
+        }
 
-		public void complete(Task t) 
-		{ 
-			
-		}
-	}
+        public void complete(Task t)
+        {
+
+        }
+    }
 }

@@ -6,13 +6,19 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:progress="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="PhoneApplicationPage_Loaded">
+    
+    <phone:PhoneApplicationPage.Resources>
+        <progress:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </phone:PhoneApplicationPage.Resources>
 
 	<Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
 		<Grid.RowDefinitions>
@@ -28,11 +34,28 @@
 
         <!--This section is empty. Place new content here Grid.Row="1"-->
 		<Grid Grid.Row="1" x:Name="ContentGrid">
-			<TextBlock TextWrapping="Wrap" Margin="20,0,0,522" HorizontalAlignment="Left" Width="294" VerticalAlignment="Center" Name="AuthStatus" Height="76">
-				You must authenticate before using the app.
-			</TextBlock>
-			<Button Content="Done" Height="70" HorizontalAlignment="Left" Margin="320,6,0,0" Name="AuthDoneButton" VerticalAlignment="Top" Width="160" Click="AuthDoneButton_Click"/>
-			<phone:WebBrowser HorizontalAlignment="Left" Margin="6,89,0,0" Name="webBrowser1" VerticalAlignment="Top" Height="535" Width="468" />
-		</Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="80" />
+            </Grid.RowDefinitions>
+
+            <ProgressBar Grid.Row="0" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource booleanToVisibilityConverter}}" Foreground="{StaticResource PhoneForegroundBrush}"/>
+
+            <phone:WebBrowser Name="webBrowser1" Grid.Row="1" Navigating="webBrowser1_Navigating" Navigated="webBrowser1_Navigated"/>
+
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="150" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
+                           Text="After authenticating and authorizing the app, tap the Done button"/>
+                <Button Content="Done" Click="AuthDoneButton_Click" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+        
+        
 	</Grid>
 </phone:PhoneApplicationPage>
