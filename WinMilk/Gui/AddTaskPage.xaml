@@ -15,7 +15,8 @@
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
-    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    con:TiltEffect.IsTiltEnabled="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">

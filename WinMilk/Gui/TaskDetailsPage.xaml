@@ -8,12 +8,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:l="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
+    xmlns:con="clr-namespace:WinMilk.Gui.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    con:TiltEffect.IsTiltEnabled="True">
     <phone:PhoneApplicationPage.Resources>
         <l:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
     </phone:PhoneApplicationPage.Resources>

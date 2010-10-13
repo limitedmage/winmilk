@@ -149,13 +149,15 @@ namespace WinMilk.RTM
         }
 
         public Task()
-            : this(0, "", new List<string>(), 0, "", false, "")
+            : this(0, 0, 0, "", new List<string>(), 0, "", false, "")
         {
         }
 
-        public Task(int id, string name, List<string> tags, int priority, string list, bool hasDueTime, string due)
+        public Task(int id, int listId, int taskSeriedId, string name, List<string> tags, int priority, string list, bool hasDueTime, string due)
         {
             Id = id;
+            ListId = listId;
+            TaskSeriesId = taskSeriedId;
             Name = name;
             Tags = tags;
             Priority = priority;

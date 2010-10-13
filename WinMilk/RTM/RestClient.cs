@@ -25,6 +25,7 @@ namespace WinMilk.RTM
         private string _apiKey;
         private string _sharedKey;
         private string _frob;
+        private string _timeline;
 
         private List<Task> _tasks;
         private List<string> _tags;
@@ -93,7 +94,7 @@ namespace WinMilk.RTM
             parameters.Keys.CopyTo(parArray, 0);
             for (int i = 0; i < parArray.Length - 1; i++)
             {
-                urlWithParams += parArray[i] + "=" + parameters[parArray[i]] + "&";
+                urlWithParams += HttpUtility.UrlEncode(parArray[i]) + "=" + HttpUtility.UrlEncode(parameters[parArray[i]]) + "&";
             }
             if (parArray.Length > 0)
             {
@@ -155,7 +156,31 @@ namespace WinMilk.RTM
 
                 SaveData();
 
-                callback(_token);
+                // after getting token but before calling back, get a new timeline
+                this.GetTimeline((string timeline) => 
+                { 
+                    callback(_token); 
+                });
+            }));
+        }
+
+        public void GetTimeline(TimelineDelegate callback)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("method", "rtm.timelines.create");
+
+            this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                    return;
+
+                XElement xml = XElement.Parse(e.Result);
+                IEnumerable<XElement> descendents = xml.Descendants("timeline");
+                _timeline = descendents.First().Value;
+
+                SaveData();
+
+                callback(_timeline);
 
             }));
         }
@@ -193,6 +218,8 @@ namespace WinMilk.RTM
                     list = (from element in xml.Descendants("task")
                             select new Task(
                                 int.Parse(element.Attribute("id").Value),                                       // task id
+                                int.Parse(element.Parent.Parent.Attribute("id").Value),                         // list id
+                                int.Parse(element.Parent.Attribute("id").Value),                                // task series id
                                 element.Parent.Attribute("name").Value,		                                    // task series name
                                 element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// task series tags
                                 Task.StringToPriority(element.Attribute("priority").Value),					    // task priority
@@ -309,12 +336,72 @@ namespace WinMilk.RTM
             }
         }
 
+        public void AddTaskWithSmartAdd(string name, TaskModifiedDelegate callback)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("timeline", _timeline);
+            parameters.Add("method", "rtm.tasks.add");
+            parameters.Add("parse", "1");
+            parameters.Add("name", name);
+
+            this.GetRequest(parameters, (object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                {
+                    return;
+                }
+
+                callback();
+            });
+        }
+
+        public void CompleteTask(Task task, TaskModifiedDelegate callback)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("timeline", _timeline);
+            parameters.Add("method", "rtm.tasks.complete");
+            parameters.Add("task_id", task.Id.ToString());
+            parameters.Add("taskseries_id", task.TaskSeriesId.ToString());
+            parameters.Add("list_id", task.ListId.ToString());
+
+            this.GetRequest(parameters, (object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                {
+                    return;
+                }
+
+                callback();
+            });
+        }
+
+        public void DeleteTask(Task task, TaskModifiedDelegate callback)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("timeline", _timeline);
+            parameters.Add("method", "rtm.tasks.delete");
+            parameters.Add("task_id", task.Id.ToString());
+            parameters.Add("taskseries_id", task.TaskSeriesId.ToString());
+            parameters.Add("list_id", task.ListId.ToString());
+
+            this.GetRequest(parameters, (object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                {
+                    return;
+                }
+
+                callback();
+            });
+        }
+
         public void SaveData()
         {
             Helper.IsolatedStorageHelper.SaveObject<string>("token", _token);
             Helper.IsolatedStorageHelper.SaveObject<List<Task>>("tasks", _tasks);
             Helper.IsolatedStorageHelper.SaveObject<List<TaskList>>("lists", _lists);
             Helper.IsolatedStorageHelper.SaveObject<List<string>>("tags", _tags);
+            Helper.IsolatedStorageHelper.SaveObject<string>("timeline", _timeline);
         }
 
         public void LoadData()
@@ -323,6 +410,7 @@ namespace WinMilk.RTM
             _tasks = Helper.IsolatedStorageHelper.GetObject<List<Task>>("tasks");
             _lists = Helper.IsolatedStorageHelper.GetObject<List<TaskList>>("lists");
             _tags = Helper.IsolatedStorageHelper.GetObject<List<string>>("tags");
+            _token = Helper.IsolatedStorageHelper.GetObject<string>("timeline");
         }
 
         public void DeleteData()
@@ -331,13 +419,16 @@ namespace WinMilk.RTM
             Helper.IsolatedStorageHelper.DeleteObject("tasks");
             Helper.IsolatedStorageHelper.DeleteObject("lists");
             Helper.IsolatedStorageHelper.DeleteObject("tags");
+            Helper.IsolatedStorageHelper.DeleteObject("timeline");
             LoadData();
         }
     }
 
     public delegate void AuthUrlDelegate(string url);
     public delegate void TokenDelegate(string token);
+    public delegate void TimelineDelegate(string timeline);
     public delegate void TaskDelegate(Task task);
     public delegate void TasksDelegate(List<Task> list);
     public delegate void TaskListDelegate(List<TaskList> list);
+    public delegate void TaskModifiedDelegate();
 }

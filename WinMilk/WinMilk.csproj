@@ -87,6 +87,7 @@
     <Compile Include="Gui\Controls\TaskListControl.xaml.cs">
       <DependentUpon>TaskListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Controls\TiltEffect.cs" />
     <Compile Include="Gui\Loc\LocData.cs" />
     <Compile Include="Gui\Loc\LocString.cs" />
     <Compile Include="Gui\TaskListPage.xaml.cs">
@@ -180,7 +181,7 @@
     <Content Include="icons\appbar.sync.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="SplashScreenImage.jpg" />
+    <Content Include="oldSplashScreenImage.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

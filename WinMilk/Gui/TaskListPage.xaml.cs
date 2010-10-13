@@ -213,6 +213,7 @@ namespace WinMilk.Gui
 
                 this.SmartAddPopup.IsOpen = false;
                 this.SmartAddBox.Text = "";
+                this.SmartAddBox.IsEnabled = true;
                 this.Overlay.Visibility = Visibility.Collapsed;
             };
         }
@@ -279,6 +280,19 @@ namespace WinMilk.Gui
         {
             // TODO: Add event handler implementation here.
             if (SmartAddPopup.IsOpen) CloseSmartAdd();
+        }
+
+        private void SmartAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            SmartAddBox.IsEnabled = false;
+            IsTasksLoading = true;
+
+            App.Rest.AddTaskWithSmartAdd(SmartAddBox.Text, () => 
+            {
+                CloseSmartAdd();
+                LoadData();
+                IsTasksLoading = false;
+            });
         }
     }
 
