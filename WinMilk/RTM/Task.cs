@@ -140,6 +140,14 @@ namespace WinMilk.RTM
             }
         }
 
+        public bool HasTags
+        {
+            get
+            {
+                return Tags.Count != 0;
+            }
+        }
+
         public Task()
             : this(0, "", new List<string>(), 0, "", false, "")
         {

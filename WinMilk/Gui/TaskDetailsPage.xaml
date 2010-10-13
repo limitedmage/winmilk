@@ -7,12 +7,17 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:l="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
+    <phone:PhoneApplicationPage.Resources>
+        <l:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </phone:PhoneApplicationPage.Resources>
+    
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -31,7 +36,7 @@
                             <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" TextWrapping="Wrap" />
                         </Grid>
 
-                        <Grid Margin="0,20,0,0">
+                        <Grid Margin="0,20,0,0" Visibility="{Binding HasDue, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -61,7 +66,7 @@
                             <TextBlock Text="{Binding List}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
                         </Grid>
 
-                        <Grid Margin="0,20,0,0">
+                        <Grid Margin="0,20,0,0" Visibility="{Binding HasTags, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />

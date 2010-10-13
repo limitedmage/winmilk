@@ -16,7 +16,7 @@ namespace WinMilk.Gui
 {
     public partial class TaskListPage : PhoneApplicationPage
     {
-        public static bool s_Reload = false;
+        public static bool s_Reload = true;
 
         private List<TaskListControl> TaskLists { get; set; }
 

@@ -30,7 +30,7 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <con:DynamicTextBlock Text="{Binding Name}" FontSize="28" Grid.Row="0" />
+                        <con:DynamicTextBlock Text="{Binding Name}" FontSize="28" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                         <TextBlock Text="{Binding DueDateString}" Grid.Row="1" />
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>
