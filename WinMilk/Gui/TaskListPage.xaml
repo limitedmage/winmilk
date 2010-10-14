@@ -214,7 +214,7 @@
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
 				
-				<TextBox x:Name="SmartAddBox" Grid.Column="0" />
+				<TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp"/>
 				<Button x:Name="SmartAddButton" Content="add" Grid.Column="1" Click="SmartAddButton_Click"/>
 				
 				<HyperlinkButton x:Name="AdvancedAddButton" Content="Advanced..." Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
@@ -230,7 +230,7 @@
             <shell:ApplicationBarIconButton x:Name="add" IconUri="/icons/appbar.add.rest.png" Text="add task" Click="add_Click"/>
             <shell:ApplicationBarIconButton x:Name="sync" IconUri="/icons/appbar.sync.rest.png" Text="refresh" Click="sync_Click"/>
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="settings" Text="settings"/>
+                <shell:ApplicationBarMenuItem x:Name="settings" Text="settings" Click="settings_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="logout" Text="log out" Click="logout_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="about" Text="about" Click="about_Click"/>
             </shell:ApplicationBar.MenuItems>

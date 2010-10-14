@@ -222,11 +222,20 @@ namespace WinMilk.RTM
                                 int.Parse(element.Parent.Attribute("id").Value),                                // task series id
                                 element.Parent.Attribute("name").Value,		                                    // task series name
                                 element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// task series tags
+                                (from note in element.Parent.Descendants("note")
+                                 select new Note {
+                                     Id = int.Parse(note.Attribute("id").Value),
+                                     Title = note.Attribute("title").Value,
+                                     Body = note.Value
+                                 }
+                                 ).ToList(),                                                                    // task series notes
                                 Task.StringToPriority(element.Attribute("priority").Value),					    // task priority
                                 (from tasklist in tasklists
                                  where tasklist.Id == int.Parse(element.Parent.Parent.Attribute("id").Value)
                                  select tasklist.Name
                                  ).First(),																	    // list name
+                                element.Parent.Attribute("url").Value,                                          // task series url
+                                element.Attribute("estimate").Value,                                            // task time estimate
                                 element.Attribute("has_due_time").Value == "0" ? false : true,				    // if task has due time
                                 element.Attribute("due").Value												    // task due date, in string ISO 8601 format
                               )
@@ -375,6 +384,26 @@ namespace WinMilk.RTM
             });
         }
 
+        public void PostponeTask(Task task, TaskModifiedDelegate callback)
+        {
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("timeline", _timeline);
+            parameters.Add("method", "rtm.tasks.postpone");
+            parameters.Add("task_id", task.Id.ToString());
+            parameters.Add("taskseries_id", task.TaskSeriesId.ToString());
+            parameters.Add("list_id", task.ListId.ToString());
+
+            this.GetRequest(parameters, (object sender, DownloadStringCompletedEventArgs e) =>
+            {
+                if (e.Error != null)
+                {
+                    return;
+                }
+
+                callback();
+            });
+        }
+
         public void DeleteTask(Task task, TaskModifiedDelegate callback)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
@@ -410,7 +439,7 @@ namespace WinMilk.RTM
             _tasks = Helper.IsolatedStorageHelper.GetObject<List<Task>>("tasks");
             _lists = Helper.IsolatedStorageHelper.GetObject<List<TaskList>>("lists");
             _tags = Helper.IsolatedStorageHelper.GetObject<List<string>>("tags");
-            _token = Helper.IsolatedStorageHelper.GetObject<string>("timeline");
+            _timeline = Helper.IsolatedStorageHelper.GetObject<string>("timeline");
         }
 
         public void DeleteData()

@@ -72,7 +72,7 @@
 
             </StackPanel>
 
-            <Button Content="OK" Grid.Row="1" Click="Button_Click" />
+            <con:IconButton Text="ok" Type="check" Grid.Row="1" Click="Button_Click" />
             
         </Grid>
     </Grid>

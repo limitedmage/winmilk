@@ -55,7 +55,7 @@ namespace WinMilk.Gui
             });
         }
 
-        private void AuthDoneButton_Click(object sender, RoutedEventArgs e)
+        private void AuthDoneButton_Click(object sender, EventArgs e)
         {
             this.IsLoading = true;
             App.Rest.GetToken((string token) =>

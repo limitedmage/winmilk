@@ -1,0 +1,19 @@
+﻿V1 - Oct 2010
+- view task URL, estimate and recurrence
+- $add tasks with advanced fields
+- $edit and delete tasks
+- $view, add, edit and delete notes
+- view tasks by list/smart list/tag
+
+V2 - Dec 2010
+- smartadd help buttons
+- view, and, and edit task location w/ map
+- view completed tasks, and uncomplete them
+- work offline
+- undo actions
+- login testing
+
+V3 - Jan 2011
+- edit lists
+- contacts and groups
+- edit locations

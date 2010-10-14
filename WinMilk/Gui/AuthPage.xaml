@@ -53,8 +53,8 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
-                           Text="After authenticating and authorizing the app, tap the Done button"/>
-                <Button Content="Done" Click="AuthDoneButton_Click" Grid.Column="1"/>
+                           Text="After authenticating and authorizing the app, tap the done button"/>
+                <con:IconButton Text="done" Type="check" Click="AuthDoneButton_Click" Grid.Column="1"/>
             </Grid>
         </Grid>
         

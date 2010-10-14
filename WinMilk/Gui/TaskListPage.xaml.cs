@@ -284,15 +284,33 @@ namespace WinMilk.Gui
 
         private void SmartAddButton_Click(object sender, RoutedEventArgs e)
         {
+            SubmitSmartAdd();
+        }
+
+        private void SmartAddBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SubmitSmartAdd();
+            }
+        }
+
+        private void SubmitSmartAdd()
+        {
             SmartAddBox.IsEnabled = false;
             IsTasksLoading = true;
 
-            App.Rest.AddTaskWithSmartAdd(SmartAddBox.Text, () => 
+            App.Rest.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
             {
                 CloseSmartAdd();
                 LoadData();
                 IsTasksLoading = false;
             });
+        }
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            this.NavigationService.Navigate(new Uri("/Gui/SettingsPage.xaml", UriKind.Relative));
         }
     }
 

@@ -48,5 +48,33 @@ namespace WinMilk.Gui
                 });
             }
         }
+
+        private void CompleteButton_Click(object sender, EventArgs e)
+        {
+            App.Rest.CompleteTask(Task, () => 
+            {
+                TaskListPage.s_Reload = true;
+                this.NavigationService.GoBack();
+            });
+        }
+
+        private void PostponeButton_Click(object sender, EventArgs e)
+        {
+            App.Rest.PostponeTask(Task, () =>
+            {
+                TaskListPage.s_Reload = true;
+                this.NavigationService.GoBack();
+            });
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddNoteButton_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

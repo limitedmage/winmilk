@@ -122,10 +122,7 @@ namespace WinMilk.RTM
 
         [DataMember]
         public DateTime Deleted { get; set; }
-
-        [DataMember]
-        public string Estimate { get; set; }
-
+        
         [DataMember]
         public string Name { get; set; }
 
@@ -148,20 +145,46 @@ namespace WinMilk.RTM
             }
         }
 
+        [DataMember]
+        public List<Note> Notes { get; set; }
+
+        [DataMember]
+        public string Url { get; set; }
+        public bool HasUrl { get { return Url.Length > 0; } }
+
+        [DataMember]
+        public string Estimate { get; set; }
+        public bool HasEstimate { get { return Estimate.Length > 0; } }
+
         public Task()
-            : this(0, 0, 0, "", new List<string>(), 0, "", false, "")
+            : this(0, 0, 0, "", new List<string>(), new List<Note>(), 0, "", "", "", false, "")
         {
         }
 
-        public Task(int id, int listId, int taskSeriedId, string name, List<string> tags, int priority, string list, bool hasDueTime, string due)
+        public Task(
+            int id, 
+            int listId, 
+            int taskSeriedId, 
+            string name, 
+            List<string> tags, 
+            List<Note> notes, 
+            int priority, 
+            string list, 
+            string url,
+            string estimate,
+            bool hasDueTime, 
+            string due)
         {
             Id = id;
             ListId = listId;
             TaskSeriesId = taskSeriedId;
             Name = name;
             Tags = tags;
+            Notes = notes;
             Priority = priority;
             List = list;
+            Url = url;
+            Estimate = estimate;
             HasDueTime = hasDueTime;
 
             if (due == "")

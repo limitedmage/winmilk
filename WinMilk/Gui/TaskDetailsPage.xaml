@@ -7,6 +7,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:l="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -14,20 +15,57 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True"
-    con:TiltEffect.IsTiltEnabled="True">
+    shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.Resources>
         <l:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+        	<Setter Property="Background" Value="Transparent"/>
+        	<Setter Property="BorderThickness" Value="0"/>
+        	<Setter Property="BorderBrush" Value="Transparent"/>
+        	<Setter Property="Padding" Value="0"/>
+        	<Setter Property="HorizontalContentAlignment" Value="Left"/>
+        	<Setter Property="VerticalContentAlignment" Value="Top"/>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="ListBoxItem">
+        				<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+        					<VisualStateManager.VisualStateGroups>
+        						<VisualStateGroup x:Name="CommonStates">
+        							<VisualState x:Name="Normal"/>
+        							<VisualState x:Name="MouseOver"/>
+        							<VisualState x:Name="Disabled">
+        								<Storyboard>
+        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+        									</ObjectAnimationUsingKeyFrames>
+        									<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+        								</Storyboard>
+        							</VisualState>
+        						</VisualStateGroup>
+        						<VisualStateGroup x:Name="SelectionStates">
+        							<VisualState x:Name="Unselected"/>
+        							<VisualState x:Name="Selected"/>
+        						</VisualStateGroup>
+        					</VisualStateManager.VisualStateGroups>
+        					<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{StaticResource PhoneForegroundBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
     </phone:PhoneApplicationPage.Resources>
     
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <controls:Pivot Title="WINMILK">
-            <controls:PivotItem Header="task">
-                <ScrollViewer Name="TaskDetailsPanel">
+        <controls:Pivot Title="WINMILK" Name="TaskDetailsPanel">
+            
+			<!-- Task details -->
+			<controls:PivotItem x:Name="TaskPivotItem" Header="task">
+                <ScrollViewer>
                     <StackPanel Orientation="Vertical">
-
+						
+						<!-- Task Name and Priority -->
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="20" />
@@ -38,7 +76,8 @@
                             <TextBlock Grid.Column="2" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" TextWrapping="Wrap" />
                         </Grid>
 
-                        <Grid Margin="0,20,0,0" Visibility="{Binding HasDue, Converter={StaticResource booleanToVisibilityConverter}}">
+                        <!-- Due time, time estimate and recurrence -->
+						<Grid Margin="0,20,0,0" Visibility="{Binding HasDue, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -50,12 +89,16 @@
                             </TextBlock>
 							<StackPanel Orientation="Vertical" Grid.Column="1" >
                             	<TextBlock Text="{Binding LongDueDateString}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap"/>
-								<!--<TextBlock Text="Estimated 10 mins" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>
-								<TextBlock Text="Repeats Weekly" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>-->
+                                <StackPanel Orientation="Horizontal" Visibility="{Binding HasEstimate, Converter={StaticResource booleanToVisibilityConverter}}">
+                                    <TextBlock Text="Estimated" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding Estimate}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <!--<TextBlock Text="Repeats Weekly" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>-->
 							</StackPanel>
                         </Grid>
 
-                        <Grid Margin="0,20,0,0">
+                        <!-- List -->
+						<Grid Margin="0,20,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -68,7 +111,8 @@
                             <TextBlock Text="{Binding List}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
                         </Grid>
 
-                        <Grid Margin="0,20,0,0" Visibility="{Binding HasTags, Converter={StaticResource booleanToVisibilityConverter}}">
+                        <!-- Tags -->
+						<Grid Margin="0,20,0,0" Visibility="{Binding HasTags, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -81,6 +125,7 @@
                             <TextBlock Text="{Binding TagsString}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
                         </Grid>
 						
+						<!-- Location -->
 						<!--<Grid Margin="0,20,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
@@ -92,9 +137,10 @@
 		        				</TextBlock.Foreground>
                             </TextBlock>
                             <TextBlock Text="Home" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
-                        </Grid>
+                        </Grid>-->
 
-                        <Grid Margin="0,20,0,0">
+                        <!-- URL -->
+						<Grid Margin="0,20,0,0" Visibility="{Binding HasUrl, Converter={StaticResource booleanToVisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -104,25 +150,54 @@
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Text="http://julianapena.com" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
-                        </Grid>-->
+                            <TextBlock Text="{Binding Url}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
+                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>
-
-            <controls:PivotItem Header="notes">
-            	<ListBox></ListBox>
-			</controls:PivotItem>
+			
+			<!-- Notes -->
+            <controls:PivotItem x:Name="NotesPivotItem" Header="notes">
+                <Grid>
+                    <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
+                    	<!-- Add note button -->
+                        <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
+                            <con:IconButton x:Name="AddNoteButton" Text="add" Type="add" Click="AddNoteButton_Click"/>
+						</StackPanel>
+						
+						<!-- Notes list -->
+                		<ListBox ItemsSource="{Binding Notes}" x:Name="NotesListBox" Height="471" ItemContainerStyle="{StaticResource ListBoxItemStyle}"> 
+                			<ListBox.ItemTemplate>
+                				<DataTemplate>
+                					<!-- Note template -->
+                					<StackPanel Margin="0,20,0,0">
+                						<!-- Note title -->
+                						<TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                						
+										<!-- Note body -->
+										<TextBlock Text="{Binding Body}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+										
+										<!-- Note edit and delete buttons -->
+                                        <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
+                                            <con:IconButton Text="edit" Type="edit"/>
+                                            <con:IconButton Text="delete" Type="delete"/>
+										</StackPanel>
+                					</StackPanel>
+                				</DataTemplate>
+                			</ListBox.ItemTemplate>
+                		</ListBox>
+                	</StackPanel>
+                </Grid>
+            </controls:PivotItem>
         </controls:Pivot>
     </Grid>
 
     <!--Sample code showing usage of ApplicationBar-->
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="CompleteButton" IconUri="/icons/appbar.check.rest.png" Text="complete"/>
-            <shell:ApplicationBarIconButton x:Name="PostponeButton" IconUri="/icons/appbar.next.rest.png" Text="postpone"/>
-            <shell:ApplicationBarIconButton x:Name="EditButton" IconUri="/icons/appbar.edit.rest.png" Text="edit"/>
-			<shell:ApplicationBarIconButton x:Name="AddNoteButton" IconUri="/icons/appbar.add.rest.png" Text="add note"/>
+            <shell:ApplicationBarIconButton x:Name="CompleteButton" IconUri="/icons/appbar.check.rest.png" Text="complete" Click="CompleteButton_Click"/>
+            <shell:ApplicationBarIconButton x:Name="PostponeButton" IconUri="/icons/appbar.next.rest.png" Text="postpone" Click="PostponeButton_Click"/>
+            <shell:ApplicationBarIconButton x:Name="EditButton" IconUri="/icons/appbar.edit.rest.png" Text="edit" Click="EditButton_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
