@@ -61,15 +61,6 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to about.
-        /// </summary>
-        public static string AboutAppbar {
-            get {
-                return ResourceManager.GetString("AboutAppbar", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to add task.
         /// </summary>
         public static string AddTaskAppbar {
@@ -93,15 +84,6 @@ namespace WinMilk {
         public static string AdvancedTaskAddLink {
             get {
                 return ResourceManager.GetString("AdvancedTaskAddLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to all.
-        /// </summary>
-        public static string AllTasksHeader {
-            get {
-                return ResourceManager.GetString("AllTasksHeader", resourceCulture);
             }
         }
         
@@ -142,6 +124,15 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to lists.
+        /// </summary>
+        public static string ListsHeader {
+            get {
+                return ResourceManager.GetString("ListsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to log out.
         /// </summary>
         public static string LogoutAppbar {
@@ -151,11 +142,65 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to about.
+        /// </summary>
+        public static string MoreAboutButton {
+            get {
+                return ResourceManager.GetString("MoreAboutButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to more.
+        /// </summary>
+        public static string MoreActionsHeader {
+            get {
+                return ResourceManager.GetString("MoreActionsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to log out.
+        /// </summary>
+        public static string MoreLogoutButton {
+            get {
+                return ResourceManager.GetString("MoreLogoutButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string MoreSearchButton {
+            get {
+                return ResourceManager.GetString("MoreSearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to settings.
         /// </summary>
-        public static string SettingsAppbar {
+        public static string MoreSettingsButton {
             get {
-                return ResourceManager.GetString("SettingsAppbar", resourceCulture);
+                return ResourceManager.GetString("MoreSettingsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tags.
+        /// </summary>
+        public static string MoreTagsButton {
+            get {
+                return ResourceManager.GetString("MoreTagsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to pin to hub.
+        /// </summary>
+        public static string PinAppbar {
+            get {
+                return ResourceManager.GetString("PinAppbar", resourceCulture);
             }
         }
         
@@ -165,6 +210,15 @@ namespace WinMilk {
         public static string SyncAppbar {
             get {
                 return ResourceManager.GetString("SyncAppbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tasks.
+        /// </summary>
+        public static string TasksHeader {
+            get {
+                return ResourceManager.GetString("TasksHeader", resourceCulture);
             }
         }
         

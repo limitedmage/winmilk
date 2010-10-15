@@ -10,25 +10,20 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using System.ComponentModel;
 
 namespace WinMilk.Gui.Controls
 {
-    public partial class TaskListControl : System.Windows.Controls.UserControl
+    public partial class TaskListControl : System.Windows.Controls.UserControl, INotifyPropertyChanged
     {
-        public static readonly DependencyProperty ShowScrollProperty =
-            DependencyProperty.Register("ShowScroll", typeof(bool), typeof(TaskListControl),
-                new PropertyMetadata((bool)true));
-
-        public bool ShowScroll
+        public bool HasItems
         {
-            get { return (bool)GetValue(ShowScrollProperty); }
-            set { SetValue(ShowScrollProperty, value); }
+            get { return this.list.Items.Count > 0; }
         }
 
         public TaskListControl()
         {
             InitializeComponent();
-            ShowScroll = true;
         }
 
         private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -48,6 +43,14 @@ namespace WinMilk.Gui.Controls
             
 
             list.SelectedIndex = -1;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void list_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (this.PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("HasItems"));
         }
     }
 }

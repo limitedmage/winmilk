@@ -12,7 +12,7 @@
     d:DesignHeight="480" d:DesignWidth="480"
     con:TiltEffect.IsTiltEnabled="True">
     
-    <ListBox Name="list" SelectionChanged="list_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="{Binding Converter={StaticResource ScrollVisibilityConverter}, Path=ShowScroll, RelativeSource={RelativeSource Self}}">
+    <ListBox Name="list" SelectionChanged="list_SelectionChanged" SizeChanged="list_SizeChanged">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Grid Height="90" Margin="0,3">

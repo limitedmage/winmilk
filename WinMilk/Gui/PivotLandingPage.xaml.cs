@@ -312,6 +312,7 @@ namespace WinMilk.Gui
 
         private void CreateApplicationBar()
         {
+            /*
             // Build ApplicationBar with localized strings
             ApplicationBar = new ApplicationBar();
 
@@ -336,6 +337,7 @@ namespace WinMilk.Gui
             ApplicationBarMenuItem about = new ApplicationBarMenuItem(AppResources.AboutAppbar);
             about.Click += new EventHandler(about_Click);
             ApplicationBar.MenuItems.Add(about);
+             * */
         }
 
         private void Lists_SelectionChanged(object sender, SelectionChangedEventArgs e)

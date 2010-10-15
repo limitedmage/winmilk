@@ -26,6 +26,16 @@ namespace WinMilk.Gui
             set { SetValue(ListNameProperty, value); }
         }
 
+        public static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(ListPage),
+                new PropertyMetadata((bool)false));
+
+        public bool IsLoading
+        {
+            get { return (bool)GetValue(IsLoadingProperty); }
+            set { SetValue(IsLoadingProperty, value); }
+        }
+
         public ListPage()
         {
             InitializeComponent();
@@ -39,31 +49,40 @@ namespace WinMilk.Gui
 
             if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
             {
-                int id = int.Parse(idStr);
-
-                App.Rest.GetList(id, (RTM.TaskList l) =>
-                {
-                    ListName = l.Name;
-
-                    App.Rest.GetTasksInList(l, (List<RTM.Task> tasks) =>
-                    {
-                        if (l.SortOrder == RTM.TaskListSortOrder.Date)
-                        {
-                            tasks.Sort(RTM.Task.CompareByDate);
-                        }
-                        else if (l.SortOrder == RTM.TaskListSortOrder.Priority)
-                        {
-                            tasks.Sort(RTM.Task.CompareByPriority);
-                        }
-                        else
-                        {
-                            tasks.Sort(RTM.Task.CompareByName);
-                        }
-
-                        Tasks.list.ItemsSource = tasks;
-                    });
-                });
+                LoadList(idStr);
             }
+        }
+
+        private void LoadList(string idStr)
+        {
+            int id = int.Parse(idStr);
+
+            IsLoading = true;
+
+            App.Rest.GetList(id, (RTM.TaskList l) =>
+            {
+                ListName = l.Name;
+
+                App.Rest.GetTasksInList(l, (List<RTM.Task> tasks) =>
+                {
+                    if (l.SortOrder == RTM.TaskListSortOrder.Date)
+                    {
+                        tasks.Sort(RTM.Task.CompareByDate);
+                    }
+                    else if (l.SortOrder == RTM.TaskListSortOrder.Priority)
+                    {
+                        tasks.Sort(RTM.Task.CompareByPriority);
+                    }
+                    else
+                    {
+                        tasks.Sort(RTM.Task.CompareByName);
+                    }
+
+                    Tasks.list.ItemsSource = tasks;
+
+                    IsLoading = false;
+                });
+            });
         }
 
         private void CreateApplicationBar()
@@ -81,17 +100,9 @@ namespace WinMilk.Gui
             //sync.Click += new EventHandler(sync_Click);
             ApplicationBar.Buttons.Add(sync);
 
-            ApplicationBarMenuItem settings = new ApplicationBarMenuItem(AppResources.SettingsAppbar);
+            ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
             //settings.Click += new EventHandler(settings_Click);
-            ApplicationBar.MenuItems.Add(settings);
-
-            ApplicationBarMenuItem logout = new ApplicationBarMenuItem(AppResources.LogoutAppbar);
-            //logout.Click += new EventHandler(logout_Click);
-            ApplicationBar.MenuItems.Add(logout);
-
-            ApplicationBarMenuItem about = new ApplicationBarMenuItem(AppResources.AboutAppbar);
-            //about.Click += new EventHandler(about_Click);
-            ApplicationBar.MenuItems.Add(about);
+            ApplicationBar.MenuItems.Add(pin);
         }
     }
 }

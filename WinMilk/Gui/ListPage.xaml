@@ -32,11 +32,20 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <ScrollViewer>
-                <con:TaskListControl x:Name="Tasks" ShowScroll="True" />
+                <con:TaskListControl x:Name="Tasks" />
             </ScrollViewer>
         </Grid>
+
+        <ProgressBar IsIndeterminate="{Binding IsLoading}" 
+                 Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}" 
+                 Height="10" 
+                 VerticalAlignment="Top" 
+                 Margin="0,137,0,0" 
+                 Style="{StaticResource PerformanceProgressBar}"/>
+
+
     </Grid>
- 
+
     <!--Sample code showing usage of ApplicationBar-->
     <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">

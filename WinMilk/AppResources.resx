@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutAppbar" xml:space="preserve">
-    <value>about</value>
-  </data>
   <data name="AddTaskAppbar" xml:space="preserve">
     <value>add task</value>
   </data>
@@ -128,9 +125,6 @@
   </data>
   <data name="AdvancedTaskAddLink" xml:space="preserve">
     <value>Advanced...</value>
-  </data>
-  <data name="AllTasksHeader" xml:space="preserve">
-    <value>all</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>WinMilk</value>
@@ -144,14 +138,38 @@
   <data name="CancelTaskAddLink" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ListsHeader" xml:space="preserve">
+    <value>lists</value>
+  </data>
   <data name="LogoutAppbar" xml:space="preserve">
     <value>log out</value>
   </data>
-  <data name="SettingsAppbar" xml:space="preserve">
+  <data name="MoreAboutButton" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="MoreActionsHeader" xml:space="preserve">
+    <value>more</value>
+  </data>
+  <data name="MoreLogoutButton" xml:space="preserve">
+    <value>log out</value>
+  </data>
+  <data name="MoreSearchButton" xml:space="preserve">
+    <value>search</value>
+  </data>
+  <data name="MoreSettingsButton" xml:space="preserve">
     <value>settings</value>
+  </data>
+  <data name="MoreTagsButton" xml:space="preserve">
+    <value>tags</value>
+  </data>
+  <data name="PinAppbar" xml:space="preserve">
+    <value>pin to hub</value>
   </data>
   <data name="SyncAppbar" xml:space="preserve">
     <value>sync</value>
+  </data>
+  <data name="TasksHeader" xml:space="preserve">
+    <value>tasks</value>
   </data>
   <data name="TodayTasksHeader" xml:space="preserve">
     <value>today</value>

@@ -126,20 +126,20 @@
 	
 	<!--LayoutRoot contains the root grid where all other page content is placed-->
 	<Grid x:Name="LayoutRoot">
-		<controls:Panorama Title="winmilk">
+        <controls:Panorama Title="{Binding Path=Loc.AppNameLower, Source={StaticResource L10N}}" Name="Panorama">
 
 			<!--Panorama item one-->
-			<controls:PanoramaItem x:Name="TasksPanel" Header="tasks">
+            <controls:PanoramaItem x:Name="TasksPanel" Header="{Binding Path=Loc.TasksHeader, Source={StaticResource L10N}}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <ScrollViewer>
                         <StackPanel>
-                            <TextBlock Text="today" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
-                            <con:TaskListControl x:Name="TodayList" ShowScroll="False" />
-                            <TextBlock Text="tomorrow" FontSize="{StaticResource PhoneFontSizeExtraLarge}"/>
-                            <con:TaskListControl x:Name="TomorrowList" ShowScroll="False" />
+                            <TextBlock Text="{Binding Path=Loc.TodayTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TodayList, Mode=OneWay}" />
+                            <con:TaskListControl x:Name="TodayList" />
+                            <TextBlock Text="{Binding Path=Loc.TomorrowTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TomorrowList, Mode=OneWay}"/>
+                            <con:TaskListControl x:Name="TomorrowList" />
                         </StackPanel>
                     </ScrollViewer>
                     <StackPanel HorizontalAlignment="Right" Margin="0,-101,0,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment">
@@ -149,17 +149,7 @@
                 </Grid>
             </controls:PanoramaItem>
 
-			<!--Panorama item two-->
-			<!--<controls:PanoramaItem x:Name="TomorrowPanel" Header="tomorrow">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <con:TaskListControl x:Name="TomorrowList" />
-                </Grid>
-            </controls:PanoramaItem>-->
-            
-			<controls:PanoramaItem x:Name="ListsPanel" Header="lists" Orientation="Horizontal">
+            <controls:PanoramaItem x:Name="ListsPanel" Header="{Binding Path=Loc.ListsHeader, Source={StaticResource L10N}}" Orientation="Horizontal">
 				<Grid>
                     <ListBox x:Name="ListsList" SelectionChanged="ListsList_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Disabled">
                         <ListBox.Resources>
@@ -238,14 +228,14 @@
                     </ListBox>
                 </Grid>
 			</controls:PanoramaItem>
-            
-            <controls:PanoramaItem x:Name="MorePanel" Header="more">
+
+            <controls:PanoramaItem x:Name="MorePanel" Header="{Binding Path=Loc.MoreActionsHeader, Source={StaticResource L10N}}">
                 <StackPanel>
-                    <con:BigIconButton x:Name="SettingsButton" Click="SettingsButton_Click" Text="settings" Type="feature.settings" HorizontalAlignment="Left" />
-                    <con:BigIconButton x:Name="LogoutButton" Click="LogoutButton_Click" Text="log out" Type="close" HorizontalAlignment="Left" />
-                    <con:BigIconButton x:Name="SearchButton" Click="SearchButton_Click" Text="search" Type="feature.search" HorizontalAlignment="Left" />
-                    <con:BigIconButton x:Name="TagsButton" Click="TagsButton_Click" Text="tags" Type="favs" HorizontalAlignment="Left" />
-                    <con:BigIconButton x:Name="AboutButton" Click="AboutButton_Click" Text="about" Type="questionmark" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="SearchButton" Click="SearchButton_Click" Text="{Binding Path=Loc.MoreSearchButton, Source={StaticResource L10N}}" Type="feature.search" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="TagsButton" Click="TagsButton_Click" Text="{Binding Path=Loc.MoreTagsButton, Source={StaticResource L10N}}" Type="favs" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="SettingsButton" Click="SettingsButton_Click" Text="{Binding Path=Loc.MoreSettingsButton, Source={StaticResource L10N}}" Type="feature.settings" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="LogoutButton" Click="LogoutButton_Click" Text="{Binding Path=Loc.MoreLogoutButton, Source={StaticResource L10N}}" Type="close" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="AboutButton" Click="AboutButton_Click" Text="{Binding Path=Loc.MoreAboutButton, Source={StaticResource L10N}}" Type="questionmark" HorizontalAlignment="Left" />
                 </StackPanel>
             </controls:PanoramaItem>
 		</controls:Panorama>
