@@ -117,20 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutAppbar" xml:space="preserve">
-    <value>acerca de</value>
-  </data>
   <data name="AddTaskAppbar" xml:space="preserve">
-    <value>agregar tarea</value>
+    <value>añadir tarea</value>
   </data>
   <data name="AddTasksButton" xml:space="preserve">
-    <value>+</value>
+    <value>añadir</value>
   </data>
   <data name="AdvancedTaskAddLink" xml:space="preserve">
-    <value>Más...</value>
-  </data>
-  <data name="AllTasksHeader" xml:space="preserve">
-    <value>todas</value>
+    <value>Avanzado...</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>WinMilk</value>
@@ -144,14 +138,35 @@
   <data name="CancelTaskAddLink" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="LogoutAppbar" xml:space="preserve">
-    <value>salir</value>
+  <data name="ListsHeader" xml:space="preserve">
+    <value>listas</value>
   </data>
-  <data name="SettingsAppbar" xml:space="preserve">
-    <value>opciones</value>
+  <data name="MoreAboutButton" xml:space="preserve">
+    <value>acerca de</value>
+  </data>
+  <data name="MoreActionsHeader" xml:space="preserve">
+    <value>más</value>
+  </data>
+  <data name="MoreLogoutButton" xml:space="preserve">
+    <value>cerrar  sesión</value>
+  </data>
+  <data name="MoreSearchButton" xml:space="preserve">
+    <value>buscar</value>
+  </data>
+  <data name="MoreSettingsButton" xml:space="preserve">
+    <value>configuración</value>
+  </data>
+  <data name="MoreTagsButton" xml:space="preserve">
+    <value>etiquetas</value>
+  </data>
+  <data name="PinAppbar" xml:space="preserve">
+    <value>pegar a hub</value>
   </data>
   <data name="SyncAppbar" xml:space="preserve">
     <value>sincronizar</value>
+  </data>
+  <data name="TasksHeader" xml:space="preserve">
+    <value>tareas</value>
   </data>
   <data name="TodayTasksHeader" xml:space="preserve">
     <value>hoy</value>

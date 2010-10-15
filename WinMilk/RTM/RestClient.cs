@@ -26,6 +26,7 @@ namespace WinMilk.RTM
         private string _sharedKey;
         private string _frob;
         private string _timeline;
+        private string _token;
 
         private List<Task> _tasks;
         private List<string> _tags;
@@ -35,13 +36,15 @@ namespace WinMilk.RTM
         public List<Task> Tasks { get { return _tasks; } }
         public List<string> Tags { get { return _tags; } }
 
-        private string _token;
+        private bool HasChanged { get; set; }
 
         public RestClient()
         {
             _apiKey = RestClient.MilkApiKey;
             _sharedKey = RestClient.MilkSharedKey;
             _token = null;
+
+            HasChanged = true;
 
             LoadData();
         }
@@ -163,6 +166,7 @@ namespace WinMilk.RTM
                 // after getting token but before calling back, get a new timeline
                 this.GetTimeline((string timeline) =>
                 {
+                    HasChanged = true;
                     callback(_token);
                 });
             }));
@@ -192,7 +196,7 @@ namespace WinMilk.RTM
         public void GetAllIncompleteTasks(TasksDelegate callback, bool force)
         {
 
-            if (_tasks != null && !force)
+            if (_tasks != null && !force && !HasChanged)
             {
                 callback(_tasks);
             }
@@ -215,6 +219,8 @@ namespace WinMilk.RTM
                     {
                         return;
                     }
+
+                    HasChanged = false;
 
                     List<Task> list;
                     XDocument xml = XDocument.Parse(e.Result);
@@ -356,7 +362,7 @@ namespace WinMilk.RTM
 
         public void GetLists(TaskListsDelegate callback, bool force)
         {
-            if (_lists != null && !force)
+            if (_lists != null && !force && !HasChanged)
             {
                 callback(_lists);
             }
@@ -371,6 +377,8 @@ namespace WinMilk.RTM
                     {
                         return;
                     }
+
+                    HasChanged = false;
 
                     List<TaskList> list;
                     XDocument xml = XDocument.Parse(e.Result);
@@ -444,6 +452,8 @@ namespace WinMilk.RTM
                     return;
                 }
 
+                HasChanged = true;
+
                 callback();
             });
         }
@@ -463,6 +473,8 @@ namespace WinMilk.RTM
                 {
                     return;
                 }
+
+                HasChanged = true;
 
                 callback();
             });
@@ -484,6 +496,8 @@ namespace WinMilk.RTM
                     return;
                 }
 
+                HasChanged = true;
+
                 callback();
             });
         }
@@ -503,6 +517,8 @@ namespace WinMilk.RTM
                 {
                     return;
                 }
+
+                HasChanged = true;
 
                 callback();
             });

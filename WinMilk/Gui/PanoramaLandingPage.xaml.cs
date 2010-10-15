@@ -16,7 +16,7 @@ namespace WinMilk
 {
     public partial class PanoramaLandingPage : PhoneApplicationPage
     {
-        public static bool s_Reload = true;
+        public bool _reload = true;
 
         public static readonly DependencyProperty IsLoadingProperty =
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(PanoramaLandingPage),
@@ -37,10 +37,7 @@ namespace WinMilk
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (s_Reload)
-            {
-                LoadData();
-            }
+            LoadData();
 
             base.OnNavigatedTo(e);
         }
@@ -73,8 +70,8 @@ namespace WinMilk
                             dueTomorrow.Sort();
                             TomorrowList.list.ItemsSource = dueTomorrow;
                         });
-                    }, s_Reload);
-                }, s_Reload);
+                    }, _reload);
+                }, _reload);
 
             }
             else
@@ -82,7 +79,7 @@ namespace WinMilk
                 Login();
             }
 
-            s_Reload = false;
+            _reload = false;
         }
 
         public void Login()
@@ -209,7 +206,7 @@ namespace WinMilk
 
         private void Sync_Click(object sender, EventArgs e)
         {
-            s_Reload = true;
+            _reload = true;
             LoadData();
         }
 

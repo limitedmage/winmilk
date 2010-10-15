@@ -25,8 +25,8 @@
 
 		<!--This is the name of the application and page title-->
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="WINMILK" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="authenticate" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=Loc.AppNameCaps, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="PageTitle" Text="{Binding Path=Loc.AuthPageTitle, Source={StaticResource L10N}}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
         <!--This section is empty. Place new content here Grid.Row="1"-->
@@ -50,8 +50,8 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
-                           Text="After authenticating and authorizing the app, tap the done button"/>
-                <con:IconButton Text="done" Type="check" Click="AuthDoneButton_Click" Grid.Column="1"/>
+                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}"/>
+                <con:IconButton Text="{Binding Path=Loc.AuthDoneButton, Source={StaticResource L10N}}" Type="check" Click="AuthDoneButton_Click" Grid.Column="1"/>
             </Grid>
         </Grid>
         

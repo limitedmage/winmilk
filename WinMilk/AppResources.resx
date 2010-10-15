@@ -135,14 +135,20 @@
   <data name="AppNameLower" xml:space="preserve">
     <value>winmilk</value>
   </data>
+  <data name="AuthDoneButton" xml:space="preserve">
+    <value>done</value>
+  </data>
+  <data name="AuthInstructions" xml:space="preserve">
+    <value>After authenticating and authorizing the app, tap the done button</value>
+  </data>
+  <data name="AuthPageTitle" xml:space="preserve">
+    <value>authenticate</value>
+  </data>
   <data name="CancelTaskAddLink" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="ListsHeader" xml:space="preserve">
     <value>lists</value>
-  </data>
-  <data name="LogoutAppbar" xml:space="preserve">
-    <value>log out</value>
   </data>
   <data name="MoreAboutButton" xml:space="preserve">
     <value>about</value>
@@ -168,8 +174,35 @@
   <data name="SyncAppbar" xml:space="preserve">
     <value>sync</value>
   </data>
+  <data name="TaskDetailsHeader" xml:space="preserve">
+    <value>task</value>
+  </data>
+  <data name="TaskListDetail" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="TaskNotesAddButton" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="TaskNotesDeleteButton" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="TaskNotesEditButton" xml:space="preserve">
+    <value>edit</value>
+  </data>
+  <data name="TaskNotesHeader" xml:space="preserve">
+    <value>notes</value>
+  </data>
   <data name="TasksHeader" xml:space="preserve">
     <value>tasks</value>
+  </data>
+  <data name="TaskTagsDetail" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="TaskURLDetail" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="TaskWhenDetail" xml:space="preserve">
+    <value>When</value>
   </data>
   <data name="TodayTasksHeader" xml:space="preserve">
     <value>today</value>

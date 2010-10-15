@@ -56,10 +56,10 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <controls:Pivot Title="WINMILK" Name="TaskDetailsPanel">
+        <controls:Pivot Title="{Binding Path=Loc.AppNameCaps, Source={StaticResource L10N}}" Name="TaskDetailsPanel">
             
 			<!-- Task details -->
-			<controls:PivotItem x:Name="TaskPivotItem" Header="task">
+            <controls:PivotItem x:Name="TaskPivotItem" Header="{Binding Path=Loc.TaskDetailsHeader, Source={StaticResource L10N}}">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical">
 						
@@ -80,7 +80,7 @@
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="When" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+                            <TextBlock Text="{Binding Path=Loc.TaskWhenDetail, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
 		        				<TextBlock.Foreground>
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
@@ -98,7 +98,7 @@
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="List" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+                            <TextBlock Text="{Binding Path=Loc.TaskListDetail, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
 		        				<TextBlock.Foreground>
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
@@ -112,7 +112,7 @@
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="Tags" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+                            <TextBlock Text="{Binding Path=Loc.TaskTagsDetail, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
 		        				<TextBlock.Foreground>
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
@@ -140,7 +140,7 @@
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="URL" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
+                            <TextBlock Text="{Binding Path=Loc.TaskURLDetail, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="0">
 		        				<TextBlock.Foreground>
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
@@ -152,12 +152,12 @@
             </controls:PivotItem>
 			
 			<!-- Notes -->
-            <controls:PivotItem x:Name="NotesPivotItem" Header="notes">
+            <controls:PivotItem x:Name="NotesPivotItem" Header="{Binding Path=Loc.TaskNotesHeader, Source={StaticResource L10N}}">
                 <Grid>
                     <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
                     	<!-- Add note button -->
                         <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
-                            <con:IconButton x:Name="AddNoteButton" Text="add" Type="add" Click="AddNoteButton_Click"/>
+                            <con:IconButton x:Name="AddNoteButton" Text="{Binding Path=Loc.TaskNotesAddButton, Source={StaticResource L10N}}" Type="add" Click="AddNoteButton_Click"/>
 						</StackPanel>
 						
 						<!-- Notes list -->
@@ -174,8 +174,8 @@
 										
 										<!-- Note edit and delete buttons -->
                                         <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
-                                            <con:IconButton Text="edit" Type="edit"/>
-                                            <con:IconButton Text="delete" Type="delete"/>
+                                            <con:IconButton Text="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Type="edit"/>
+                                            <con:IconButton Text="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Type="delete"/>
 										</StackPanel>
                 					</StackPanel>
                 				</DataTemplate>

@@ -44,13 +44,18 @@ namespace WinMilk.Gui
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             CreateApplicationBar();
+        }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
             string idStr;
 
             if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
             {
                 LoadList(idStr);
             }
+
+            base.OnNavigatedTo(e);
         }
 
         private void LoadList(string idStr)

@@ -115,6 +115,33 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to done.
+        /// </summary>
+        public static string AuthDoneButton {
+            get {
+                return ResourceManager.GetString("AuthDoneButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After authenticating and authorizing the app, tap the done button.
+        /// </summary>
+        public static string AuthInstructions {
+            get {
+                return ResourceManager.GetString("AuthInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to authenticate.
+        /// </summary>
+        public static string AuthPageTitle {
+            get {
+                return ResourceManager.GetString("AuthPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CancelTaskAddLink {
@@ -129,15 +156,6 @@ namespace WinMilk {
         public static string ListsHeader {
             get {
                 return ResourceManager.GetString("ListsHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to log out.
-        /// </summary>
-        public static string LogoutAppbar {
-            get {
-                return ResourceManager.GetString("LogoutAppbar", resourceCulture);
             }
         }
         
@@ -214,11 +232,92 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to task.
+        /// </summary>
+        public static string TaskDetailsHeader {
+            get {
+                return ResourceManager.GetString("TaskDetailsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List.
+        /// </summary>
+        public static string TaskListDetail {
+            get {
+                return ResourceManager.GetString("TaskListDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add.
+        /// </summary>
+        public static string TaskNotesAddButton {
+            get {
+                return ResourceManager.GetString("TaskNotesAddButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string TaskNotesDeleteButton {
+            get {
+                return ResourceManager.GetString("TaskNotesDeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to edit.
+        /// </summary>
+        public static string TaskNotesEditButton {
+            get {
+                return ResourceManager.GetString("TaskNotesEditButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to notes.
+        /// </summary>
+        public static string TaskNotesHeader {
+            get {
+                return ResourceManager.GetString("TaskNotesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to tasks.
         /// </summary>
         public static string TasksHeader {
             get {
                 return ResourceManager.GetString("TasksHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string TaskTagsDetail {
+            get {
+                return ResourceManager.GetString("TaskTagsDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        public static string TaskURLDetail {
+            get {
+                return ResourceManager.GetString("TaskURLDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When.
+        /// </summary>
+        public static string TaskWhenDetail {
+            get {
+                return ResourceManager.GetString("TaskWhenDetail", resourceCulture);
             }
         }
         

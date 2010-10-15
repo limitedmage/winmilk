@@ -25,7 +25,6 @@ namespace WinMilk
 
         public static RTM.RestClient Rest;
 
-
         /// <summary>
         /// Constructor for the Application object.
         /// </summary>
