@@ -6,7 +6,6 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:progress="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,10 +16,6 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="PhoneApplicationPage_Loaded"
     con:TiltEffect.IsTiltEnabled="True">
-    
-    <phone:PhoneApplicationPage.Resources>
-        <progress:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-    </phone:PhoneApplicationPage.Resources>
 
 	<Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
 		<Grid.RowDefinitions>
@@ -42,7 +37,9 @@
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
 
-            <ProgressBar Grid.Row="0" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource booleanToVisibilityConverter}}" Foreground="{StaticResource PhoneForegroundBrush}"/>
+            <ProgressBar Grid.Row="0" IsIndeterminate="{Binding IsLoading}" 
+                         Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}"  
+                         Style="{StaticResource PerformanceProgressBar}"/>
 
             <phone:WebBrowser Name="webBrowser1" Grid.Row="1" Navigating="webBrowser1_Navigating" Navigated="webBrowser1_Navigated"/>
 

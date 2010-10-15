@@ -31,6 +31,10 @@ namespace WinMilk.RTM
         private List<string> _tags;
         private List<TaskList> _lists;
 
+        public List<TaskList> Lists { get { return _lists; } }
+        public List<Task> Tasks { get { return _tasks; } }
+        public List<string> Tags { get { return _tags; } }
+
         private string _token;
 
         public RestClient()
@@ -157,9 +161,9 @@ namespace WinMilk.RTM
                 SaveData();
 
                 // after getting token but before calling back, get a new timeline
-                this.GetTimeline((string timeline) => 
-                { 
-                    callback(_token); 
+                this.GetTimeline((string timeline) =>
+                {
+                    callback(_token);
                 });
             }));
         }
@@ -215,31 +219,7 @@ namespace WinMilk.RTM
                     List<Task> list;
                     XDocument xml = XDocument.Parse(e.Result);
 
-                    list = (from element in xml.Descendants("task")
-                            select new Task(
-                                int.Parse(element.Attribute("id").Value),                                       // task id
-                                int.Parse(element.Parent.Parent.Attribute("id").Value),                         // list id
-                                int.Parse(element.Parent.Attribute("id").Value),                                // task series id
-                                element.Parent.Attribute("name").Value,		                                    // task series name
-                                element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// task series tags
-                                (from note in element.Parent.Descendants("note")
-                                 select new Note {
-                                     Id = int.Parse(note.Attribute("id").Value),
-                                     Title = note.Attribute("title").Value,
-                                     Body = note.Value
-                                 }
-                                 ).ToList(),                                                                    // task series notes
-                                Task.StringToPriority(element.Attribute("priority").Value),					    // task priority
-                                (from tasklist in tasklists
-                                 where tasklist.Id == int.Parse(element.Parent.Parent.Attribute("id").Value)
-                                 select tasklist.Name
-                                 ).First(),																	    // list name
-                                element.Parent.Attribute("url").Value,                                          // task series url
-                                element.Attribute("estimate").Value,                                            // task time estimate
-                                element.Attribute("has_due_time").Value == "0" ? false : true,				    // if task has due time
-                                element.Attribute("due").Value												    // task due date, in string ISO 8601 format
-                              )
-                            ).ToList<Task>();
+                    list = ParseTasks(tasklists, xml);
 
                     _tasks = list;
 
@@ -249,13 +229,77 @@ namespace WinMilk.RTM
             }, force);
         }
 
+        public void GetTasksFromFilter(string filter, TasksDelegate callback)
+        {
+            //
+            // First get the list of TaskLists, so we can know names of lists
+            //
+            this.GetLists((List<TaskList> tasklists) =>
+            {
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("method", "rtm.tasks.getList");
+                parameters.Add("filter", "status:incomplete AND " + filter);
+
+                //
+                // Then get the list of all incomplete tasks
+                //
+                this.GetRequest(parameters, ((object sender, DownloadStringCompletedEventArgs e) =>
+                {
+                    if (e.Error != null)
+                    {
+                        return;
+                    }
+
+                    List<Task> list;
+                    XDocument xml = XDocument.Parse(e.Result);
+
+                    list = ParseTasks(tasklists, xml);
+
+                    callback(list);
+
+                }));
+            }, false);
+        }
+
+        private static List<Task> ParseTasks(List<TaskList> tasklists, XDocument xml)
+        {
+            List<Task> list;
+            list = (from element in xml.Descendants("task")
+                    select new Task(
+                        int.Parse(element.Attribute("id").Value),                                       // task id
+                        int.Parse(element.Parent.Parent.Attribute("id").Value),                         // list id
+                        int.Parse(element.Parent.Attribute("id").Value),                                // task series id
+                        element.Parent.Attribute("name").Value,		                                    // task series name
+                        element.Parent.Descendants("tag").Select(node => node.Value).ToList<string>(),	// task series tags
+                        (from note in element.Parent.Descendants("note")
+                         select new Note
+                         {
+                             Id = int.Parse(note.Attribute("id").Value),
+                             Title = note.Attribute("title").Value,
+                             Body = note.Value
+                         }
+                         ).ToList(),                                                                    // task series notes
+                        Task.StringToPriority(element.Attribute("priority").Value),					    // task priority
+                        (from tasklist in tasklists
+                         where tasklist.Id == int.Parse(element.Parent.Parent.Attribute("id").Value)
+                         select tasklist.Name
+                         ).First(),																	    // list name
+                        element.Parent.Attribute("url").Value,                                          // task series url
+                        element.Attribute("estimate").Value,                                            // task time estimate
+                        element.Attribute("has_due_time").Value == "0" ? false : true,				    // if task has due time
+                        element.Attribute("due").Value												    // task due date, in string ISO 8601 format
+                      )
+                    ).ToList<Task>();
+            return list;
+        }
+
         public void GetTasksDueOn(DateTime day, TasksDelegate callback)
         {
-            GetAllIncompleteTasks((List<Task> tasks) => 
+            GetAllIncompleteTasks((List<Task> tasks) =>
             {
                 List<Task> dueDay = (from task in tasks
-                              where task.Due.Date == day.Date
-                              select task)
+                                     where task.Due.Date == day.Date
+                                     select task)
                              .ToList<Task>();
 
                 callback(dueDay);
@@ -267,8 +311,8 @@ namespace WinMilk.RTM
             GetAllIncompleteTasks((List<Task> tasks) =>
             {
                 List<Task> dueDay = (from task in tasks
-                              where task.Due.Date <= day.Date
-                              select task)
+                                     where task.Due.Date <= day.Date
+                                     select task)
                              .ToList<Task>();
 
                 callback(dueDay);
@@ -310,11 +354,11 @@ namespace WinMilk.RTM
         }
 
 
-        public void GetLists(TaskListDelegate callback, bool force)
+        public void GetLists(TaskListsDelegate callback, bool force)
         {
-            if (this._lists != null)
+            if (_lists != null && !force)
             {
-                callback(this._lists);
+                callback(_lists);
             }
             else
             {
@@ -332,9 +376,13 @@ namespace WinMilk.RTM
                     XDocument xml = XDocument.Parse(e.Result);
 
                     list = (from element in xml.Descendants("list")
+                            where element.Attribute("archived").Value != "1"
                             select new TaskList(
                                 int.Parse(element.Attribute("id").Value),
-                                element.Attribute("name").Value
+                                element.Attribute("name").Value,
+                                element.Attribute("smart").Value == "1",
+                                element.Attribute("smart").Value == "1" ? element.Descendants("filter").First().Value : "",
+                                TaskList.ParseSortOrder(element.Attribute("sort_order").Value)
                                 )
                              ).ToList<TaskList>();
 
@@ -342,6 +390,42 @@ namespace WinMilk.RTM
 
                     callback(list);
                 }));
+            }
+        }
+
+        public void GetList(int id, TaskListDelegate callback)
+        {
+            this.GetLists((List<TaskList> lists) =>
+            {
+
+                TaskList list = (from TaskList l in lists
+                                 where l.Id == id
+                                 select l).First();
+
+                callback(list);
+
+            }, false);
+        }
+
+        public void GetTasksInList(TaskList list, TasksDelegate callback)
+        {
+            if (!list.IsSmart)
+            {
+                GetAllIncompleteTasks((List<Task> tasks) =>
+                {
+                    List<Task> inList = (from task in tasks
+                                         where task.ListId == list.Id
+                                         select task).ToList<Task>();
+
+                    callback(inList);
+                }, false);
+            }
+            else
+            {
+                GetTasksFromFilter(list.Filter, (List<Task> tasks) =>
+                {
+                    callback(tasks);
+                });
             }
         }
 
@@ -457,7 +541,8 @@ namespace WinMilk.RTM
     public delegate void TokenDelegate(string token);
     public delegate void TimelineDelegate(string timeline);
     public delegate void TaskDelegate(Task task);
-    public delegate void TasksDelegate(List<Task> list);
-    public delegate void TaskListDelegate(List<TaskList> list);
+    public delegate void TaskListDelegate(TaskList list);
+    public delegate void TasksDelegate(List<Task> tasks);
+    public delegate void TaskListsDelegate(List<TaskList> lists);
     public delegate void TaskModifiedDelegate();
 }

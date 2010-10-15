@@ -9,7 +9,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
-    xmlns:progress="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,11 +16,11 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    con:TiltEffect.IsTiltEnabled="True">
+    con:TiltEffect.IsTiltEnabled="True"
+    Loaded="PhoneApplicationPage_Loaded">
 
     <phone:PhoneApplicationPage.Resources>
-        <progress:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
-
+        
         <DataTemplate x:Key="TaskTemplate">
             <Grid Height="90" Margin="0,3">
                 <toolkit:ContextMenuService.ContextMenu>
@@ -154,9 +153,9 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
-        <controls:Pivot Title="WINMILK">
-            
-            <controls:PivotItem Header="all">
+        <controls:Pivot Title="{Binding Path=Loc.AppNameCaps, Source={StaticResource L10N}}">
+
+            <controls:PivotItem Header="{Binding Path=Loc.AllTasksHeader, Source={StaticResource L10N}}">
                 <Grid Grid.Row="1" x:Name="gridIncomplete">
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
@@ -165,7 +164,7 @@
                 </Grid>
             </controls:PivotItem>
 
-            <controls:PivotItem Header="today">
+            <controls:PivotItem Header="{Binding Path=Loc.TodayTasksHeader, Source={StaticResource L10N}}">
                 <Grid Grid.Row="1" x:Name="gridToday">
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
@@ -174,7 +173,7 @@
                 </Grid>
             </controls:PivotItem>
 
-            <controls:PivotItem Header="tomorrow">
+            <controls:PivotItem Header="{Binding Path=Loc.TomorrowTasksHeader, Source={StaticResource L10N}}">
                 <Grid Grid.Row="1" x:Name="gridTomorrow">
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
@@ -183,7 +182,7 @@
                 </Grid>
             </controls:PivotItem>
 
-            <controls:PivotItem Header="this week">
+            <controls:PivotItem Header="{Binding Path=Loc.WeekTasksHeader, Source={StaticResource L10N}}">
                 <Grid Grid.Row="1" x:Name="gridWeek">
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
@@ -191,9 +190,99 @@
                     <con:TaskListControl x:Name="listWeek" />
                 </Grid>
             </controls:PivotItem>
+            
+            
+            <controls:PivotItem Header="lists">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <ListBox Name="Lists" SelectionChanged="Lists_SelectionChanged">
+                    	<ListBox.Resources>
+                    		<Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+                    			<Setter Property="Background" Value="Transparent"/>
+                    			<Setter Property="BorderThickness" Value="0"/>
+                    			<Setter Property="BorderBrush" Value="Transparent"/>
+                    			<Setter Property="Padding" Value="0"/>
+                    			<Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    			<Setter Property="VerticalContentAlignment" Value="Top"/>
+                    			<Setter Property="Template">
+                    				<Setter.Value>
+                    					<ControlTemplate TargetType="ListBoxItem">
+                    						<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    							<VisualStateManager.VisualStateGroups>
+                    								<VisualStateGroup x:Name="CommonStates">
+                    									<VisualState x:Name="Normal"/>
+                    									<VisualState x:Name="MouseOver"/>
+                    									<VisualState x:Name="Disabled">
+                    										<Storyboard>
+                    											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
+                    												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
+                    											</ObjectAnimationUsingKeyFrames>
+                    											<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
+                    										</Storyboard>
+                    									</VisualState>
+                    								</VisualStateGroup>
+                    								<VisualStateGroup x:Name="SelectionStates">
+                    									<VisualState x:Name="Unselected"/>
+                    									<VisualState x:Name="Selected"/>
+                    								</VisualStateGroup>
+                    							</VisualStateManager.VisualStateGroups>
+                    							<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{StaticResource PhoneForegroundBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    						</Border>
+                    					</ControlTemplate>
+                    				</Setter.Value>
+                    			</Setter>
+                    		</Style>
+                    	</ListBox.Resources>
+                    	<ListBox.ItemContainerStyle>
+                    		<StaticResource ResourceKey="ListBoxItemStyle"/>
+                    	</ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <toolkit:WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="200" Height="70" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="10" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Visibility="{Binding IsNormal, Converter={StaticResource VisibilityConverter}}">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{StaticResource PhoneChromeColor}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    
+                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="4" Visibility="{Binding IsSmart, Converter={StaticResource VisibilityConverter}}">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="{StaticResource PhoneAccentColor}" />
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    
+                                    <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="1" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" />
+                                    <!--<TextBlock Text="{Binding Count}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" />-->
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </controls:PivotItem>
         </controls:Pivot>
-        
-        <ProgressBar IsIndeterminate="True" Visibility="{Binding IsTasksLoading, Converter={StaticResource booleanToVisibilityConverter}}" Foreground="{StaticResource PhoneForegroundBrush}" Height="10" VerticalAlignment="Top" Margin="0,137,0,0"/>
+
+        <ProgressBar IsIndeterminate="{Binding IsTasksLoading}" 
+                     Visibility="{Binding IsTasksLoading, Converter={StaticResource VisibilityConverter}}" 
+                     Height="10" 
+                     VerticalAlignment="Top" 
+                     Margin="0,137,0,0" 
+                     Style="{StaticResource PerformanceProgressBar}"/>
 		
 		<Canvas Name="Overlay" Background="Transparent" MouseLeftButtonDown="Overlay_MouseLeftButtonDown" Visibility="Collapsed"/>
 		
@@ -204,10 +293,10 @@
 			<Popup.RenderTransform>
 				<CompositeTransform/>
 			</Popup.RenderTransform>
-			<Grid Width="480" Background="{StaticResource PhoneAccentBrush}">
+            <Grid Width="480" Background="{StaticResource PhoneAccentBrush}" con:TiltEffect.IsTiltEnabled="True">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="150" />
+					<ColumnDefinition Width="120" />
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="80" />
@@ -215,26 +304,26 @@
 				</Grid.RowDefinitions>
 				
 				<TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp"/>
-				<Button x:Name="SmartAddButton" Content="add" Grid.Column="1" Click="SmartAddButton_Click"/>
-				
-				<HyperlinkButton x:Name="AdvancedAddButton" Content="Advanced..." Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
-				<HyperlinkButton x:Name="CancelSmartAddButton" Content="Cancel" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Click="CancelSmartAddButton_Click" />
+                <con:IconButton x:Name="SmartAddButton" Text="{Binding Path=Loc.AddTasksButton, Source={StaticResource L10N}}" Grid.Column="1" Click="SmartAddButton_Click" Type="add"/>
+
+                <HyperlinkButton x:Name="AdvancedAddButton" Content="{Binding Path=Loc.AdvancedTaskAddLink, Source={StaticResource L10N}}" Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
+                <HyperlinkButton x:Name="CancelSmartAddButton" Content="{Binding Path=Loc.CancelTaskAddLink, Source={StaticResource L10N}}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Click="CancelSmartAddButton_Click" />
 				
 			</Grid>
 		</Popup>
     </Grid>
 
     <!--Sample code showing usage of ApplicationBar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
+    <!--<phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
             <shell:ApplicationBarIconButton x:Name="add" IconUri="/icons/appbar.add.rest.png" Text="add task" Click="add_Click"/>
-            <shell:ApplicationBarIconButton x:Name="sync" IconUri="/icons/appbar.sync.rest.png" Text="refresh" Click="sync_Click"/>
+            <shell:ApplicationBarIconButton x:Name="sync" IconUri="/icons/appbar.sync.rest.png" Text="sync" Click="sync_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="settings" Text="settings" Click="settings_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="logout" Text="log out" Click="logout_Click"/>
                 <shell:ApplicationBarMenuItem x:Name="about" Text="about" Click="about_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>-->
     
 </phone:PhoneApplicationPage>

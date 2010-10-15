@@ -12,12 +12,12 @@ using System.Windows.Shapes;
 
 namespace WinMilk.Gui.Controls
 {
-    public partial class IconButton : UserControl
+    public partial class BigIconButton : UserControl
     {
         #region IconSources
 
         public static readonly DependencyProperty TypeProperty =
-            DependencyProperty.Register("Type", typeof(string), typeof(IconButton), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Type", typeof(string), typeof(BigIconButton), new PropertyMetadata(string.Empty));
         public string Type 
         {
             get { return (string)GetValue(TypeProperty); }
@@ -39,7 +39,7 @@ namespace WinMilk.Gui.Controls
         #region TextProperty
 
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(IconButton), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Text", typeof(string), typeof(BigIconButton), new PropertyMetadata(string.Empty));
 
         public string Text
         {
@@ -65,7 +65,7 @@ namespace WinMilk.Gui.Controls
 
         #endregion
 
-        public IconButton()
+        public BigIconButton()
         {
             InitializeComponent();
         }

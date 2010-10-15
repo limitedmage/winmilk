@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using WinMilk.Gui.Controls;
 
 namespace WinMilk.Gui
@@ -18,20 +19,12 @@ namespace WinMilk.Gui
     {
         public static bool s_Reload = true;
 
-        private List<TaskListControl> TaskLists { get; set; }
-
         public TaskListPage()
         {
             InitializeComponent();
 
             this.IsTasksLoading = false;
-
-            TaskLists = new List<TaskListControl>() {listIncomplete, listToday, listTomorrow, listWeek };
-            foreach (TaskListControl control in TaskLists)
-            {
-                control.list.SelectionChanged += new SelectionChangedEventHandler(TaskSelectionChanged);
-            }
-
+            
             InitializePopupAnimationCallbacks();
         }
 
@@ -79,58 +72,57 @@ namespace WinMilk.Gui
             if (App.Rest.HasAuthToken)
             {
                 this.IsTasksLoading = true;
-                App.Rest.GetAllIncompleteTasks((List<RTM.Task> incompleteTasks) =>
+
+                //Lists.ItemsSource = new List<RTM.TaskList>() { new RTM.TaskList(1, "Inbox", false), new RTM.TaskList(2, "Personal", true) };
+
+
+                App.Rest.GetLists((List<RTM.TaskList> list) =>
                 {
-                    this.IsTasksLoading = false;
+                    list.Sort();
+                    Lists.ItemsSource = list;
 
-                    incompleteTasks.Sort((RTM.Task a, RTM.Task b) =>
-                    {
-                        return a.Due.CompareTo(b.Due);
-                    });
-                    listIncomplete.list.ItemsSource = incompleteTasks;
-
-                    // Due on or before today
-                    App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (List<RTM.Task> dueToday) =>
+                    App.Rest.GetAllIncompleteTasks((List<RTM.Task> incompleteTasks) =>
                     {
                         this.IsTasksLoading = false;
 
-                        dueToday.Sort((RTM.Task a, RTM.Task b) =>
+                        incompleteTasks.Sort();
+                        listIncomplete.list.ItemsSource = incompleteTasks;
+
+                        // Due on or before today
+                        App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (List<RTM.Task> dueToday) =>
                         {
-                            return a.Due.CompareTo(b.Due);
+                            this.IsTasksLoading = false;
+
+                            dueToday.Sort();
+                            listToday.list.ItemsSource = dueToday;
                         });
-                        listToday.list.ItemsSource = dueToday;
-                    });
 
-                    // Due tomorrow
-                    App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (List<RTM.Task> dueTomorrow) =>
-                    {
-                        this.IsTasksLoading = false;
-
-                        dueTomorrow.Sort((RTM.Task a, RTM.Task b) =>
+                        // Due tomorrow
+                        App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (List<RTM.Task> dueTomorrow) =>
                         {
-                            return a.Due.CompareTo(b.Due);
+                            this.IsTasksLoading = false;
+
+                            dueTomorrow.Sort();
+                            listTomorrow.list.ItemsSource = dueTomorrow;
                         });
-                        listTomorrow.list.ItemsSource = dueTomorrow;
-                    });
 
-                    // Due this week
-                    DateTime nextSunday = DateTime.Today;
-                    while (nextSunday.DayOfWeek != DayOfWeek.Sunday)
-                    {
-                        nextSunday = nextSunday.AddDays(1);
-                    }
-
-                    App.Rest.GetTasksDueOnOrBefore(nextSunday, (List<RTM.Task> dueThisWeek) =>
-                    {
-                        this.IsTasksLoading = false;
-
-                        dueThisWeek.Sort((RTM.Task a, RTM.Task b) =>
+                        // Due this week
+                        DateTime nextSunday = DateTime.Today;
+                        while (nextSunday.DayOfWeek != DayOfWeek.Sunday)
                         {
-                            return a.Due.CompareTo(b.Due);
+                            nextSunday = nextSunday.AddDays(1);
+                        }
+
+                        App.Rest.GetTasksDueOnOrBefore(nextSunday, (List<RTM.Task> dueThisWeek) =>
+                        {
+                            this.IsTasksLoading = false;
+
+                            dueThisWeek.Sort();
+                            listWeek.list.ItemsSource = dueThisWeek;
                         });
-                        listWeek.list.ItemsSource = dueThisWeek;
-                    });
+                    }, s_Reload);
                 }, s_Reload);
+                
             }
             else
             {
@@ -282,7 +274,7 @@ namespace WinMilk.Gui
             if (SmartAddPopup.IsOpen) CloseSmartAdd();
         }
 
-        private void SmartAddButton_Click(object sender, RoutedEventArgs e)
+        private void SmartAddButton_Click(object sender, EventArgs e)
         {
             SubmitSmartAdd();
         }
@@ -311,6 +303,56 @@ namespace WinMilk.Gui
         private void settings_Click(object sender, EventArgs e)
         {
             this.NavigationService.Navigate(new Uri("/Gui/SettingsPage.xaml", UriKind.Relative));
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            CreateApplicationBar();
+        }
+
+        private void CreateApplicationBar()
+        {
+            // Build ApplicationBar with localized strings
+            ApplicationBar = new ApplicationBar();
+
+            ApplicationBarIconButton add = new ApplicationBarIconButton(new Uri("/icons/appbar.add.rest.png", UriKind.Relative));
+            add.Text = AppResources.AddTaskAppbar;
+            add.Click += new EventHandler(add_Click);
+            ApplicationBar.Buttons.Add(add);
+
+            ApplicationBarIconButton sync = new ApplicationBarIconButton(new Uri("/icons/appbar.refresh.rest.png", UriKind.Relative));
+            sync.Text = AppResources.SyncAppbar;
+            sync.Click += new EventHandler(sync_Click);
+            ApplicationBar.Buttons.Add(sync);
+
+            ApplicationBarMenuItem settings = new ApplicationBarMenuItem(AppResources.SettingsAppbar);
+            settings.Click += new EventHandler(settings_Click);
+            ApplicationBar.MenuItems.Add(settings);
+
+            ApplicationBarMenuItem logout = new ApplicationBarMenuItem(AppResources.LogoutAppbar);
+            logout.Click += new EventHandler(logout_Click);
+            ApplicationBar.MenuItems.Add(logout);
+
+            ApplicationBarMenuItem about = new ApplicationBarMenuItem(AppResources.AboutAppbar);
+            about.Click += new EventHandler(about_Click);
+            ApplicationBar.MenuItems.Add(about);
+        }
+
+        private void Lists_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox list = sender as ListBox;
+
+            if (list.SelectedIndex == -1)
+            {
+                return;
+            }
+
+            List<RTM.TaskList> lists = list.ItemsSource as List<RTM.TaskList>;
+            RTM.TaskList selected = lists[list.SelectedIndex];
+
+            this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
+
+            list.SelectedIndex = -1;
         }
     }
 

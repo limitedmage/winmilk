@@ -62,7 +62,7 @@ namespace WinMilk.Gui
             {
                 this.IsLoading = false;
 
-                TaskListPage.s_Reload = true;
+                PanoramaLandingPage.s_Reload = true;
 
                 this.NavigationService.GoBack();
             });

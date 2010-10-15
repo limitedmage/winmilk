@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WinMilk.Gui.Controls.TaskListControl"
+﻿<UserControl x:Name="userControl" x:Class="WinMilk.Gui.Controls.TaskListControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,9 +9,10 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="480" d:DesignWidth="480"
+    con:TiltEffect.IsTiltEnabled="True">
     
-    <ListBox Name="list">
+    <ListBox Name="list" SelectionChanged="list_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="{Binding Converter={StaticResource ScrollVisibilityConverter}, Path=ShowScroll, RelativeSource={RelativeSource Self}}">
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <Grid Height="90" Margin="0,3">

@@ -155,9 +155,8 @@
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="btnCancel" IconUri="/icons/appbar.cancel.rest.png" Text="cancel" Click="btnCancel_Click"/>
             <shell:ApplicationBarIconButton x:Name="btnAdd" Text="add" Click="btnAdd_Click" IconUri="/icons/appbar.check.rest.png"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
-
+    
 </phone:PhoneApplicationPage>

@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:l="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,7 +16,6 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True">
     <phone:PhoneApplicationPage.Resources>
-        <l:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
         	<Setter Property="Background" Value="Transparent"/>
         	<Setter Property="BorderThickness" Value="0"/>
@@ -77,7 +75,7 @@
                         </Grid>
 
                         <!-- Due time, time estimate and recurrence -->
-						<Grid Margin="0,20,0,0" Visibility="{Binding HasDue, Converter={StaticResource booleanToVisibilityConverter}}">
+						<Grid Margin="0,20,0,0" Visibility="{Binding HasDue, Converter={StaticResource VisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -89,10 +87,7 @@
                             </TextBlock>
 							<StackPanel Orientation="Vertical" Grid.Column="1" >
                             	<TextBlock Text="{Binding LongDueDateString}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap"/>
-                                <StackPanel Orientation="Horizontal" Visibility="{Binding HasEstimate, Converter={StaticResource booleanToVisibilityConverter}}">
-                                    <TextBlock Text="Estimated" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>
-                                    <TextBlock Text="{Binding Estimate}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>
-                                </StackPanel>
+                                <TextBlock Text="{Binding EstimateString}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Visibility="{Binding HasEstimate, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap"/>
                                 <!--<TextBlock Text="Repeats Weekly" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>-->
 							</StackPanel>
                         </Grid>
@@ -112,7 +107,7 @@
                         </Grid>
 
                         <!-- Tags -->
-						<Grid Margin="0,20,0,0" Visibility="{Binding HasTags, Converter={StaticResource booleanToVisibilityConverter}}">
+						<Grid Margin="0,20,0,0" Visibility="{Binding HasTags, Converter={StaticResource VisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />
@@ -140,7 +135,7 @@
                         </Grid>-->
 
                         <!-- URL -->
-						<Grid Margin="0,20,0,0" Visibility="{Binding HasUrl, Converter={StaticResource booleanToVisibilityConverter}}">
+						<Grid Margin="0,20,0,0" Visibility="{Binding HasUrl, Converter={StaticResource VisibilityConverter}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="*" />

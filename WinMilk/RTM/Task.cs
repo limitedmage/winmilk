@@ -14,7 +14,7 @@ using System.Runtime.Serialization;
 namespace WinMilk.RTM
 {
     [DataContract]
-    public class Task
+    public class Task : IComparable
     {
 
         [DataMember]
@@ -80,7 +80,7 @@ namespace WinMilk.RTM
                     {
                         dueString += "Tomorrow";
                     }
-                    else if (DateTime.Today.AddDays(6) >= this.Due.Date)
+                    else if (DateTime.Today < this.Due.Date && DateTime.Today.AddDays(6) >= this.Due.Date)
                     {
                         dueString += this.Due.ToString("dddd");
                     }
@@ -155,6 +155,7 @@ namespace WinMilk.RTM
         [DataMember]
         public string Estimate { get; set; }
         public bool HasEstimate { get { return Estimate.Length > 0; } }
+        public string EstimateString { get { return "Estimated " + Estimate; } }
 
         public Task()
             : this(0, 0, 0, "", new List<string>(), new List<Note>(), 0, "", "", "", false, "")
@@ -205,6 +206,58 @@ namespace WinMilk.RTM
             else if (priority == "2") return 2;
             else if (priority == "3") return 3;
             else return 0;
+        }
+
+        public int CompareTo(object obj)
+        {
+            Task other = obj as Task;
+
+            return Task.CompareByDate(this, other);
+        }
+
+        public static int CompareByDate(Task a, Task b)
+        {
+            int cmp = a.Due.CompareTo(b.Due);
+            if (cmp == 0)
+            {
+                cmp = b.Priority - a.Priority;
+                if (cmp == 0)
+                {
+                    cmp = a.Name.CompareTo(b.Name);
+                }
+            }
+
+            return cmp;
+        }
+
+        public static int CompareByPriority(Task a, Task b)
+        {
+            int cmp = b.Priority - a.Priority; 
+            if (cmp == 0)
+            {
+                cmp = a.Due.CompareTo(b.Due);
+                if (cmp == 0)
+                {
+                    cmp = a.Name.CompareTo(b.Name);
+                }
+            }
+
+            return cmp;
+        }
+
+        public static int CompareByName(Task a, Task b)
+        {
+            int cmp = a.Name.CompareTo(b.Name);
+            if (cmp == 0)
+            {
+                cmp = b.Priority - a.Priority;
+                if (cmp == 0)
+                {
+                    cmp = a.Due.CompareTo(b.Due);
+                }
+            }
+
+            return cmp;
         }
     }
 }
