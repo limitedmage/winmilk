@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace WinMilk
 {
@@ -29,24 +30,35 @@ namespace WinMilk
         }
 
         public static readonly DependencyProperty TodayTasksProperty =
-               DependencyProperty.Register("TodayTasks", typeof(List<RTM.Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new List<RTM.Task>()));
+               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<RTM.Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<RTM.Task>()));
 
-        public List<RTM.Task> TodayTasks
+        public ObservableCollection<RTM.Task> TodayTasks
         {
-            get { return (List<RTM.Task>)GetValue(TodayTasksProperty); }
+            get { return (ObservableCollection<RTM.Task>)GetValue(TodayTasksProperty); }
             set { SetValue(TodayTasksProperty, value); }
         }
 
-        public List<RTM.Task> TomorrowTasks
+        public ObservableCollection<RTM.Task> TomorrowTasks
         {
-            get { return (List<RTM.Task>)GetValue(TomorrowTasksProperty); }
+            get { return (ObservableCollection<RTM.Task>)GetValue(TomorrowTasksProperty); }
             set { SetValue(TomorrowTasksProperty, value); }
         }
 
         public static readonly DependencyProperty TomorrowTasksProperty =
-               DependencyProperty.Register("TomorrowTasks", typeof(List<RTM.Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new List<RTM.Task>()));
+               DependencyProperty.Register("TomorrowTasks", typeof(ObservableCollection<RTM.Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<RTM.Task>()));
+
+        public ObservableCollection<RTM.TaskList> TaskLists
+        {
+            get { return (ObservableCollection<RTM.TaskList>)GetValue(TaskListsProperty); }
+            set { SetValue(TaskListsProperty, value); }
+        }
+
+        public static readonly DependencyProperty TaskListsProperty =
+               DependencyProperty.Register("TaskLists", typeof(ObservableCollection<RTM.TaskList>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<RTM.TaskList>()));
+
 
         public PanoramaLandingPage()
         {
@@ -68,31 +80,36 @@ namespace WinMilk
             {
                 this.IsLoading = true;
 
-                App.Rest.GetLists((List<RTM.TaskList> list) =>
+                App.Rest.GetLists((ObservableCollection<RTM.TaskList> list) =>
                 {
-                    list.Sort();
-                    ListsList.ItemsSource = list;
+                    TaskLists = list;
 
-                    App.Rest.GetAllIncompleteTasks((List<RTM.Task> incompleteTasks) =>
+                    App.Rest.GetAllIncompleteTasks((ObservableCollection<RTM.Task> incompleteTasks) =>
                     {
                         this.IsLoading = false;
 
                         // Due on or before today
-                        App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (List<RTM.Task> dueToday) =>
+                        App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (ObservableCollection<RTM.Task> dueToday) =>
                         {
-                            dueToday.Sort();
                             TodayTasks = dueToday;
-                            //TodayList.Tasks = TodayTasks;
                         });
 
                         // Due tomorrow
-                        App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (List<RTM.Task> dueTomorrow) =>
+                        App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (ObservableCollection<RTM.Task> dueTomorrow) =>
                         {
-                            dueTomorrow.Sort();
                             TomorrowTasks = dueTomorrow;
-                            //TomorrowList.Tasks = TomorrowTasks;
                         });
-                    }, _reload);
+
+
+                        foreach (RTM.TaskList l in TaskLists)
+                        {
+                            if (l.IsNormal)
+                            {
+                                App.Rest.GetTasksInList(l, (_) => { }, false);
+                            }
+                        }
+
+                    }, _reload, RTM.Task.CompareByDate);
                 }, _reload);
 
             }
@@ -119,7 +136,7 @@ namespace WinMilk
                 return;
             }
 
-            List<RTM.TaskList> lists = list.ItemsSource as List<RTM.TaskList>;
+            ObservableCollection<RTM.TaskList> lists = list.ItemsSource as ObservableCollection<RTM.TaskList>;
             RTM.TaskList selected = lists[list.SelectedIndex];
 
             this.NavigationService.Navigate(new Uri("/Gui/PivotListPage.xaml?id=" + selected.Id, UriKind.Relative));

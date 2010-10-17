@@ -149,9 +149,9 @@
                 </Grid>
             </controls:PanoramaItem>
 
-            <controls:PanoramaItem x:Name="ListsPanel" Header="{Binding Path=Loc.ListsHeader, Source={StaticResource L10N}}" Orientation="Horizontal">
+            <controls:PanoramaItem x:Name="ListsPanel" Header="{Binding Path=Loc.ListsHeader, Source={StaticResource L10N}}">
 				<Grid>
-                    <ListBox x:Name="ListsList" SelectionChanged="ListsList_SelectionChanged" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListBox x:Name="ListsList" SelectionChanged="ListsList_SelectionChanged" ItemsSource="{Binding TaskLists}">
                         <ListBox.Resources>
                             <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -192,15 +192,10 @@
                         <ListBox.ItemContainerStyle>
                             <StaticResource ResourceKey="ListBoxItemStyle"/>
                         </ListBox.ItemContainerStyle>
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <toolkit:WrapPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
                         
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Width="220" Height="70" Margin="5" Background="{StaticResource PhoneChromeBrush}">
+                                <Grid Width="410" Height="70" Margin="5" Background="{StaticResource PhoneChromeBrush}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="10" />
                                         <ColumnDefinition Width="*" />
@@ -221,7 +216,7 @@
                                     </Rectangle>
 
                                     <con:DynamicTextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="1" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" HorizontalAlignment="Left" />
-                                    <!--<TextBlock Text="{Binding Count}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" />-->
+                                    <TextBlock Text="{Binding Count}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}}" />
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

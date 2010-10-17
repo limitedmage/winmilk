@@ -103,21 +103,8 @@ namespace WinMilk.Gui
         {
             IsLoading = true;
 
-            App.Rest.GetTasksInList(list, (List<RTM.Task> tasks) =>
+            App.Rest.GetTasksInList(list, (ObservableCollection<RTM.Task> tasks) =>
                 {
-                    if (list.SortOrder == RTM.TaskListSortOrder.Date)
-                    {
-                        tasks.Sort(RTM.Task.CompareByDate);
-                    }
-                    else if (list.SortOrder == RTM.TaskListSortOrder.Priority)
-                    {
-                        tasks.Sort(RTM.Task.CompareByPriority);
-                    }
-                    else
-                    {
-                        tasks.Sort(RTM.Task.CompareByName);
-                    }
-
                     list.Tasks = new ObservableCollection<RTM.Task>();
 
                     foreach (RTM.Task t in tasks)
@@ -126,7 +113,7 @@ namespace WinMilk.Gui
                     }
 
                     IsLoading = false;
-                });
+                }, false);
         }
 
         private void CreateApplicationBar()

@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Collections.ObjectModel;
 
 namespace WinMilk.Gui
 {
@@ -68,25 +69,12 @@ namespace WinMilk.Gui
             {
                 ListName = l.Name;
 
-                App.Rest.GetTasksInList(l, (List<RTM.Task> tasks) =>
+                App.Rest.GetTasksInList(l, (ObservableCollection<RTM.Task> tasks) =>
                 {
-                    if (l.SortOrder == RTM.TaskListSortOrder.Date)
-                    {
-                        tasks.Sort(RTM.Task.CompareByDate);
-                    }
-                    else if (l.SortOrder == RTM.TaskListSortOrder.Priority)
-                    {
-                        tasks.Sort(RTM.Task.CompareByPriority);
-                    }
-                    else
-                    {
-                        tasks.Sort(RTM.Task.CompareByName);
-                    }
-
                     Tasks.list.ItemsSource = tasks;
 
                     IsLoading = false;
-                });
+                }, false);
             });
         }
 

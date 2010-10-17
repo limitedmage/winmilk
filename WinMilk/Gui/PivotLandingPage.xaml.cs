@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WinMilk.Gui.Controls;
+using System.Collections.ObjectModel;
 
 namespace WinMilk.Gui
 {
@@ -76,11 +77,10 @@ namespace WinMilk.Gui
                 //Lists.ItemsSource = new List<RTM.TaskList>() { new RTM.TaskList(1, "Inbox", false), new RTM.TaskList(2, "Personal", true) };
 
 
-                App.Rest.GetLists((List<RTM.TaskList> list) =>
+                App.Rest.GetLists((ObservableCollection<RTM.TaskList> list) =>
                 {
-                    list.Sort();
                     Lists.ItemsSource = list;
-
+                    /*
                     App.Rest.GetAllIncompleteTasks((List<RTM.Task> incompleteTasks) =>
                     {
                         this.IsTasksLoading = false;
@@ -120,7 +120,7 @@ namespace WinMilk.Gui
                             dueThisWeek.Sort();
                             listWeek.list.ItemsSource = dueThisWeek;
                         });
-                    }, s_Reload);
+                    }, s_Reload);*/
                 }, s_Reload);
                 
             }

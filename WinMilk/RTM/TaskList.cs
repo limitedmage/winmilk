@@ -32,7 +32,30 @@ namespace WinMilk.RTM
                 {
                     _tasks = value;
                     NotifyPropertyChanged("Tasks");
+                    NotifyPropertyChanged("Count");
+                    NotifyPropertyChanged("HasItems");
+
+                    if (Tasks != null)
+                        Tasks.CollectionChanged += 
+                            new System.Collections.Specialized.NotifyCollectionChangedEventHandler(Tasks_CollectionChanged);
                 }
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                if (Tasks == null) return 0;
+                return Tasks.Count;
+            }
+        }
+
+        public bool HasItems
+        {
+            get
+            {
+                return Count != 0;
             }
         }
 
@@ -59,6 +82,15 @@ namespace WinMilk.RTM
             IsSmart = isSmart;
             Filter = filter;
             SortOrder = sortOrder;
+
+            
+        }
+
+        void Tasks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            NotifyPropertyChanged("Count");
+            NotifyPropertyChanged("Tasks");
+            NotifyPropertyChanged("HasItems");
         }
 
         public TaskList()
