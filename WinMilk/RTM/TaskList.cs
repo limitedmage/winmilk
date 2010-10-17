@@ -10,16 +10,31 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace WinMilk.RTM
 {
     public enum TaskListSortOrder { Priority, Date, Name }
 
     [DataContract]
-    public class TaskList : IComparable
+    public class TaskList : IComparable, INotifyPropertyChanged
     {
+        private ObservableCollection<Task> _tasks;
+
         [DataMember]
-        public LinkedList<Task> List { get; set; }
+        public ObservableCollection<Task> Tasks
+        {
+            get { return _tasks; }
+            set
+            {
+                if (_tasks != value)
+                {
+                    _tasks = value;
+                    NotifyPropertyChanged("Tasks");
+                }
+            }
+        }
 
         [DataMember]
         public int Id { get; set; }
@@ -45,6 +60,10 @@ namespace WinMilk.RTM
             Filter = filter;
             SortOrder = sortOrder;
         }
+
+        public TaskList()
+            : this(0, "", false, "", 0)
+        { }
 
         public static TaskListSortOrder ParseSortOrder(string str)
         {
@@ -72,5 +91,16 @@ namespace WinMilk.RTM
                 return this.Name.CompareTo(other.Name);
             }
         }
+
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
     }
 }

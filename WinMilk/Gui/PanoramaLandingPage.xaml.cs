@@ -28,6 +28,26 @@ namespace WinMilk
             set { SetValue(IsLoadingProperty, value); }
         }
 
+        public static readonly DependencyProperty TodayTasksProperty =
+               DependencyProperty.Register("TodayTasks", typeof(List<RTM.Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new List<RTM.Task>()));
+
+        public List<RTM.Task> TodayTasks
+        {
+            get { return (List<RTM.Task>)GetValue(TodayTasksProperty); }
+            set { SetValue(TodayTasksProperty, value); }
+        }
+
+        public List<RTM.Task> TomorrowTasks
+        {
+            get { return (List<RTM.Task>)GetValue(TomorrowTasksProperty); }
+            set { SetValue(TomorrowTasksProperty, value); }
+        }
+
+        public static readonly DependencyProperty TomorrowTasksProperty =
+               DependencyProperty.Register("TomorrowTasks", typeof(List<RTM.Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new List<RTM.Task>()));
+
         public PanoramaLandingPage()
         {
             InitializeComponent();
@@ -61,14 +81,16 @@ namespace WinMilk
                         App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (List<RTM.Task> dueToday) =>
                         {
                             dueToday.Sort();
-                            TodayList.list.ItemsSource = dueToday;
+                            TodayTasks = dueToday;
+                            //TodayList.Tasks = TodayTasks;
                         });
 
                         // Due tomorrow
                         App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (List<RTM.Task> dueTomorrow) =>
                         {
                             dueTomorrow.Sort();
-                            TomorrowList.list.ItemsSource = dueTomorrow;
+                            TomorrowTasks = dueTomorrow;
+                            //TomorrowList.Tasks = TomorrowTasks;
                         });
                     }, _reload);
                 }, _reload);
@@ -100,7 +122,7 @@ namespace WinMilk
             List<RTM.TaskList> lists = list.ItemsSource as List<RTM.TaskList>;
             RTM.TaskList selected = lists[list.SelectedIndex];
 
-            this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
+            this.NavigationService.Navigate(new Uri("/Gui/PivotListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
             list.SelectedIndex = -1;
         }

@@ -14,14 +14,25 @@ using System.ComponentModel;
 
 namespace WinMilk.Gui.Controls
 {
-    public partial class TaskListControl : System.Windows.Controls.UserControl, INotifyPropertyChanged
+    public partial class TaskListControlOld : System.Windows.Controls.UserControl, INotifyPropertyChanged
     {
-        public bool HasItems
+
+        public static readonly DependencyProperty TasksProperty =
+               DependencyProperty.Register("Tasks", typeof(List<RTM.Task>), typeof(TaskListControl),
+                   new PropertyMetadata(new List<RTM.Task>()));
+
+        public List<RTM.Task> Tasks
         {
-            get { return this.list.Items.Count > 0; }
+            get { return (List<RTM.Task>)GetValue(TasksProperty); }
+            set { SetValue(TasksProperty, value); }
         }
 
-        public TaskListControl()
+        public bool HasItems
+        {
+            get { return Tasks.Count > 0; }
+        }
+
+        public TaskListControlOld()
         {
             InitializeComponent();
         }
@@ -40,7 +51,6 @@ namespace WinMilk.Gui.Controls
 
             PhoneApplicationFrame frame = App.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));
-            
 
             list.SelectedIndex = -1;
         }

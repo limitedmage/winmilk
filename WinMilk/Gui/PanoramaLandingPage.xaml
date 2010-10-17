@@ -7,7 +7,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-	xmlns:con="clr-namespace:WinMilk.Gui.Controls"
+	xmlns:con="clr-namespace:WinMilk.Gui.Controls" x:Name="phoneApplicationPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
 	x:Class="WinMilk.PanoramaLandingPage"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -137,9 +137,9 @@
                     <ScrollViewer>
                         <StackPanel>
                             <TextBlock Text="{Binding Path=Loc.TodayTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TodayList, Mode=OneWay}" />
-                            <con:TaskListControl x:Name="TodayList" />
+                            <con:TaskListControl x:Name="TodayList" ItemsSource="{Binding TodayTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                             <TextBlock Text="{Binding Path=Loc.TomorrowTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TomorrowList, Mode=OneWay}"/>
-                            <con:TaskListControl x:Name="TomorrowList" />
+                            <con:TaskListControl x:Name="TomorrowList" ItemsSource="{Binding TomorrowTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                         </StackPanel>
                     </ScrollViewer>
                     <StackPanel HorizontalAlignment="Right" Margin="0,-101,0,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment">
@@ -232,7 +232,7 @@
             <controls:PanoramaItem x:Name="MorePanel" Header="{Binding Path=Loc.MoreActionsHeader, Source={StaticResource L10N}}">
                 <StackPanel>
                     <con:BigIconButton x:Name="SearchButton" Click="SearchButton_Click" Text="{Binding Path=Loc.MoreSearchButton, Source={StaticResource L10N}}" Type="feature.search" HorizontalAlignment="Left" />
-                    <con:BigIconButton x:Name="TagsButton" Click="TagsButton_Click" Text="{Binding Path=Loc.MoreTagsButton, Source={StaticResource L10N}}" Type="favs" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="TagsButton" Click="TagsButton_Click" Text="{Binding Path=Loc.MoreTagsButton, Source={StaticResource L10N}}" Type="tag" HorizontalAlignment="Left" />
                     <con:BigIconButton x:Name="SettingsButton" Click="SettingsButton_Click" Text="{Binding Path=Loc.MoreSettingsButton, Source={StaticResource L10N}}" Type="feature.settings" HorizontalAlignment="Left" />
                     <con:BigIconButton x:Name="LogoutButton" Click="LogoutButton_Click" Text="{Binding Path=Loc.MoreLogoutButton, Source={StaticResource L10N}}" Type="close" HorizontalAlignment="Left" />
                     <con:BigIconButton x:Name="AboutButton" Click="AboutButton_Click" Text="{Binding Path=Loc.MoreAboutButton, Source={StaticResource L10N}}" Type="questionmark" HorizontalAlignment="Left" />

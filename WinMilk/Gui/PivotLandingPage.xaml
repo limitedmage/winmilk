@@ -149,6 +149,9 @@
         </Storyboard>
 
     </phone:PhoneApplicationPage.Resources>
+	<phone:PhoneApplicationPage.ApplicationBar>
+		<shell:ApplicationBar/>
+	</phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -160,7 +163,7 @@
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
 					</Grid.RowDefinitions>
-                    <con:TaskListControl x:Name="listIncomplete" />
+                    <con:TaskListControlOld x:Name="listIncomplete" />
                 </Grid>
             </controls:PivotItem>
 
@@ -169,7 +172,7 @@
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
 					</Grid.RowDefinitions>
-                    <con:TaskListControl x:Name="listToday" />
+                    <con:TaskListControlOld x:Name="listToday" />
                 </Grid>
             </controls:PivotItem>
 
@@ -178,7 +181,7 @@
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
 					</Grid.RowDefinitions>
-                    <con:TaskListControl x:Name="listTomorrow" />
+                    <con:TaskListControlOld x:Name="listTomorrow" />
                 </Grid>
             </controls:PivotItem>
 
@@ -187,7 +190,7 @@
                 	<Grid.RowDefinitions>
                 		<RowDefinition Height="*" />           	 
 					</Grid.RowDefinitions>
-                    <con:TaskListControl x:Name="listWeek" />
+                    <con:TaskListControlOld x:Name="listWeek" />
                 </Grid>
             </controls:PivotItem>
             

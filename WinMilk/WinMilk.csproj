@@ -101,10 +101,14 @@
       <DependentUpon>ProgressBarWithText.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Controls\ProgressBar\RelativeAnimatingContentControl.cs" />
-    <Compile Include="Gui\Controls\TaskListControl.xaml.cs">
-      <DependentUpon>TaskListControl.xaml</DependentUpon>
+    <Compile Include="Gui\Controls\TaskListControlOld.xaml.cs">
+      <DependentUpon>TaskListControlOld.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Controls\TaskListControl.cs" />
     <Compile Include="Gui\Controls\TiltEffect.cs" />
+    <Compile Include="Gui\PivotListPage.xaml.cs">
+      <DependentUpon>PivotListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
@@ -158,9 +162,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Gui\Controls\TaskListControl.xaml">
+    <Page Include="Gui\Controls\TaskListControlOld.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PivotListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\ListPage.xaml">
       <SubType>Designer</SubType>
@@ -233,6 +241,9 @@
     <Content Include="icons\appbar.folder.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\appbar.list.rest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\appbar.minus.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -255,6 +266,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\appbar.stop.rest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\appbar.tag.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\appbar.transport.ff.rest.png">
@@ -323,6 +337,9 @@
     <Content Include="icons\light\appbar.folder.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\light\appbar.list.rest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\light\appbar.minus.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -351,6 +368,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\light\appbar.sync.rest.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\light\appbar.tag.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\light\appbar.transport.ff.rest.png">
