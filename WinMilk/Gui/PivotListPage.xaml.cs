@@ -143,11 +143,14 @@ namespace WinMilk.Gui
                 return;
             }
 
-            RTM.TaskList selectedList = e.AddedItems[0] as RTM.TaskList;
-
-            if (selectedList.Tasks == null || selectedList.Tasks.Count == 0)
+            if (e.AddedItems[0] is RTM.TaskList)
             {
-                LoadList(selectedList);
+                RTM.TaskList selectedList = e.AddedItems[0] as RTM.TaskList;
+
+                if (selectedList.Tasks == null || selectedList.Tasks.Count == 0)
+                {
+                    LoadList(selectedList);
+                }
             }
         }
 

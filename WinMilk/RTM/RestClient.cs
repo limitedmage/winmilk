@@ -495,6 +495,21 @@ namespace WinMilk.RTM
             }
         }
 
+        public void GetTasksInListsInOrder(ObservableCollection<TaskList> lists, int position, TaskListsDelegate callback)
+        {
+            if (position < lists.Count)
+            {
+                GetTasksInList(lists[position], (t) =>
+                {
+                    GetTasksInListsInOrder(lists, position + 1, callback);
+                }, false);
+            }
+            else
+            {
+                callback(lists);
+            }
+        }
+
         public void AddTaskWithSmartAdd(string name, TaskModifiedDelegate callback)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();

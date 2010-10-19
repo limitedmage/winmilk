@@ -42,12 +42,13 @@ namespace WinMilk.RTM
             }
         }
 
-        public int Count
+        public string Count
         {
             get
             {
-                if (Tasks == null) return 0;
-                return Tasks.Count;
+                if (IsSmart) return "smart";
+                if (Tasks == null) return "";
+                return Tasks.Count.ToString();
             }
         }
 
@@ -55,15 +56,28 @@ namespace WinMilk.RTM
         {
             get
             {
-                return Count != 0;
+                return Tasks != null && Tasks.Count != 0;
             }
         }
 
         [DataMember]
         public int Id { get; set; }
 
+        private bool _isSmart;
         [DataMember]
-        public bool IsSmart { get; set; }
+        public bool IsSmart
+        {
+            get
+            {
+                return _isSmart;
+            }
+            set
+            {
+                _isSmart = value;
+                NotifyPropertyChanged("IsSmart");
+                NotifyPropertyChanged("Count");
+            }
+        }
         public bool IsNormal { get { return !IsSmart; } }
 
         [DataMember]
@@ -82,8 +96,6 @@ namespace WinMilk.RTM
             IsSmart = isSmart;
             Filter = filter;
             SortOrder = sortOrder;
-
-            
         }
 
         void Tasks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

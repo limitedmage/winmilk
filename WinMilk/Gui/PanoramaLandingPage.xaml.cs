@@ -80,9 +80,9 @@ namespace WinMilk
             {
                 this.IsLoading = true;
 
-                App.Rest.GetLists((ObservableCollection<RTM.TaskList> list) =>
+                App.Rest.GetLists((ObservableCollection<RTM.TaskList> lists) =>
                 {
-                    TaskLists = list;
+                    TaskLists = lists;
 
                     App.Rest.GetAllIncompleteTasks((ObservableCollection<RTM.Task> incompleteTasks) =>
                     {
@@ -100,12 +100,18 @@ namespace WinMilk
                             TomorrowTasks = dueTomorrow;
                         });
 
+                        /*
+                        App.Rest.GetTasksInListsInOrder(lists, 0, (loadedLists) => 
+                        {
+                            this.IsLoading = false;
+                        });*/
 
-                        foreach (RTM.TaskList l in TaskLists)
+                        // get count for tasks in non-smart lists
+                        foreach (RTM.TaskList l in lists)
                         {
                             if (l.IsNormal)
                             {
-                                App.Rest.GetTasksInList(l, (_) => { }, false);
+                                App.Rest.GetTasksInList(l, (t) => { }, false);
                             }
                         }
 

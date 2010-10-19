@@ -217,11 +217,25 @@ namespace WinMilk.RTM
 
         public static int CompareByDate(Task a, Task b)
         {
-            int cmp = a.Due.CompareTo(b.Due);
+            int cmp = 0;
+
+            if (a.HasDue && b.HasDue)
+            {
+                cmp = a.Due.CompareTo(b.Due);
+            }
+            else
+            {
+                cmp = (b.HasDue ? 1 : 0) - (a.HasDue ? 1 : 0);
+            }
             if (cmp == 0)
             {
-                cmp = b.Priority - a.Priority;
-                if (cmp == 0)
+                if (b.Priority != a.Priority)
+                {
+                    if (a.Priority == 0) return 1;
+                    else if (b.Priority == 0) return -1;
+                    else return a.Priority - b.Priority;
+                }
+                else
                 {
                     cmp = a.Name.CompareTo(b.Name);
                 }
@@ -232,17 +246,32 @@ namespace WinMilk.RTM
 
         public static int CompareByPriority(Task a, Task b)
         {
-            int cmp = b.Priority - a.Priority; 
-            if (cmp == 0)
+            int cmp = 0;
+
+            if (b.Priority != a.Priority)
             {
-                cmp = a.Due.CompareTo(b.Due);
+                if (a.Priority == 0) return 1;
+                else if (b.Priority == 0) return -1;
+                else return a.Priority - b.Priority;
+            }
+            else
+            {
+                if (a.HasDue && b.HasDue)
+                {
+                    cmp = a.Due.CompareTo(b.Due);
+                }
+                else
+                {
+                    cmp = (b.HasDue ? 1 : 0) - (a.HasDue ? 1 : 0);
+                }
+
                 if (cmp == 0)
                 {
                     cmp = a.Name.CompareTo(b.Name);
                 }
-            }
 
-            return cmp;
+                return cmp;
+            }
         }
 
         public static int CompareByName(Task a, Task b)
@@ -250,10 +279,22 @@ namespace WinMilk.RTM
             int cmp = a.Name.CompareTo(b.Name);
             if (cmp == 0)
             {
-                cmp = b.Priority - a.Priority;
-                if (cmp == 0)
+                if (b.Priority != a.Priority)
                 {
-                    cmp = a.Due.CompareTo(b.Due);
+                    if (a.Priority == 0) return 1;
+                    else if (b.Priority == 0) return -1;
+                    else return a.Priority - b.Priority;
+                }
+                else
+                {
+                    if (a.HasDue && b.HasDue)
+                    {
+                        cmp = a.Due.CompareTo(b.Due);
+                    }
+                    else
+                    {
+                        cmp = (b.HasDue ? 1 : 0) - (a.HasDue ? 1 : 0);
+                    }
                 }
             }
 
