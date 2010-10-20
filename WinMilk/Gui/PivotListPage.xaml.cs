@@ -12,28 +12,29 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using IronCow;
 
 namespace WinMilk.Gui
 {
     public partial class PivotListPage : PhoneApplicationPage
     {
         public static readonly DependencyProperty ListsProperty =
-               DependencyProperty.Register("Lists", typeof(ObservableCollection<RTM.TaskList>), typeof(PivotListPage),
-                   new PropertyMetadata((ObservableCollection<RTM.TaskList>)null));
+               DependencyProperty.Register("Lists", typeof(ObservableCollection<TaskList>), typeof(PivotListPage),
+                   new PropertyMetadata((ObservableCollection<TaskList>)null));
 
-        public ObservableCollection<RTM.TaskList> Lists
+        public ObservableCollection<TaskList> Lists
         {
-            get { return (ObservableCollection<RTM.TaskList>)GetValue(ListsProperty); }
+            get { return (ObservableCollection<TaskList>)GetValue(ListsProperty); }
             set { SetValue(ListsProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentListProperty =
-               DependencyProperty.Register("CurrentList", typeof(RTM.TaskList), typeof(PivotListPage),
-                   new PropertyMetadata(new RTM.TaskList(), new PropertyChangedCallback(OnCurrentListChanged)));
+               DependencyProperty.Register("CurrentList", typeof(TaskList), typeof(PivotListPage),
+                   new PropertyMetadata(new TaskList(), new PropertyChangedCallback(OnCurrentListChanged)));
 
-        public RTM.TaskList CurrentList
+        public TaskList CurrentList
         {
-            get { return (RTM.TaskList)GetValue(CurrentListProperty); }
+            get { return (TaskList)GetValue(CurrentListProperty); }
             set { SetValue(CurrentListProperty, value); }
         }
 
@@ -68,13 +69,13 @@ namespace WinMilk.Gui
         {
             IsLoading = true;
             
-            App.Rest.GetLists((lists) =>
+            App.RtmClient.GetLists((lists) =>
             {
                 IsLoading = false;
 
-                Lists = new ObservableCollection<RTM.TaskList>();
+                Lists = new ObservableCollection<TaskList>();
                 
-                foreach (RTM.TaskList l in lists)
+                foreach (TaskList l in lists)
                 {
                     Lists.Add(l);
                 }
@@ -87,7 +88,7 @@ namespace WinMilk.Gui
                     int listId = int.Parse(idStr);
 
                     // find list by id, and select it
-                    foreach (RTM.TaskList l in Lists)
+                    foreach (TaskList l in Lists)
                     {
                         if (l.Id == listId)
                         {
@@ -99,15 +100,15 @@ namespace WinMilk.Gui
             }, false);
         }
 
-        private void LoadList(RTM.TaskList list)
+        private void LoadList(TaskList list)
         {
             IsLoading = true;
 
-            App.Rest.GetTasksInList(list, (ObservableCollection<RTM.Task> tasks) =>
+            App.RtmClient.GetTasksInList(list, (ObservableCollection<Task> tasks) =>
                 {
-                    list.Tasks = new ObservableCollection<RTM.Task>();
+                    list.Tasks = new ObservableCollection<Task>();
 
-                    foreach (RTM.Task t in tasks)
+                    foreach (Task t in tasks)
                     {
                         list.Tasks.Add(t);
                     }
@@ -143,9 +144,9 @@ namespace WinMilk.Gui
                 return;
             }
 
-            if (e.AddedItems[0] is RTM.TaskList)
+            if (e.AddedItems[0] is TaskList)
             {
-                RTM.TaskList selectedList = e.AddedItems[0] as RTM.TaskList;
+                TaskList selectedList = e.AddedItems[0] as TaskList;
 
                 if (selectedList.Tasks == null || selectedList.Tasks.Count == 0)
                 {
@@ -157,12 +158,12 @@ namespace WinMilk.Gui
         private static void OnCurrentListChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             PivotListPage target = d as PivotListPage;
-            RTM.TaskList oldList = e.OldValue as RTM.TaskList;
-            RTM.TaskList newList = target.CurrentList;
+            TaskList oldList = e.OldValue as TaskList;
+            TaskList newList = target.CurrentList;
             target.OnCurrentListChanged(oldList, newList);
         }
 
-        private void OnCurrentListChanged(RTM.TaskList oldList, RTM.TaskList newList)
+        private void OnCurrentListChanged(TaskList oldList, TaskList newList)
         {
             if (newList != oldList)
             {

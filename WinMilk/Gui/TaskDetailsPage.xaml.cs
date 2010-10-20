@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using IronCow;
 
 namespace WinMilk.Gui
 {
@@ -19,11 +20,11 @@ namespace WinMilk.Gui
         #region Task Property
 
         public static readonly DependencyProperty TaskProperty =
-            DependencyProperty.Register("Task", typeof(RTM.Task), typeof(TaskDetailsPage), new PropertyMetadata(new RTM.Task()));
+            DependencyProperty.Register("Task", typeof(Task), typeof(TaskDetailsPage), new PropertyMetadata(new Task()));
 
-        private RTM.Task Task
+        private Task CurrentTask
         {
-            get { return (RTM.Task)GetValue(TaskProperty); }
+            get { return (Task)GetValue(TaskProperty); }
             set { SetValue(TaskProperty, value); }
         }
 
@@ -42,16 +43,22 @@ namespace WinMilk.Gui
             {
                 int id = int.Parse(idStr);
 
-                App.Rest.GetTask(id, (RTM.Task t) => {
-                    Task = t;
-                    TaskDetailsPanel.DataContext = Task;
+                App.RtmClient.GetTasks(null, (Task[] tasks) => {
+                    foreach (Task t in tasks)
+                    {
+                        if (t.Id == id)
+                        {
+                            CurrentTask = t;
+                            break;
+                        }
+                    }
                 });
             }
         }
 
         private void CompleteButton_Click(object sender, EventArgs e)
         {
-            App.Rest.CompleteTask(Task, () => 
+            CurrentTask.Complete(() => 
             {
                 TaskListPage.s_Reload = true;
                 this.NavigationService.GoBack();
@@ -60,7 +67,7 @@ namespace WinMilk.Gui
 
         private void PostponeButton_Click(object sender, EventArgs e)
         {
-            App.Rest.PostponeTask(Task, () =>
+            CurrentTask.Postpone(() =>
             {
                 TaskListPage.s_Reload = true;
                 this.NavigationService.GoBack();

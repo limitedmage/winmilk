@@ -70,14 +70,14 @@ namespace WinMilk.Gui
             listTomorrow.ItemsSource = new List<string>();
             listWeek.ItemsSource = new List<string>();*/
 
-            if (App.Rest.HasAuthToken)
+            if (App.RtmClient.HasAuthToken)
             {
                 this.IsTasksLoading = true;
 
                 //Lists.ItemsSource = new List<RTM.TaskList>() { new RTM.TaskList(1, "Inbox", false), new RTM.TaskList(2, "Personal", true) };
 
 
-                App.Rest.GetLists((ObservableCollection<RTM.TaskList> list) =>
+                App.RtmClient.GetLists((ObservableCollection<RTM.TaskList> list) =>
                 {
                     Lists.ItemsSource = list;
                     /*
@@ -147,7 +147,7 @@ namespace WinMilk.Gui
             MessageBoxResult logout = MessageBox.Show("Log out and erase your settings?", "Log out", MessageBoxButton.OKCancel);
             if (logout == MessageBoxResult.OK)
             {
-                App.Rest.DeleteData();
+                App.RtmClient.DeleteData();
                 Login();
             }
         }
@@ -292,7 +292,7 @@ namespace WinMilk.Gui
             SmartAddBox.IsEnabled = false;
             IsTasksLoading = true;
 
-            App.Rest.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
+            App.RtmClient.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
             {
                 CloseSmartAdd();
                 LoadData();

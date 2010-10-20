@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using WinMilk.Gui.Controls.ProgressBar;
+using IronCow;
 
 namespace WinMilk.Gui
 {
@@ -38,6 +39,8 @@ namespace WinMilk.Gui
 
         #endregion
 
+        private string Frob { get; set; }
+
         public AuthPage()
         {
             InitializeComponent();
@@ -48,8 +51,11 @@ namespace WinMilk.Gui
 
             this.IsLoading = true;
 
-            App.Rest.GetAuthUrl((string url) =>
+            App.RtmClient.GetFrob((string frob) =>
             {
+                Frob = frob;
+                string url = App.RtmClient.GetAuthenticationUrl(frob, AuthenticationPermissions.Delete);
+
                 this.IsLoading = false;
                 webBrowser1.Navigate(new Uri(url));
             });
@@ -58,7 +64,7 @@ namespace WinMilk.Gui
         private void AuthDoneButton_Click(object sender, EventArgs e)
         {
             this.IsLoading = true;
-            App.Rest.GetToken((string token) =>
+            App.RtmClient.GetToken(Frob, (string token, User user) =>
             {
                 this.IsLoading = false;
 

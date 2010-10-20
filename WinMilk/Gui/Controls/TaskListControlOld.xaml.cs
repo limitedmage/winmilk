@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.ComponentModel;
+using IronCow;
 
 namespace WinMilk.Gui.Controls
 {
@@ -18,12 +19,12 @@ namespace WinMilk.Gui.Controls
     {
 
         public static readonly DependencyProperty TasksProperty =
-               DependencyProperty.Register("Tasks", typeof(List<RTM.Task>), typeof(TaskListControl),
-                   new PropertyMetadata(new List<RTM.Task>()));
+               DependencyProperty.Register("Tasks", typeof(List<Task>), typeof(TaskListControl),
+                   new PropertyMetadata(new List<Task>()));
 
-        public List<RTM.Task> Tasks
+        public List<Task> Tasks
         {
-            get { return (List<RTM.Task>)GetValue(TasksProperty); }
+            get { return (List<Task>)GetValue(TasksProperty); }
             set { SetValue(TasksProperty, value); }
         }
 
@@ -46,8 +47,8 @@ namespace WinMilk.Gui.Controls
                 return;
             }
 
-            List<RTM.Task> tasks = list.ItemsSource as List<RTM.Task>;
-            RTM.Task selectedTask = tasks[list.SelectedIndex];
+            List<Task> tasks = list.ItemsSource as List<Task>;
+            Task selectedTask = tasks[list.SelectedIndex];
 
             PhoneApplicationFrame frame = App.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));

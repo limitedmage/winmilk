@@ -13,6 +13,7 @@ using Microsoft.Phone.Controls;
 using System.ComponentModel;
 using System.Collections;
 using System.Collections.ObjectModel;
+using IronCow;
 
 namespace WinMilk.Gui.Controls
 {
@@ -38,8 +39,6 @@ namespace WinMilk.Gui.Controls
 
         void TaskListControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //ScrollViewer scrollViewer = this.GetTemplateChild("ScrollViewer") as ScrollViewer;
-            //scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
         }
 
         private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -49,8 +48,8 @@ namespace WinMilk.Gui.Controls
                 return;
             }
 
-            ObservableCollection<RTM.Task> tasks = this.ItemsSource as ObservableCollection<RTM.Task>;
-            RTM.Task selectedTask = tasks[this.SelectedIndex];
+            ObservableCollection<Task> tasks = this.ItemsSource as ObservableCollection<Task>;
+            Task selectedTask = tasks[this.SelectedIndex];
 
             PhoneApplicationFrame frame = App.Current.RootVisual as PhoneApplicationFrame;
             frame.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));

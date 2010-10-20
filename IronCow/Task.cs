@@ -11,36 +11,43 @@ namespace IronCow
 {
     public class Task : RtmFatElement, INotifyPropertyChanged
     {
+        #region Callback Delegates
+
+        public delegate void VoidCallback();
+
+        #endregion
+
         #region Sync Requests
-        private static RestRequest CreateStandardRequest(Task task, string method)
+        private static RestRequest CreateStandardRequest(Task task, string method, VoidCallback callback)
         {
             RestRequest request = new RestRequest(method);
             request.Parameters.Add("timeline", task.Owner.GetTimeline().ToString());
             request.Parameters.Add("list_id", task.Parent.Id.ToString());
             request.Parameters.Add("taskseries_id", task.SeriesId.ToString());
             request.Parameters.Add("task_id", task.Id.ToString());
+            request.Callback = (response) => { callback(); };
             return request;
         }
 
-        private static RestRequest CreateSetUrlRequest(Task task, string url)
+        private static RestRequest CreateSetUrlRequest(Task task, string url, VoidCallback callback)
         {
-            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setURL");
+            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setURL", callback);
             if (url != null)
                 request.Parameters.Add("url", url);
             return request;
         }
 
-        private static RestRequest CreateSetLocationRequest(Task task, string locationId)
+        private static RestRequest CreateSetLocationRequest(Task task, string locationId, VoidCallback callback)
         {
-            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setLocation");
+            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setLocation", callback);
             if (locationId != null)
                 request.Parameters.Add("location_id", locationId);
             return request;
         }
 
-        private static RestRequest CreateSetDueDateRequest(Task task, string due)
+        private static RestRequest CreateSetDueDateRequest(Task task, string due, VoidCallback callback)
         {
-            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setDueDate");
+            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setDueDate", callback);
             if (due != null)
             {
                 request.Parameters.Add("due", due);
@@ -49,9 +56,9 @@ namespace IronCow
             return request;
         }
 
-        private static RestRequest CreateSetPriorityRequest(Task task, string priority)
+        private static RestRequest CreateSetPriorityRequest(Task task, string priority, VoidCallback callback)
         {
-            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setPriority");
+            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setPriority", callback);
             if (priority != null)
                 request.Parameters.Add("priority", priority);
             return request;
@@ -73,17 +80,17 @@ namespace IronCow
             }
         }
 
-        private static RestRequest CreateSetRecurrenceRequest(Task task, string recurrence)
+        private static RestRequest CreateSetRecurrenceRequest(Task task, string recurrence, VoidCallback callback)
         {
-            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setRecurrence");
+            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setRecurrence", callback);
             if (recurrence != null)
                 request.Parameters.Add("repeat", recurrence);
             return request;
         }
 
-        private static RestRequest CreateSetEstimateRequest(Task task, string estimate)
+        private static RestRequest CreateSetEstimateRequest(Task task, string estimate, VoidCallback callback)
         {
-            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setEstimate");
+            RestRequest request = CreateStandardRequest(task, "rtm.tasks.setEstimate", callback);
             if (estimate != null)
                 request.Parameters.Add("estimate", estimate);
             return request;
@@ -464,14 +471,15 @@ namespace IronCow
         #endregion
 
         #region Public Methods
-        public void Complete()
+        public void Complete(VoidCallback callback)
         {
             if (Syncing)
             {
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't complete a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.complete");
+                Request request = CreateStandardRequest(this, "rtm.tasks.complete", callback);
+                
                 Owner.ExecuteRequest(request);
             }
             
@@ -481,14 +489,14 @@ namespace IronCow
             OnPropertyChanged("IsIncomplete");
         }
 
-        public void Uncomplete()
+        public void Uncomplete(VoidCallback callback)
         {
             if (Syncing)
             {
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't uncomplete a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.uncomplete");
+                Request request = CreateStandardRequest(this, "rtm.tasks.uncomplete", callback);
                 Owner.ExecuteRequest(request);
             }
 
@@ -498,14 +506,14 @@ namespace IronCow
             OnPropertyChanged("IsIncomplete");
         }
 
-        public void Postpone()
+        public void Postpone(VoidCallback callback)
         {
             if (Syncing)
             {
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't postpone a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.postpone");
+                Request request = CreateStandardRequest(this, "rtm.tasks.postpone", callback);
                 Owner.ExecuteRequest(request);
             }
 
@@ -513,14 +521,14 @@ namespace IronCow
             OnPropertyChanged("Postponed");
         }
 
-        public void Delete()
+        public void Delete(VoidCallback callback)
         {
             if (Syncing)
             {
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't delete a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.delete");
+                Request request = CreateStandardRequest(this, "rtm.tasks.delete", callback);
                 Owner.ExecuteRequest(request);
             }
             

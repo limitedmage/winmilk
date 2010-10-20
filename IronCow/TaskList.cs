@@ -11,6 +11,12 @@ namespace IronCow
 {
     public class TaskList : RtmFatElement, INotifyPropertyChanged
     {
+        #region Callback Delegates
+
+        public delegate void VoidCallback();
+
+        #endregion
+
         #region Public Properties
         public int Position { get; private set; }
         public string Filter { get; private set; }
@@ -100,7 +106,7 @@ namespace IronCow
         #endregion
 
         #region Public Methods
-        public void Archive()
+        public void Archive(VoidCallback callback)
         {
             if (Syncing)
             {
@@ -109,6 +115,7 @@ namespace IronCow
                     RestRequest request = new RestRequest("rtm.lists.archive");
                     request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
                     request.Parameters.Add("list_id", Id.ToString());
+                    request.Callback = (response) => { callback(); };
                     Owner.ExecuteRequest(request);
                 }
             }
@@ -116,7 +123,7 @@ namespace IronCow
             SetFlag(TaskListFlags.Archived, true);
         }
 
-        public void Unarchive()
+        public void Unarchive(VoidCallback callback)
         {
             if (Syncing)
             {
@@ -125,6 +132,7 @@ namespace IronCow
                     RestRequest request = new RestRequest("rtm.lists.unarchive");
                     request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
                     request.Parameters.Add("list_id", Id.ToString());
+                    request.Callback = (response) => { callback(); };
                     Owner.ExecuteRequest(request);
 
                     SetFlag(TaskListFlags.Archived, false);
@@ -134,7 +142,7 @@ namespace IronCow
             SetFlag(TaskListFlags.Archived, false);
         }
 
-        public void AddTask(Task task)
+        public void AddTask(Task task, VoidCallback callback)
         {
             // Freeze this task list so that we don't needlessly resync a smart-list
             // while adding a task to it.

@@ -127,11 +127,6 @@
     <Compile Include="Helper\IsolatedStorageHelper.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RTM\MD5.cs" />
-    <Compile Include="RTM\Note.cs" />
-    <Compile Include="RTM\RestClient.cs" />
-    <Compile Include="RTM\Task.cs" />
-    <Compile Include="RTM\TaskList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

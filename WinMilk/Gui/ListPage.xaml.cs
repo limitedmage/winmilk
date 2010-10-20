@@ -65,11 +65,11 @@ namespace WinMilk.Gui
 
             IsLoading = true;
 
-            App.Rest.GetList(id, (RTM.TaskList l) =>
+            App.RtmClient.GetList(id, (RTM.TaskList l) =>
             {
                 ListName = l.Name;
 
-                App.Rest.GetTasksInList(l, (ObservableCollection<RTM.Task> tasks) =>
+                App.RtmClient.GetTasksInList(l, (ObservableCollection<RTM.Task> tasks) =>
                 {
                     Tasks.list.ItemsSource = tasks;
 

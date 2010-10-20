@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
+using IronCow;
 
 namespace WinMilk
 {
@@ -30,34 +31,34 @@ namespace WinMilk
         }
 
         public static readonly DependencyProperty TodayTasksProperty =
-               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<RTM.Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<RTM.Task>()));
+               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<Task>()));
 
-        public ObservableCollection<RTM.Task> TodayTasks
+        public ObservableCollection<Task> TodayTasks
         {
-            get { return (ObservableCollection<RTM.Task>)GetValue(TodayTasksProperty); }
+            get { return (ObservableCollection<Task>)GetValue(TodayTasksProperty); }
             set { SetValue(TodayTasksProperty, value); }
         }
 
-        public ObservableCollection<RTM.Task> TomorrowTasks
+        public ObservableCollection<Task> TomorrowTasks
         {
-            get { return (ObservableCollection<RTM.Task>)GetValue(TomorrowTasksProperty); }
+            get { return (ObservableCollection<Task>)GetValue(TomorrowTasksProperty); }
             set { SetValue(TomorrowTasksProperty, value); }
         }
 
         public static readonly DependencyProperty TomorrowTasksProperty =
-               DependencyProperty.Register("TomorrowTasks", typeof(ObservableCollection<RTM.Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<RTM.Task>()));
+               DependencyProperty.Register("TomorrowTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<Task>()));
 
-        public ObservableCollection<RTM.TaskList> TaskLists
+        public ObservableCollection<TaskList> TaskLists
         {
-            get { return (ObservableCollection<RTM.TaskList>)GetValue(TaskListsProperty); }
+            get { return (ObservableCollection<TaskList>)GetValue(TaskListsProperty); }
             set { SetValue(TaskListsProperty, value); }
         }
 
         public static readonly DependencyProperty TaskListsProperty =
-               DependencyProperty.Register("TaskLists", typeof(ObservableCollection<RTM.TaskList>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<RTM.TaskList>()));
+               DependencyProperty.Register("TaskLists", typeof(ObservableCollection<TaskList>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<TaskList>()));
 
 
         public PanoramaLandingPage()
@@ -76,26 +77,26 @@ namespace WinMilk
 
         private void LoadData()
         {
-            if (App.Rest.HasAuthToken)
+            if (App.RtmClient.HasAuthToken)
             {
                 this.IsLoading = true;
 
-                App.Rest.GetLists((ObservableCollection<RTM.TaskList> lists) =>
+                App.RtmClient.GetLists((ObservableCollection<RTM.TaskList> lists) =>
                 {
                     TaskLists = lists;
 
-                    App.Rest.GetAllIncompleteTasks((ObservableCollection<RTM.Task> incompleteTasks) =>
+                    App.RtmClient.GetAllIncompleteTasks((ObservableCollection<RTM.Task> incompleteTasks) =>
                     {
                         this.IsLoading = false;
 
                         // Due on or before today
-                        App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (ObservableCollection<RTM.Task> dueToday) =>
+                        App.RtmClient.GetTasksDueOnOrBefore(DateTime.Today, (ObservableCollection<RTM.Task> dueToday) =>
                         {
                             TodayTasks = dueToday;
                         });
 
                         // Due tomorrow
-                        App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (ObservableCollection<RTM.Task> dueTomorrow) =>
+                        App.RtmClient.GetTasksDueOn(DateTime.Today.AddDays(1), (ObservableCollection<RTM.Task> dueTomorrow) =>
                         {
                             TomorrowTasks = dueTomorrow;
                         });
@@ -111,7 +112,7 @@ namespace WinMilk
                         {
                             if (l.IsNormal)
                             {
-                                App.Rest.GetTasksInList(l, (t) => { }, false);
+                                App.RtmClient.GetTasksInList(l, (t) => { }, false);
                             }
                         }
 
@@ -226,7 +227,7 @@ namespace WinMilk
             SmartAddBox.IsEnabled = false;
             IsLoading = true;
 
-            App.Rest.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
+            App.RtmClient.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
             {
                 IsLoading = false;
                 CloseSmartAdd();
@@ -265,7 +266,7 @@ namespace WinMilk
             MessageBoxResult logout = MessageBox.Show("Log out and erase your settings?", "Log out", MessageBoxButton.OKCancel);
             if (logout == MessageBoxResult.OK)
             {
-                App.Rest.DeleteData();
+                App.RtmClient.DeleteData();
                 Login();
             }
         }
