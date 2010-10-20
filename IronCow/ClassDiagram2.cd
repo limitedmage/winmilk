@@ -1,0 +1,674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IronCow.Authentication" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAA=</HashCode>
+      <FileName>Authentication.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Contact" Collapsed="true">
+    <Position X="1" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAQAAAAAQAAA=</HashCode>
+      <FileName>Contact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.ContactCollection" Collapsed="true">
+    <Position X="0.75" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAQAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>ContactCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.ContactGroup" Collapsed="true">
+    <Position X="10" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAIAAAAAQAgACAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>ContactGroup.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.ContactGroupCollection" Collapsed="true">
+    <Position X="5.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAQAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>ContactGroupCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.ContactGroupContactCollection" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICIAAAAADAAACBCQCAAAlAQAEAAAABABAAAAAABQIAA=</HashCode>
+      <FileName>ContactGroupContactCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IronCow.DateConverter" Collapsed="true">
+    <Position X="23" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAEAAAAAIAABAAAAAAAAAAAAAAAAAABAAAEABA=</HashCode>
+      <FileName>DateConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.ErrorCode" Collapsed="true">
+    <Position X="28.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>agEQDAAEIBQIAAAAAQAIAAUIAoAgACAICgEAAACIACQ=</HashCode>
+      <FileName>ErrorCode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.FirstSyncContactGroupData" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAACAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FirstSyncContactGroupData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.IronCowException" Collapsed="true">
+    <Position X="21.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IronCowException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Location" Collapsed="true">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAEAAAAAAEAAIAAQAAAAAAAACAAAAAAAQAAA=</HashCode>
+      <FileName>Location.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.LocationCollection" Collapsed="true">
+    <Position X="7.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LocationCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.MD5CryptoServiceProvider" Collapsed="true">
+    <Position X="0.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MD5.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.MD5" Collapsed="true">
+    <Position X="0.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QBACCBAgACJCAQAAhECEQAQAIABAAFAEAABgXGBEAAE=</HashCode>
+      <FileName>MD5.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.MultiRequest" Collapsed="true">
+    <Position X="14.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>MultiRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RecurrenceConverter" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAggAAAAAAAQAACAAAAAAAAAAAACEAAA=</HashCode>
+      <FileName>RecurrenceConverter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Request" Collapsed="true">
+    <Position X="13.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RequestCollection" Collapsed="true">
+    <Position X="21.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RequestCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RequestManager" Collapsed="true">
+    <Position X="23" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>RequestManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.ResponseError" Collapsed="true">
+    <Position X="28.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ResponseError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RestRequest" Collapsed="true">
+    <Position X="12.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAQAAAAgAAAAAAAAAAAAAIAAAAAAQAA=</HashCode>
+      <FileName>RestRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rtm" Collapsed="true">
+    <Position X="21.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ZEAEgUAYQAoACJTAgAJAICAE0IiVAiAggQCgAAABwAQ=</HashCode>
+      <FileName>Rtm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RtmAuthentication" Collapsed="true">
+    <Position X="23" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RtmAuthentication.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RtmCollection&lt;T&gt;" Collapsed="true">
+    <Position X="4" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAACAAAAACBQQKAEAlAQAwAAAABAEAAAAAABQIIA=</HashCode>
+      <FileName>RtmCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.RtmElement" Collapsed="true">
+    <Position X="7.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICACAACAAACAAASQAAAAAAAAAACAAAAIBAAAAAAQAAA=</HashCode>
+      <FileName>RtmElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RtmException" Collapsed="true">
+    <Position X="24.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RtmException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RtmFatElement" Collapsed="true">
+    <Position X="6.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAASAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>RtmFatElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.RtmThinElement" Collapsed="true">
+    <Position X="14.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>RtmThinElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.SynchronizedRtmCollection&lt;T&gt;" Collapsed="true">
+    <Position X="3" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAQAAAAAAAAAAAAAGAAAwACQEAAEAAAQAAAAAAA=</HashCode>
+      <FileName>SynchronizedRtmCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.SynchronizedTaskCollection&lt;T&gt;" Collapsed="true">
+    <Position X="11.75" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ISIAkAQAAAAACJQAIBEAnAQAwADAABIFAEAAAABQIAA=</HashCode>
+      <FileName>SynchronizedTaskCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.Task" Collapsed="true">
+    <Position X="5.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAwAAAMRsCAAFsEYJIUUMZIxAGgAFcCGIqICQCxAAg=</HashCode>
+      <FileName>Task.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.TaskList" Collapsed="true">
+    <Position X="7.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABCAAAAAAAAAgIAAAgAQggBECQAAAAAgIoAAQAAg=</HashCode>
+      <FileName>TaskList.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.TaskListCollection" Collapsed="true">
+    <Position X="3" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAEAAAAAAQAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>TaskListCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.TaskListTaskCollection" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICIAgACAAAAACBAQCBAAlAQAAAEAEBEBAgAgAABYMIA=</HashCode>
+      <FileName>TaskListTaskCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IronCow.TaskNote" Collapsed="true">
+    <Position X="12.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAEAAIBABAAgAgACEAAQAAAAAAIAQAAA=</HashCode>
+      <FileName>TaskNote.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.TaskTagCollection" Collapsed="true">
+    <Position X="10.5" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUAAAEAEEBAAAoAACAAAAAAIAAACAAIACIAAAAAEAAA=</HashCode>
+      <FileName>TaskTagCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.TaskTaskNoteCollection" Collapsed="true">
+    <Position X="12.75" Y="12.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAABABCAAIAACAEAAAAAwACAAAIEAAAAAACAABA=</HashCode>
+      <FileName>TaskTaskNoteCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Transaction" Collapsed="true">
+    <Position X="23" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAEAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.User" Collapsed="true">
+    <Position X="24.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.UserSettings" Collapsed="true">
+    <Position X="26.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAIAAAAAAAAAAAAAIAAAIAABAAAAAAAAAAA=</HashCode>
+      <FileName>UserSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Cache.MemoryResponseCache" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQQAAAAAAAAAAAEAQBAAAAAAAAAAAKAgAABAAAA=</HashCode>
+      <FileName>Cache\MemoryResponseCache.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IronCow.Cache.ResponseCacheEntry" Collapsed="true">
+    <Position X="26.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAACAAAgAAAAAA=</HashCode>
+      <FileName>Cache\ResponseCacheEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.DisabledRestClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAwgAAIAAEAAAAAiCAgAAAEAAIAAAAAAAAgAgA=</HashCode>
+      <FileName>Rest\DisabledRestClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IronCow.Rest.RawAuthentication" Collapsed="true">
+    <Position X="28.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAAA=</HashCode>
+      <FileName>Rest\RawAuthentication.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawContact" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawContact.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawGroup" Collapsed="true">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawList" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAgAAAAEAQIABAAAAAAIAAAAACAAQA=</HashCode>
+      <FileName>Rest\RawList.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawLocation" Collapsed="true">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAEAAAAAAEAAIAAQAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawLocation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawNote" Collapsed="true">
+    <Position X="8" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAABABAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawNote.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawRepeatRule" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawRepeatRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawRtmElement" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawRtmElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawSettings" Collapsed="true">
+    <Position X="21.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAIAAAAAAAAAAAAAIAAAIAABAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawTask" Collapsed="true">
+    <Position X="12.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAAAoEAAAAEEAAQAAAAAEAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawTaskSeries" Collapsed="true">
+    <Position X="14.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAoAAAAAgAAAAAAABAAAAQAAAAAAEQACAIIAAAAAAA=</HashCode>
+      <FileName>Rest\RawTaskSeries.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawTime" Collapsed="true">
+    <Position X="23" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQA=</HashCode>
+      <FileName>Rest\RawTime.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawTimezone" Collapsed="true">
+    <Position X="24.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAIAAAAIAAAAAAAAAgAA=</HashCode>
+      <FileName>Rest\RawTimezone.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawTransaction" Collapsed="true">
+    <Position X="26.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAEAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawTransaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RawUser" Collapsed="true">
+    <Position X="28.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Rest\RawUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.Response" Collapsed="true">
+    <Position X="24.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BACBAEAkAAAAAQAAiAIgAAAAAAAAEQAAgAAIAAEAEQI=</HashCode>
+      <FileName>Rest\Response.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Rest.RestClient" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBggBSg6BIgwAQkgAAAMilBgpB4EFZIQAQAAAJBQQRA=</HashCode>
+      <FileName>Rest\RestClient.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IronCow.Rest.TaskBundle" Collapsed="true">
+    <Position X="10.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAM=</HashCode>
+      <FileName>Rest\TaskBundle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.BooleanNode" Collapsed="true">
+    <Position X="7.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAABABaAAgBAQAAAAAAACAAQAAggAAAAA=</HashCode>
+      <FileName>Search\BooleanNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.EmptyEnumerator&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="26.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAAAAACAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Search\EmptyEnumerator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IronCow.Search.GroupNode" Collapsed="true">
+    <Position X="7.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAACAAABAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Search\GroupNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.LexicalAnalyzer" Collapsed="true">
+    <Position X="23" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAAAAQAAAAAIAAAAAgAAAACAAAACAAAAAAA=</HashCode>
+      <FileName>Search\LexicalAnalyzer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.Node" Collapsed="true">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAEAAABAAIAAAQAAAAAAAAAAAAACAAgAAAAA=</HashCode>
+      <FileName>Search\Node.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.Search.NodeContext" Collapsed="true">
+    <Position X="26.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMAAAAAAAAAAEAAAAAAAAAAAAAAAAAEAAAAAAIAQAAA=</HashCode>
+      <FileName>Search\NodeContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.OperatorNode" Collapsed="true">
+    <Position X="0.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhAAYAAAoCAiEBiEMACIAIQAAkwAiAxAIgRAAgAAQQA=</HashCode>
+      <FileName>Search\OperatorNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.ParenthesisGroupNode" Collapsed="true">
+    <Position X="5.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAAEAAAAAAABAQKAAABAQAAAAAAAAACAAEAgBQIAA=</HashCode>
+      <FileName>Search\ParenthesisGroupNode.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="IronCow.Search.SearchContext" Collapsed="true">
+    <Position X="26.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAAAAAAAIAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Search\SearchContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.TermNode" Collapsed="true">
+    <Position X="3" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAEAAAAgAAAAA=</HashCode>
+      <FileName>Search\TermNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.Token" Collapsed="true">
+    <Position X="19.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAQAACAAAAAA=</HashCode>
+      <FileName>Search\Token.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.TokenCollection" Collapsed="true">
+    <Position X="21.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Search\TokenCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IronCow.Search.UnaryNode" Collapsed="true">
+    <Position X="9.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAJAAKAAABAQAAAAAIAAAAQAAAgAAAAA=</HashCode>
+      <FileName>Search\UnaryNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="IronCow.FuzzyDateTime" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAgAAAAQEgAEAAAAAAGAIAIQAAAAAAAAAByA=</HashCode>
+      <FileName>FuzzyDateTime.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Struct Name="IronCow.Recurrence" Collapsed="true">
+    <Position X="21.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIEAAAAAEQ=</HashCode>
+      <FileName>Recurrence.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="IronCow.UnsyncedScope" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="23" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>UnsyncedScope.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Struct>
+  <Interface Name="IronCow.ISyncing" Collapsed="true">
+    <Position X="23" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ISyncing.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IronCow.Rest.IResponseCache" Collapsed="true">
+    <Position X="19.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAQBAAAAAAAAAAAKAgAABAAAA=</HashCode>
+      <FileName>Rest\IResponseCache.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IronCow.Rest.IRestClient" Collapsed="true">
+    <Position X="21.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAwAAAAAAAAAAAAiAAgAAAEAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\IRestClient.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="IronCow.AuthenticationPermissions" Collapsed="true">
+    <Position X="19.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAEAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>AuthenticationPermissions.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.DateFormat" Collapsed="true">
+    <Position X="23" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAABAAAAAAIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DateFormat.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.Frequency" Collapsed="true">
+    <Position X="24.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAgAAAAAAgA=</HashCode>
+      <FileName>RecurrenceConverter.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.ResponseStatus" Collapsed="true">
+    <Position X="26.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABABAAAAABA=</HashCode>
+      <FileName>ResponseStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.SearchMode" Collapsed="true">
+    <Position X="28.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEBAAAAAAA=</HashCode>
+      <FileName>SearchMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.TaskListFlags" Collapsed="true">
+    <Position X="19.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAAAAAAAAAEAAIAAAAAAAAAAAAAAEAAQA=</HashCode>
+      <FileName>TaskListFlags.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.TaskPriority" Collapsed="true">
+    <Position X="21.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAgAAAEAAIA=</HashCode>
+      <FileName>TaskPriority.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.TimeFormat" Collapsed="true">
+    <Position X="24.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>TimeFormat.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.Rest.TaskSyncMode" Collapsed="true">
+    <Position X="23" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Rest\TaskBundle.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.Search.BooleanType" Collapsed="true">
+    <Position X="21.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Search\BooleanType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.Search.TokenType" Collapsed="true">
+    <Position X="26.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAQgACAAAAAAAAIAAAAAAAoAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Search\Token.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="IronCow.Search.UnaryType" Collapsed="true">
+    <Position X="28.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Search\UnaryNode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="IronCow.Rest.ResponseCallback" Collapsed="true">
+    <Position X="19.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rest\IRestClient.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
