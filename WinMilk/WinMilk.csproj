@@ -101,14 +101,8 @@
       <DependentUpon>ProgressBarWithText.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Controls\ProgressBar\RelativeAnimatingContentControl.cs" />
-    <Compile Include="Gui\Controls\TaskListControlOld.xaml.cs">
-      <DependentUpon>TaskListControlOld.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\Controls\TaskListControl.cs" />
     <Compile Include="Gui\Controls\TiltEffect.cs" />
-    <Compile Include="Gui\PivotListPage.xaml.cs">
-      <DependentUpon>PivotListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
@@ -117,9 +111,6 @@
     </Compile>
     <Compile Include="Gui\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Gui\PivotLandingPage.xaml.cs">
-      <DependentUpon>PivotLandingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\TaskDetailsPage.xaml.cs">
       <DependentUpon>TaskDetailsPage.xaml</DependentUpon>
@@ -157,17 +148,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Gui\Controls\TaskListControlOld.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\PivotListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Gui\ListPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\PanoramaLandingPage.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -180,10 +163,6 @@
     <Page Include="Themes\generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\PivotLandingPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\TaskDetailsPage.xaml">
       <SubType>Designer</SubType>

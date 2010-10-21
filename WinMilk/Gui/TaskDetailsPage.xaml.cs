@@ -53,7 +53,6 @@ namespace WinMilk.Gui
             {
                 CurrentTask.Complete(() =>
                 {
-                    TaskListPage.s_Reload = true;
                     this.NavigationService.GoBack();
                 });
             }
@@ -65,7 +64,6 @@ namespace WinMilk.Gui
             {
                 CurrentTask.Postpone(() =>
                 {
-                    TaskListPage.s_Reload = true;
                     this.NavigationService.GoBack();
                 });
             }
