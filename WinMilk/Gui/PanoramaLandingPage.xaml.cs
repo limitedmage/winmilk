@@ -12,7 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
-using IronCow;
+using IronCow.Rest;
 
 namespace WinMilk
 {
@@ -31,34 +31,34 @@ namespace WinMilk
         }
 
         public static readonly DependencyProperty TodayTasksProperty =
-               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<Task>()));
+               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<RawTask>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<RawTask>()));
 
-        public ObservableCollection<Task> TodayTasks
+        public ObservableCollection<RawTask> TodayTasks
         {
-            get { return (ObservableCollection<Task>)GetValue(TodayTasksProperty); }
+            get { return (ObservableCollection<RawTask>)GetValue(TodayTasksProperty); }
             set { SetValue(TodayTasksProperty, value); }
         }
 
-        public ObservableCollection<Task> TomorrowTasks
+        public ObservableCollection<RawTask> TomorrowTasks
         {
-            get { return (ObservableCollection<Task>)GetValue(TomorrowTasksProperty); }
+            get { return (ObservableCollection<RawTask>)GetValue(TomorrowTasksProperty); }
             set { SetValue(TomorrowTasksProperty, value); }
         }
 
         public static readonly DependencyProperty TomorrowTasksProperty =
-               DependencyProperty.Register("TomorrowTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<Task>()));
+               DependencyProperty.Register("TomorrowTasks", typeof(ObservableCollection<RawTask>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<RawTask>()));
 
-        public ObservableCollection<TaskList> TaskLists
+        public ObservableCollection<RawList> TaskLists
         {
-            get { return (ObservableCollection<TaskList>)GetValue(TaskListsProperty); }
+            get { return (ObservableCollection<RawList>)GetValue(TaskListsProperty); }
             set { SetValue(TaskListsProperty, value); }
         }
 
         public static readonly DependencyProperty TaskListsProperty =
-               DependencyProperty.Register("TaskLists", typeof(ObservableCollection<TaskList>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<TaskList>()));
+               DependencyProperty.Register("TaskLists", typeof(ObservableCollection<RawList>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<RawList>()));
 
 
         public PanoramaLandingPage()
@@ -77,9 +77,33 @@ namespace WinMilk
 
         private void LoadData()
         {
-            if (App.RtmClient.HasAuthToken)
+            if (App.RtmClient.AuthToken != null)
             {
                 this.IsLoading = true;
+
+                App.RtmClient.GetLists((RawList[] lists) =>
+                {
+                    foreach (RawList l in lists)
+                    {
+                        TaskLists.Add(l);
+                    }
+
+                    App.RtmClient.GetTasks(null, "", null, (RawList[] listsWithTasks) => 
+                    { 
+                        foreach (RawList l in listsWithTasks)
+                        {
+                            foreach (RawTaskSeries s in l.TaskSeries)
+                            {
+                                foreach (RawTask t in s.Tasks)
+                                {
+                                    
+                                }
+                            }
+
+                        }
+                    });
+                });
+
 
                 App.RtmClient.GetLists((ObservableCollection<RTM.TaskList> lists) =>
                 {
@@ -90,15 +114,21 @@ namespace WinMilk
                         this.IsLoading = false;
 
                         // Due on or before today
-                        App.RtmClient.GetTasksDueOnOrBefore(DateTime.Today, (ObservableCollection<RTM.Task> dueToday) =>
+                        App.RtmClient.GetTasks("dueBefore:tomorrow", (Task[] tasks) => 
                         {
-                            TodayTasks = dueToday;
+                            foreach (Task t in tasks)
+                            {
+                                TodayTasks.Add(t);
+                            }
                         });
 
                         // Due tomorrow
-                        App.RtmClient.GetTasksDueOn(DateTime.Today.AddDays(1), (ObservableCollection<RTM.Task> dueTomorrow) =>
+                        App.RtmClient.GetTasks("due:tomorrow", (Task[] tasks) =>
                         {
-                            TomorrowTasks = dueTomorrow;
+                            foreach (Task t in tasks)
+                            {
+                                TomorrowTasks.Add(t);
+                            }
                         });
 
                         /*
@@ -143,10 +173,10 @@ namespace WinMilk
                 return;
             }
 
-            ObservableCollection<RTM.TaskList> lists = list.ItemsSource as ObservableCollection<RTM.TaskList>;
-            RTM.TaskList selected = lists[list.SelectedIndex];
+            ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
+            TaskList selected = lists[list.SelectedIndex];
 
-            this.NavigationService.Navigate(new Uri("/Gui/PivotListPage.xaml?id=" + selected.Id, UriKind.Relative));
+            this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
             list.SelectedIndex = -1;
         }
@@ -266,7 +296,7 @@ namespace WinMilk
             MessageBoxResult logout = MessageBox.Show("Log out and erase your settings?", "Log out", MessageBoxButton.OKCancel);
             if (logout == MessageBoxResult.OK)
             {
-                App.RtmClient.DeleteData();
+                
                 Login();
             }
         }
