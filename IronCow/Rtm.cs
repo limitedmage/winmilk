@@ -517,23 +517,20 @@ namespace IronCow
             // If we get here, we need to perform a remote search.
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             if (listId != RtmElement.UnsyncedId) parameters["list_id"] = listId.ToString();
-            if (filter != null) parameters["filter"] = filter;
+            if (filter != null) parameters["filter"] = "(" + filter + ") AND status:Incomplete";
+            else parameters["filter"] = "status:Incomplete";
             GetResponse("rtm.tasks.getList", parameters, (response) =>
             {
                 List<Task> tasks = new List<Task>();
                 foreach (var list in response.Tasks)
                 {
-                    if (list.TaskSeries != null)
+                    foreach (var series in list.TaskSeries)
                     {
-                        TaskList taskList = TaskLists.GetById(list.Id);
-                        taskList.Tasks = new TaskListTaskCollection(taskList);
-
-                        foreach (var series in list.TaskSeries)
+                        foreach (var task in series.Tasks)
                         {
-                            foreach (var task in series.Tasks)
-                            {
-                                tasks.Add(taskList.Tasks.GetById(series.Id, task.Id));
-                            }
+                            //Task newTask = taskList.Tasks.GetById(series.Id, task.Id, true);
+                            Task newTask = GetTask(task.Id);
+                            tasks.Add(newTask);
                         }
                     }
                 }

@@ -52,11 +52,24 @@ namespace WinMilk.Gui.Controls
                 return;
             }
 
-            ObservableCollection<Task> tasks = this.ItemsSource as ObservableCollection<Task>;
-            Task selectedTask = tasks[this.SelectedIndex];
+            Task selectedTask = null;
 
-            PhoneApplicationFrame frame = App.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));
+            if (ItemsSource is ObservableCollection<Task>)
+            {
+                ObservableCollection<Task> tasks = ItemsSource as ObservableCollection<Task>;
+                selectedTask = tasks[this.SelectedIndex];
+            }
+            else if (ItemsSource is TaskListTaskCollection)
+            {
+                TaskListTaskCollection tasks = ItemsSource as TaskListTaskCollection;
+                selectedTask = tasks[this.SelectedIndex];
+            }
+
+            if (selectedTask != null)
+            {
+                PhoneApplicationFrame frame = App.Current.RootVisual as PhoneApplicationFrame;
+                frame.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));
+            }
 
             this.SelectedIndex = -1;
         }

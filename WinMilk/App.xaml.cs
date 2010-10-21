@@ -161,6 +161,8 @@ namespace WinMilk
             if (RootVisual != RootFrame)
                 RootVisual = RootFrame;
 
+            Rtm.Dispatcher = App.Current.RootVisual.Dispatcher;
+
             // Remove this handler since it is no longer needed
             RootFrame.Navigated -= CompleteInitializePhoneApplication;
         }

@@ -50,12 +50,17 @@ namespace WinMilk.Gui
 
         public PivotListPage()
         {
+            IsLoading = false;
+
             InitializeComponent();
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadAllLists();
+            if (Lists == null)
+            {
+                LoadAllLists();
+            }
 
             CreateApplicationBar();
         }
@@ -67,8 +72,6 @@ namespace WinMilk.Gui
 
         private void LoadAllLists()
         {
-            //IsLoading = true;
-
             Lists = new ObservableCollection<TaskList>();
             foreach (TaskList list in App.RtmClient.TaskLists)
             {
@@ -122,12 +125,17 @@ namespace WinMilk.Gui
 
             ApplicationBarIconButton sync = new ApplicationBarIconButton(new Uri("/icons/appbar.refresh.rest.png", UriKind.Relative));
             sync.Text = AppResources.SyncAppbar;
-            //sync.Click += new EventHandler(sync_Click);
+            sync.Click += new EventHandler(Sync_Click);
             ApplicationBar.Buttons.Add(sync);
 
             ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
             //settings.Click += new EventHandler(settings_Click);
             ApplicationBar.MenuItems.Add(pin);
+        }
+
+        private void Sync_Click(object sender, EventArgs e)
+        {
+            LoadList(CurrentList);
         }
 
         private void ListsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -139,11 +147,11 @@ namespace WinMilk.Gui
 
             if (e.AddedItems[0] is TaskList)
             {
-                TaskList selectedList = e.AddedItems[0] as TaskList;
+                CurrentList = e.AddedItems[0] as TaskList;
 
-                if (selectedList.Tasks == null || selectedList.Tasks.Count == 0)
+                if (CurrentList.Tasks == null || CurrentList.Tasks.Count == 0)
                 {
-                    LoadList(selectedList);
+                    LoadList(CurrentList);
                 }
             }
         }

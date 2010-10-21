@@ -188,6 +188,9 @@ namespace IronCow
                 {
                     mTasks.InternalSync(new RawList[] { rawList });
                 }
+
+                mTasks.Sort();
+                OnPropertyChanged("Tasks");
             }
         }
 
@@ -208,12 +211,14 @@ namespace IronCow
 
         public void SyncTasks(SyncCallback callback)
         {
+            TaskListTaskCollection tmp = new TaskListTaskCollection(this);
+
             if (!GetFlag(TaskListFlags.Smart))
             {
-                TaskListTaskCollection tmp = new TaskListTaskCollection(this);
                 tmp.Resync(() => 
                 {
                     mTasks = tmp;
+                    OnPropertyChanged("Tasks");
                     callback();
                 });
             }
@@ -221,11 +226,12 @@ namespace IronCow
             {
                 // Resync all the time for smart lists...
                 //TODO: maybe use cache like normal lists, but for only a short time?
-                lock (this)
+                tmp.SmartResync(() =>
                 {
-                    mTasks = new TaskListTaskCollection(this);
-                    mTasks.SmartResync(callback);
-                }
+                    mTasks = tmp;
+                    OnPropertyChanged("Tasks");
+                    callback();
+                });
             }
         }
 
