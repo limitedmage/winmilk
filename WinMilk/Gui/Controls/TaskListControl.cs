@@ -21,7 +21,14 @@ namespace WinMilk.Gui.Controls
     {
         public bool HasItems
         {
-            get { return (this.ItemsSource as IList).Count > 0; }
+            get 
+            {
+                if (ItemsSource is IList)
+                {
+                    return (this.ItemsSource as IList).Count > 0;
+                }
+                return false;
+            }
         }
 
         public TaskListControl()
@@ -32,9 +39,6 @@ namespace WinMilk.Gui.Controls
             this.Loaded += new RoutedEventHandler(TaskListControl_Loaded);
 
             this.ItemTemplate = App.Current.Resources["TaskTemplate"] as DataTemplate;
-
-            this.SizeChanged += new SizeChangedEventHandler(list_SizeChanged);
-
         }
 
         void TaskListControl_Loaded(object sender, RoutedEventArgs e)
@@ -57,12 +61,14 @@ namespace WinMilk.Gui.Controls
             this.SelectedIndex = -1;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void list_SizeChanged(object sender, SizeChangedEventArgs e)
+        protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (this.PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs("HasItems"));
+
+            base.OnItemsChanged(e);
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

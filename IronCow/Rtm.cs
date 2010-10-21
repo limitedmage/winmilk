@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using IronCow.Rest;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace IronCow
 {
@@ -39,6 +40,90 @@ namespace IronCow
 
         #region Internal Members
         internal bool? SyncingInternal { get; private set; }
+        #endregion
+
+        #region Syncing Methods
+
+        public void SyncEverything(SyncCallback callback)
+        {
+            /*
+            SyncUserSettings(() =>
+            {
+                SyncLocations(() =>
+                {
+                    SyncContacts(() =>
+                    {
+                        SyncContactGroups(() =>
+                        {*/
+                            SyncTaskLists(() =>
+                            {
+                                CacheTasks(() =>
+                                {
+                                    /*
+                                    foreach (TaskList list in TaskLists)
+                                    {
+                                        list.SyncTasks(() => { });
+                                    }*/
+
+                                    callback();
+                                });
+                            });/*
+                        });
+                    });
+                });
+            });*/
+        }
+
+        public void SyncUserSettings(SyncCallback callback)
+        {
+            GetResponse("rtm.settings.getList", (response) =>
+            {
+                UserSettings tmp = new UserSettings(response.Settings);
+                System.Threading.Interlocked.Exchange(ref mUserSettings, tmp);
+                callback();
+            });
+        }
+
+        public void SyncTaskLists(SyncCallback callback)
+        {
+            TaskListCollection tmp = new TaskListCollection(this);
+            tmp.Resync(() =>
+            {
+                System.Threading.Interlocked.Exchange(ref mTaskLists, tmp);
+                callback();
+            });
+        }
+
+        public void SyncContacts(SyncCallback callback)
+        {
+            ContactCollection tmp = new ContactCollection(this);
+            tmp.Resync(() =>
+            {
+                System.Threading.Interlocked.Exchange(ref mContacts, tmp);
+                callback();
+            });
+        }
+
+        public void SyncContactGroups(SyncCallback callback)
+        {
+            ContactGroupCollection tmp = new ContactGroupCollection(this);
+            tmp.Resync(() =>
+            {
+                System.Threading.Interlocked.Exchange(ref mContactGroups, tmp);
+                callback();
+            });
+        }
+
+        public void SyncLocations(SyncCallback callback)
+        {
+            LocationCollection tmp = new LocationCollection(this);
+            tmp.Resync(() =>
+            {
+                System.Threading.Interlocked.Exchange(ref mLocations, tmp);
+                callback();
+            });
+        }
+
         #endregion
 
         #region Public Properties
@@ -89,18 +174,6 @@ namespace IronCow
         {
             get
             {
-                if (mContacts == null)
-                {
-                    lock (this)
-                    {
-                        if (mContacts == null)
-                        {
-                            ContactCollection tmp = new ContactCollection(this);
-                            tmp.Resync();
-                            System.Threading.Interlocked.Exchange(ref mContacts, tmp);
-                        }
-                    }
-                }
                 return mContacts;
             }
         }
@@ -110,18 +183,6 @@ namespace IronCow
         {
             get
             {
-                if (mContactGroups == null)
-                {
-                    lock (this)
-                    {
-                        if (mContactGroups == null)
-                        {
-                            ContactGroupCollection tmp = new ContactGroupCollection(this);
-                            tmp.Resync();
-                            System.Threading.Interlocked.Exchange(ref mContactGroups, tmp);
-                        }
-                    }
-                }
                 return mContactGroups;
             }
         }
@@ -138,18 +199,6 @@ namespace IronCow
         {
             get
             {
-                if (mLocations == null)
-                {
-                    lock (this)
-                    {
-                        if (mLocations == null)
-                        {
-                            LocationCollection tmp = new LocationCollection(this);
-                            tmp.Resync();
-                            System.Threading.Interlocked.Exchange(ref mLocations, tmp);
-                        }
-                    }
-                }
                 return mLocations;
             }
         }
@@ -159,19 +208,16 @@ namespace IronCow
         {
             get
             {
-                if (mTaskLists == null)
-                {
-                    lock (this)
-                    {
-                        if (mTaskLists == null)
-                        {
-                            TaskListCollection tmp = new TaskListCollection(this);
-                            tmp.Resync();
-                            System.Threading.Interlocked.Exchange(ref mTaskLists, tmp);
-                        }
-                    }
-                }
                 return mTaskLists;
+            }
+        }
+
+        private ObservableCollection<Task> mTasks;
+        public ObservableCollection<Task> Tasks
+        {
+            get
+            {
+                return mTasks;
             }
         }
 
@@ -180,20 +226,6 @@ namespace IronCow
         {
             get
             {
-                if (mUserSettings == null)
-                {
-                    lock (this)
-                    {
-                        if (mUserSettings == null)
-                        {
-                            GetResponse("rtm.settings.getList", (response) => 
-                            {
-                                UserSettings tmp = new UserSettings(response.Settings);
-                                System.Threading.Interlocked.Exchange(ref mUserSettings, tmp);
-                            });
-                        }
-                    }
-                }
                 return mUserSettings;
             }
         }
@@ -267,6 +299,7 @@ namespace IronCow
 
                 GetResponse("rtm.auth.getToken", parameters, (response) =>
                 {
+                    AuthToken = response.Authentication.Token;
                     User user = new User(response.Authentication.User);
                     callback(response.Authentication.Token, user);
                 });
@@ -349,8 +382,7 @@ namespace IronCow
         {
             if (Syncing)
             {
-                //TODO: can we make this asynchronous?
-                GetResponse("rtm.timelines.create", (response) => 
+                GetResponse("rtm.timelines.create", (response) =>
                 {
                     if (response.Timeline == 0)
                         throw new Exception("Got null timeline.");
@@ -410,7 +442,7 @@ namespace IronCow
             parameters["dateFormat"] = ((int)timeFormat).ToString();
             if (!string.IsNullOrEmpty(timezone))
                 parameters["timezone"] = timezone;
-            
+
             GetResponse("rtm.time.parse", parameters, (response) =>
             {
                 callback(response.Time.Time);
@@ -460,7 +492,7 @@ namespace IronCow
                         callback(resultTasks.ToArray());
                         return;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         if (SearchMode == SearchMode.LocalAndRemote && Syncing)
                         {
@@ -486,7 +518,7 @@ namespace IronCow
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             if (listId != RtmElement.UnsyncedId) parameters["list_id"] = listId.ToString();
             if (filter != null) parameters["filter"] = filter;
-            GetResponse("rtm.tasks.getList", parameters, (response) => 
+            GetResponse("rtm.tasks.getList", parameters, (response) =>
             {
                 List<Task> tasks = new List<Task>();
                 foreach (var list in response.Tasks)
@@ -494,6 +526,7 @@ namespace IronCow
                     if (list.TaskSeries != null)
                     {
                         TaskList taskList = TaskLists.GetById(list.Id);
+                        taskList.Tasks = new TaskListTaskCollection(taskList);
 
                         foreach (var series in list.TaskSeries)
                         {
@@ -508,23 +541,95 @@ namespace IronCow
             });
         }
 
+        public List<Task> GetTodayTasks()
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (TaskList list in TaskLists)
+            {
+                if (list.IsNormal && list.Tasks != null)
+                {
+                    foreach (Task task in list.Tasks)
+                    {
+                        if (task.IsIncomplete && task.DueDateTime.HasValue && task.DueDateTime.Value.Date <= DateTime.Today)
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                }
+            }
+
+            tasks.Sort(Task.CompareByDate);
+
+            return tasks;
+        }
+
+        public List<Task> GetTomorrowTasks()
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (TaskList list in TaskLists)
+            {
+                if (list.IsNormal && list.Tasks != null)
+                {
+                    foreach (Task task in list.Tasks)
+                    {
+                        if (task.IsIncomplete && task.DueDateTime.HasValue && task.DueDateTime.Value.Date == DateTime.Today.AddDays(1))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                }
+            }
+
+            tasks.Sort(Task.CompareByDate);
+
+            return tasks;
+        }
+
+        public Task GetTask(int id)
+        {
+            if (TaskLists != null)
+            {
+                foreach (TaskList list in TaskLists)
+                {
+                    if (list != null && list.Tasks != null)
+                    {
+                        foreach (Task t in list.Tasks)
+                        {
+                            if (t != null && t.Id == id)
+                            {
+                                return t;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         private void CacheTasks(VoidCallback callback)
         {
             if (!Syncing)
                 throw new InvalidOperationException();
-          
-            // Get the tasks synchronously.
+
+            // Get the tasks asynchronously.
             var taskLists = TaskLists;
-            GetResponse("rtm.tasks.getList", (response) =>
+
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters["filter"] = "status:incomplete";
+
+            GetResponse("rtm.tasks.getList", parameters, (response) =>
             {
                 foreach (var list in response.Tasks)
                 {
                     TaskList taskList = taskLists.GetById(list.Id);
                     if (taskList != null)
                         taskList.InternalSync(list);
-
-                    callback();
                 }
+
+                callback();
             });
         }
         #endregion

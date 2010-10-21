@@ -67,54 +67,47 @@ namespace WinMilk.Gui
 
         private void LoadAllLists()
         {
-            IsLoading = true;
-            
-            App.RtmClient.GetLists((lists) =>
+            //IsLoading = true;
+
+            Lists = new ObservableCollection<TaskList>();
+            foreach (TaskList list in App.RtmClient.TaskLists)
             {
-                IsLoading = false;
+                Lists.Add(list);
+            }
 
-                Lists = new ObservableCollection<TaskList>();
-                
-                foreach (TaskList l in lists)
+            string idStr;
+
+            if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
+            {
+                // set current list
+                int listId = int.Parse(idStr);
+
+                // find list by id, and select it
+                foreach (TaskList l in Lists)
                 {
-                    Lists.Add(l);
-                }
-
-                string idStr;
-
-                if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
-                {
-                    // set current list
-                    int listId = int.Parse(idStr);
-
-                    // find list by id, and select it
-                    foreach (TaskList l in Lists)
+                    if (l.Id == listId)
                     {
-                        if (l.Id == listId)
+                        Dispatcher.BeginInvoke(() =>
                         {
                             CurrentList = l;
-                            break;
-                        }
+                        });
+                        break;
                     }
                 }
-            }, false);
+            }
         }
 
         private void LoadList(TaskList list)
         {
             IsLoading = true;
 
-            App.RtmClient.GetTasksInList(list, (ObservableCollection<Task> tasks) =>
+            list.SyncTasks(() => 
+            {
+                Dispatcher.BeginInvoke(() =>
                 {
-                    list.Tasks = new ObservableCollection<Task>();
-
-                    foreach (Task t in tasks)
-                    {
-                        list.Tasks.Add(t);
-                    }
-
                     IsLoading = false;
-                }, false);
+                });
+            });
         }
 
         private void CreateApplicationBar()

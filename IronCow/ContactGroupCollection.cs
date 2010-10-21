@@ -14,7 +14,7 @@ namespace IronCow
         {
         }
 
-        protected override void DoResync()
+        protected override void DoResync(SyncCallback callback)
         {
             Clear();
             var request = new RestRequest("rtm.groups.getList");
@@ -35,27 +35,31 @@ namespace IronCow
                             }
                         }
                     }
+
+                    callback();
                 };
             Owner.ExecuteRequest(request);
         }
 
-        protected override void ExecuteAddElementRequest(ContactGroup item)
+        protected override void ExecuteAddElementRequest(ContactGroup item, SyncCallback callback)
         {
             if (item == null)
                 throw new ArgumentNullException("contactGroup");
             RestRequest request = new RestRequest("rtm.groups.add", r => item.Sync(r.Group));
             request.Parameters.Add("group", item.Name);
             request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
+            request.Callback = r => { callback(); };
             Owner.ExecuteRequest(request);
         }
 
-        protected override void ExecuteRemoveElementRequest(ContactGroup item)
+        protected override void ExecuteRemoveElementRequest(ContactGroup item, SyncCallback callback)
         {
             if (item == null)
                 throw new ArgumentNullException("contactGroup");
             RestRequest request = new RestRequest("rtm.groups.delete", r => item.Unsync());
             request.Parameters.Add("group_id", item.Id.ToString());
             request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
+            request.Callback = r => { callback(); };
             Owner.ExecuteRequest(request);
         }
     }

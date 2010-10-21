@@ -56,20 +56,38 @@ namespace WinMilk.Gui
                 Frob = frob;
                 string url = App.RtmClient.GetAuthenticationUrl(frob, AuthenticationPermissions.Delete);
 
-                this.IsLoading = false;
-                webBrowser1.Navigate(new Uri(url));
+                Dispatcher.BeginInvoke(() => 
+                {
+                    this.IsLoading = false;
+                    webBrowser1.Navigate(new Uri(url));
+                });
             });
         }
 
         private void AuthDoneButton_Click(object sender, EventArgs e)
         {
-            this.IsLoading = true;
-            App.RtmClient.GetToken(Frob, (string token, User user) =>
-            {
-                this.IsLoading = false;
+            // only do something if Frob is present
 
-                this.NavigationService.GoBack();
-            });
+            if (!string.IsNullOrEmpty(Frob))
+            {
+                IsLoading = true;
+                App.RtmClient.GetToken(Frob, (string token, User user) =>
+                {
+                    // create timeline
+                    App.RtmClient.GetOrStartTimeline((int timeline) =>
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            IsLoading = false;
+
+                            if (NavigationService.CanGoBack)
+                            {
+                                NavigationService.GoBack();
+                            }
+                        });
+                    });
+                });
+            }
         }
 
         private void webBrowser1_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)

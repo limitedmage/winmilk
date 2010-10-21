@@ -32,6 +32,9 @@ namespace IronCow.Rest
         [XmlElement("taskseries")]
         public RawTaskSeries[] TaskSeries { get; set; }
 
+        [XmlElement("sort_order")]
+        public int SortOrder { get; set; }
+
         [XmlArray("deleted")]
         [XmlArrayItem("taskseries")]
         public RawTaskSeries[] DeletedTaskSeries { get; set; }

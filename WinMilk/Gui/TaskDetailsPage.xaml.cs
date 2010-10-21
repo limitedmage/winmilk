@@ -43,35 +43,32 @@ namespace WinMilk.Gui
             {
                 int id = int.Parse(idStr);
 
-                App.RtmClient.GetTasks(null, (Task[] tasks) => {
-                    foreach (Task t in tasks)
-                    {
-                        if (t.Id == id)
-                        {
-                            CurrentTask = t;
-                            break;
-                        }
-                    }
-                });
+                CurrentTask = App.RtmClient.GetTask(id);
             }
         }
 
         private void CompleteButton_Click(object sender, EventArgs e)
         {
-            CurrentTask.Complete(() => 
+            if (CurrentTask != null)
             {
-                TaskListPage.s_Reload = true;
-                this.NavigationService.GoBack();
-            });
+                CurrentTask.Complete(() =>
+                {
+                    TaskListPage.s_Reload = true;
+                    this.NavigationService.GoBack();
+                });
+            }
         }
 
         private void PostponeButton_Click(object sender, EventArgs e)
         {
-            CurrentTask.Postpone(() =>
+            if (CurrentTask != null)
             {
-                TaskListPage.s_Reload = true;
-                this.NavigationService.GoBack();
-            });
+                CurrentTask.Postpone(() =>
+                {
+                    TaskListPage.s_Reload = true;
+                    this.NavigationService.GoBack();
+                });
+            }
         }
 
         private void EditButton_Click(object sender, EventArgs e)

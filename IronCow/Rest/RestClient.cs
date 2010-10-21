@@ -144,6 +144,7 @@ namespace IronCow.Rest
 
             GetResponse("rtm.auth.getToken", parameters, (response) =>
             {
+                AuthToken = response.Authentication.Token;
                 callback(response.Authentication.Token, response.Authentication.User);
             });
             
@@ -799,9 +800,9 @@ namespace IronCow.Rest
 
                     GetRawResponse(url, variables, (r) => {
                         if (Cache != null)
-                            Cache.CacheResponse(rawUrl, responseString);
+                            Cache.CacheResponse(rawUrl, r);
 
-                        StringReader responseReader = new StringReader(responseString);
+                        StringReader responseReader = new StringReader(r);
                         Response response = (Response)sResponseSerializer.Deserialize(responseReader);
                         responseReader.Close();
 

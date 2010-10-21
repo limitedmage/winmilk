@@ -62,7 +62,7 @@ namespace WinMilk.Gui
         private void LoadList(string idStr)
         {
             int id = int.Parse(idStr);
-
+            /*
             IsLoading = true;
 
             App.RtmClient.GetList(id, (RTM.TaskList l) =>
@@ -75,7 +75,7 @@ namespace WinMilk.Gui
 
                     IsLoading = false;
                 }, false);
-            });
+            });*/
         }
 
         private void CreateApplicationBar()

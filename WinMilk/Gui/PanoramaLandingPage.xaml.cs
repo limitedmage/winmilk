@@ -70,6 +70,7 @@ namespace WinMilk
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            _reload = true;
             LoadData();
 
             base.OnNavigatedTo(e);
@@ -77,52 +78,51 @@ namespace WinMilk
 
         private void LoadData()
         {
-            if (App.RtmClient.HasAuthToken)
+            if (_reload)
             {
-                this.IsLoading = true;
-
-                App.RtmClient.GetLists((ObservableCollection<RTM.TaskList> lists) =>
+                if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
                 {
-                    TaskLists = lists;
+                    this.IsLoading = true;
 
-                    App.RtmClient.GetAllIncompleteTasks((ObservableCollection<RTM.Task> incompleteTasks) =>
+                    App.RtmClient.SyncEverything(() =>
                     {
-                        this.IsLoading = false;
-
-                        // Due on or before today
-                        App.RtmClient.GetTasksDueOnOrBefore(DateTime.Today, (ObservableCollection<RTM.Task> dueToday) =>
+                        Dispatcher.BeginInvoke(() =>
                         {
-                            TodayTasks = dueToday;
-                        });
-
-                        // Due tomorrow
-                        App.RtmClient.GetTasksDueOn(DateTime.Today.AddDays(1), (ObservableCollection<RTM.Task> dueTomorrow) =>
-                        {
-                            TomorrowTasks = dueTomorrow;
-                        });
-
-                        /*
-                        App.Rest.GetTasksInListsInOrder(lists, 0, (loadedLists) => 
-                        {
-                            this.IsLoading = false;
-                        });*/
-
-                        // get count for tasks in non-smart lists
-                        foreach (RTM.TaskList l in lists)
-                        {
-                            if (l.IsNormal)
+                            TaskLists = new ObservableCollection<TaskList>();
+                            foreach (TaskList l in App.RtmClient.TaskLists)
                             {
-                                App.RtmClient.GetTasksInList(l, (t) => { }, false);
+                                TaskLists.Add(l);
                             }
-                        }
+                        });
 
-                    }, _reload, RTM.Task.CompareByDate);
-                }, _reload);
 
-            }
-            else
-            {
-                Login();
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            List<Task> today = App.RtmClient.GetTodayTasks();
+                            TodayTasks = new ObservableCollection<Task>();
+                            foreach (Task t in today)
+                            {
+                                TodayTasks.Add(t);
+                            }
+
+                            List<Task> tomorrow = App.RtmClient.GetTomorrowTasks();
+                            TomorrowTasks = new ObservableCollection<Task>();
+                            foreach (Task t in tomorrow)
+                            {
+                                TomorrowTasks.Add(t);
+                            }
+                        });
+
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            IsLoading = false;
+                        });
+                    });
+                }
+                else
+                {
+                    Login();
+                }
             }
 
             _reload = false;
@@ -143,8 +143,8 @@ namespace WinMilk
                 return;
             }
 
-            ObservableCollection<RTM.TaskList> lists = list.ItemsSource as ObservableCollection<RTM.TaskList>;
-            RTM.TaskList selected = lists[list.SelectedIndex];
+            ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
+            TaskList selected = lists[list.SelectedIndex];
 
             this.NavigationService.Navigate(new Uri("/Gui/PivotListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
@@ -227,12 +227,14 @@ namespace WinMilk
             SmartAddBox.IsEnabled = false;
             IsLoading = true;
 
+            /*
             App.RtmClient.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
             {
                 IsLoading = false;
                 CloseSmartAdd();
                 LoadData();
             });
+             */
         }
 
         private void Overlay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -266,7 +268,7 @@ namespace WinMilk
             MessageBoxResult logout = MessageBox.Show("Log out and erase your settings?", "Log out", MessageBoxButton.OKCancel);
             if (logout == MessageBoxResult.OK)
             {
-                App.RtmClient.DeleteData();
+                App.DeleteData();
                 Login();
             }
         }

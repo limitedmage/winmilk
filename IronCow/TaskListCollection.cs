@@ -28,7 +28,7 @@ namespace IronCow
         {
         }
 
-        protected override void DoResync()
+        protected override void DoResync(SyncCallback callback)
         {
             Clear();
             var request = new RestRequest("rtm.lists.getList");
@@ -40,15 +40,22 @@ namespace IronCow
                         {
                             foreach (var list in response.Lists)
                             {
-                                Add(new TaskList(list));
+                                if (list.Archived == 0 && list.Deleted == 0)
+                                {
+                                    Add(new TaskList(list));
+                                }
                             }
+
+                            Sort();
                         }
                     }
+
+                    callback();
                 };
             Owner.ExecuteRequest(request);
         }
 
-        protected override void ExecuteAddElementRequest(TaskList item)
+        protected override void ExecuteAddElementRequest(TaskList item, SyncCallback callback)
         {
             if (string.IsNullOrEmpty(item.Name))
                 throw new ArgumentException("The task list has a null or empty name.");
@@ -60,18 +67,25 @@ namespace IronCow
             {
                 request.Parameters.Add("filter", item.Filter);
             }
+            request.Callback = r => { Sort(); callback(); };
             Owner.ExecuteRequest(request);
         }
 
-        protected override void ExecuteRemoveElementRequest(TaskList item)
+        protected override void ExecuteRemoveElementRequest(TaskList item, SyncCallback callback)
         {
             if (item.IsSynced)
             {
                 RestRequest request = new RestRequest("rtm.lists.delete", r => item.Sync(r.List));
                 request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
                 request.Parameters.Add("list_id", item.Id.ToString());
+                request.Callback = r => { Sort(); callback(); };
                 Owner.ExecuteRequest(request);
             }
+        }
+
+        public void Sort()
+        {
+            Items.Sort();
         }
     }
 }

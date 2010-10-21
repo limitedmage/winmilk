@@ -5,6 +5,8 @@ using System.Text;
 
 namespace IronCow
 {
+    public delegate void SyncCallback();
+
     public abstract class SynchronizedRtmCollection<T> : RtmCollection<T>, ISyncing where T : RtmFatElement
     {
         private bool mSyncing;
@@ -27,13 +29,13 @@ namespace IronCow
                 Syncing = true;
         }
 
-        public void Resync()
+        public void Resync(SyncCallback callback)
         {
             if (Syncing)
             {
                 using (new UnsyncedScope(this))
                 {
-                    DoResync();
+                    DoResync(callback);
                 }
             }
         }
@@ -54,7 +56,7 @@ namespace IronCow
                 {
                     if (item != null)
                     {
-                        ExecuteRemoveElementRequest(item);
+                        ExecuteRemoveElementRequest(item, () => { });
                     }
                 }
             }
@@ -64,22 +66,22 @@ namespace IronCow
         protected override void AddItem(T item)
         {
             if (item != null && Syncing)
-                ExecuteAddElementRequest(item);
+                ExecuteAddElementRequest(item, () => { });
             base.AddItem(item);
         }
 
         protected override void RemoveItem(T item)
         {
             if (item != null && Syncing)
-                ExecuteRemoveElementRequest(item);
+                ExecuteRemoveElementRequest(item, () => { });
             base.RemoveItem(item);
         }
 
-        protected abstract void DoResync();
+        protected abstract void DoResync(SyncCallback callback);
 
-        protected abstract void ExecuteAddElementRequest(T item);
+        protected abstract void ExecuteAddElementRequest(T item, SyncCallback callback);
 
-        protected abstract void ExecuteRemoveElementRequest(T item);
+        protected abstract void ExecuteRemoveElementRequest(T item, SyncCallback callback);
 
         #region ISyncing Members
 

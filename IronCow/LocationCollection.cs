@@ -14,7 +14,7 @@ namespace IronCow
         {
         }
 
-        internal void Resync()
+        internal void Resync(SyncCallback callback)
         {
             if (Owner.Syncing)
             {
@@ -29,6 +29,8 @@ namespace IronCow
                                 Items.Add(new Location(location));
                             }
                         }
+
+                        callback();
                     };
                 Owner.ExecuteRequest(request);
             }

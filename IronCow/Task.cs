@@ -6,10 +6,11 @@ using System.Text;
 using IronCow.Rest;
 using System.Globalization;
 using System.Collections.Specialized;
+using System.Windows.Media;
 
 namespace IronCow
 {
-    public class Task : RtmFatElement, INotifyPropertyChanged
+    public class Task : RtmFatElement, INotifyPropertyChanged, IComparable
     {
         #region Callback Delegates
 
@@ -115,6 +116,30 @@ namespace IronCow
         public bool IsIncomplete { get { return !Completed.HasValue; } }
         public bool IsDeleted { get { return Deleted.HasValue; } }
 
+        public string TagsString
+        {
+            get
+            {
+                if (Tags != null)
+                {
+                    return string.Join(", ", Tags.ToArray());
+                }
+                return "";
+            }
+        }
+
+        public bool HasTags
+        {
+            get
+            {
+                if (Tags != null && Tags.Count > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         private TaskList mParent;
         public TaskList Parent
         {
@@ -128,6 +153,16 @@ namespace IronCow
                     else
                         mParent.Tasks.Remove(this);
                 }
+
+                OnPropertyChanged("List");
+            }
+        }
+
+        public string List
+        {
+            get
+            {
+                return Parent.Name;
             }
         }
 
@@ -164,7 +199,7 @@ namespace IronCow
 
                     if (Syncing && IsSynced)
                     {
-                        RestRequest request = CreateStandardRequest(this, "rtm.tasks.setName");
+                        RestRequest request = CreateStandardRequest(this, "rtm.tasks.setName", () => { });
                         request.Parameters.Add("name", value);
                         Owner.ExecuteRequest(request);
                     }
@@ -188,7 +223,7 @@ namespace IronCow
                     {
                         if (IsSynced)
                         {
-                            RestRequest request = CreateSetUrlRequest(this, mUrl);
+                            RestRequest request = CreateSetUrlRequest(this, mUrl, () => { });
                             Owner.ExecuteRequest(request);
                         }
                     }
@@ -242,7 +277,7 @@ namespace IronCow
                             if (mLocation == null || mLocation.IsSynced)
                             {
                                 mLocationId = mLocation == null ? RtmElement.UnsyncedId : mLocation.Id;
-                                RestRequest request = CreateSetLocationRequest(this, mLocationId == RtmElement.UnsyncedId ? null : mLocationId.ToString());
+                                RestRequest request = CreateSetLocationRequest(this, mLocationId == RtmElement.UnsyncedId ? null : mLocationId.ToString(), () => { });
                                 Owner.ExecuteRequest(request);
                             }
                             else
@@ -266,7 +301,7 @@ namespace IronCow
             System.Diagnostics.Debug.Assert(mLocationId != RtmElement.UnsyncedId);
             mLocation.Synced -= new EventHandler(SetLocationWhenLocationFirstSynced);
 
-            RestRequest request = CreateSetLocationRequest(this, mLocationId.ToString());
+            RestRequest request = CreateSetLocationRequest(this, mLocationId.ToString(), () => { });
             Owner.ExecuteRequest(request);
         }
 
@@ -309,7 +344,7 @@ namespace IronCow
                     {
                         if (IsSynced)
                         {
-                            RestRequest request = CreateSetDueDateRequest(this, mDue);
+                            RestRequest request = CreateSetDueDateRequest(this, mDue, () => { });
                             Owner.ExecuteRequest(request);
                         }
                     }
@@ -317,6 +352,61 @@ namespace IronCow
                     OnPropertyChanged("Due");
                     OnPropertyChanged("DueDateTime");
                 }
+            }
+        }
+
+        public string DueString
+        {
+            get
+            {
+                string dueString = "";
+                if (DueDateTime.HasValue)
+                {
+                    if (DueDateTime.Value == DateTime.Today)
+                    {
+                        dueString += "Today";
+                    }
+                    else if (DateTime.Today.AddDays(1) == DueDateTime.Value.Date)
+                    {
+                        dueString += "Tomorrow";
+                    }
+                    else if (DateTime.Today < DueDateTime.Value.Date && DateTime.Today.AddDays(6) >= DueDateTime.Value.Date)
+                    {
+                        dueString += DueDateTime.Value.ToString("dddd");
+                    }
+                    else
+                    {
+                        dueString += DueDateTime.Value.ToString("ddd d MMM");
+                    }
+
+                    if (this.HasDueTime)
+                    {
+                        dueString += " " + DueDateTime.Value.ToString("t");
+                    }
+                }
+
+                return dueString;
+            }
+        }
+
+        public string LongDueDateString
+        {
+            get
+            {
+                string dueString = "Never";
+                if (DueDateTime.HasValue)
+                {
+                    if (this.HasDueTime)
+                    {
+                        dueString = DueDateTime.Value.ToString("f");
+                    }
+                    else
+                    {
+                        dueString = DueDateTime.Value.ToString("D");
+                    }
+                }
+
+                return dueString;
             }
         }
 
@@ -371,13 +461,32 @@ namespace IronCow
                     {
                         if (IsSynced)
                         {
-                            RestRequest request = CreateSetPriorityRequest(this, TaskPriorityToPriorityRequestParameter(mPriority));
+                            RestRequest request = CreateSetPriorityRequest(this, TaskPriorityToPriorityRequestParameter(mPriority), () => { });
                             Owner.ExecuteRequest(request);
                         }
                     }
 
                     OnPropertyChanged("Priority");
                     OnPropertyChanged("Importance");
+                    OnPropertyChanged("PriorityColor");
+                }
+            }
+        }
+
+        public string PriorityColor
+        {
+            get
+            {
+                switch (Priority)
+                {
+                    case TaskPriority.One:
+                        return "#EA5200";
+                    case TaskPriority.Two:
+                        return "#0060BF";
+                    case TaskPriority.Three:
+                        return "#359AFF";
+                    default:
+                        return Colors.Transparent.ToString();
                 }
             }
         }
@@ -415,7 +524,7 @@ namespace IronCow
                     {
                         if (IsSynced)
                         {
-                            RestRequest request = CreateSetRecurrenceRequest(this, mRecurrence);
+                            RestRequest request = CreateSetRecurrenceRequest(this, mRecurrence, () => { });
                             Owner.ExecuteRequest(request);
                         }
                     }
@@ -444,7 +553,7 @@ namespace IronCow
                     {
                         if (IsSynced)
                         {
-                            RestRequest request = CreateSetEstimateRequest(this, mEstimate);
+                            RestRequest request = CreateSetEstimateRequest(this, mEstimate, () => { });
                             Owner.ExecuteRequest(request);
                         }
                     }
@@ -722,35 +831,35 @@ namespace IronCow
             // Upload all our values to the server.
             if (!string.IsNullOrEmpty(mDue))
             {
-                RestRequest request = CreateSetDueDateRequest(this, mDue);
+                RestRequest request = CreateSetDueDateRequest(this, mDue, () => { });
                 Owner.ExecuteRequest(request);
             }
             if (!string.IsNullOrEmpty(mEstimate))
             {
-                RestRequest request = CreateSetEstimateRequest(this, mEstimate);
+                RestRequest request = CreateSetEstimateRequest(this, mEstimate, () => { });
                 Owner.ExecuteRequest(request);
             }
             if (mLocation != null)
             {
                 if (mLocation.IsSynced)
                 {
-                    RestRequest request = CreateSetLocationRequest(this, mLocation.Id.ToString());
+                    RestRequest request = CreateSetLocationRequest(this, mLocation.Id.ToString(), () => { });
                     Owner.ExecuteRequest(request);
                 }
             }
             if (mPriority != TaskPriority.None)
             {
-                RestRequest request = CreateSetPriorityRequest(this, TaskPriorityToPriorityRequestParameter(mPriority));
+                RestRequest request = CreateSetPriorityRequest(this, TaskPriorityToPriorityRequestParameter(mPriority), () => { });
                 Owner.ExecuteRequest(request);
             }
             if (!string.IsNullOrEmpty(mRecurrence))
             {
-                RestRequest request = CreateSetRecurrenceRequest(this, mRecurrence);
+                RestRequest request = CreateSetRecurrenceRequest(this, mRecurrence, () => { });
                 Owner.ExecuteRequest(request);
             }
             if (!string.IsNullOrEmpty(mUrl))
             {
-                RestRequest request = CreateSetUrlRequest(this, mUrl);
+                RestRequest request = CreateSetUrlRequest(this, mUrl, () => { });
                 Owner.ExecuteRequest(request);
             }
             if (Tags.Count > 0)
@@ -803,7 +912,8 @@ namespace IronCow
                 return;
             }
 
-            DateFormat dateFormat = IsSynced ? Owner.UserSettings.DateFormat : DateFormat.Default;
+
+            DateFormat dateFormat = /*IsSynced ? Owner.UserSettings.DateFormat :*/ DateFormat.Default;
             mRecurrence = RecurrenceConverter.FormatRecurrence(rawRepeatRule.Rule, rawRepeatRule.Every == 1, dateFormat);
         }
         #endregion
@@ -822,5 +932,105 @@ namespace IronCow
         }
 
         #endregion
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Task)
+            {
+                Task other = obj as Task;
+
+                return Task.CompareByDate(this, other);
+            }
+            else
+            {
+                throw new ArgumentException("Cannot compare Task to other types of objetcs.");
+            }
+        }
+
+        public static int CompareByDate(Task a, Task b)
+        {
+            int cmp = 0;
+
+            if (a.DueDateTime.HasValue && b.DueDateTime.HasValue)
+            {
+                cmp = a.Due.CompareTo(b.Due);
+            }
+            else
+            {
+                cmp = (b.DueDateTime.HasValue ? 1 : 0) - (a.DueDateTime.HasValue ? 1 : 0);
+            }
+            if (cmp == 0)
+            {
+                if (b.Priority != a.Priority)
+                {
+                    if (a.Priority == 0) return 1;
+                    else if (b.Priority == 0) return -1;
+                    else return a.Priority - b.Priority;
+                }
+                else
+                {
+                    cmp = a.Name.CompareTo(b.Name);
+                }
+            }
+
+            return cmp;
+        }
+
+        public static int CompareByPriority(Task a, Task b)
+        {
+            int cmp = 0;
+
+            if (b.Priority != a.Priority)
+            {
+                if (a.Priority == 0) return 1;
+                else if (b.Priority == 0) return -1;
+                else return a.Priority - b.Priority;
+            }
+            else
+            {
+                if (a.DueDateTime.HasValue && b.DueDateTime.HasValue)
+                {
+                    cmp = a.Due.CompareTo(b.Due);
+                }
+                else
+                {
+                    cmp = (b.DueDateTime.HasValue ? 1 : 0) - (a.DueDateTime.HasValue ? 1 : 0);
+                }
+
+                if (cmp == 0)
+                {
+                    cmp = a.Name.CompareTo(b.Name);
+                }
+
+                return cmp;
+            }
+        }
+
+        public static int CompareByName(Task a, Task b)
+        {
+            int cmp = a.Name.CompareTo(b.Name);
+            if (cmp == 0)
+            {
+                if (b.Priority != a.Priority)
+                {
+                    if (a.Priority == 0) return 1;
+                    else if (b.Priority == 0) return -1;
+                    else return a.Priority - b.Priority;
+                }
+                else
+                {
+                    if (a.DueDateTime.HasValue && b.DueDateTime.HasValue)
+                    {
+                        cmp = a.Due.CompareTo(b.Due);
+                    }
+                    else
+                    {
+                        cmp = (b.DueDateTime.HasValue ? 1 : 0) - (a.DueDateTime.HasValue ? 1 : 0);
+                    }
+                }
+            }
+
+            return cmp;
+        }
     }
 }

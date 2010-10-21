@@ -9,7 +9,14 @@ using System.ComponentModel;
 
 namespace IronCow
 {
-    public class TaskList : RtmFatElement, INotifyPropertyChanged
+    public enum TaskListSortOrder
+    {
+        Priority = 0,
+        Date = 1,
+        Name = 2
+    }
+
+    public class TaskList : RtmFatElement, INotifyPropertyChanged, IComparable
     {
         #region Callback Delegates
 
@@ -21,6 +28,24 @@ namespace IronCow
         public int Position { get; private set; }
         public string Filter { get; private set; }
         public TaskListFlags Flags { get; private set; }
+
+        public TaskListSortOrder SortOrder { get; private set; }
+
+        public bool IsSmart
+        {
+            get
+            {
+                return GetFlag(TaskListFlags.Smart);
+            }
+        }
+
+        public bool IsNormal
+        {
+            get
+            {
+                return !GetFlag(TaskListFlags.Smart);
+            }
+        }
 
         private bool mIsFrozen = false;
         public bool IsFrozen
@@ -63,30 +88,14 @@ namespace IronCow
         {
             get
             {
-                if (mTasks == null)
-                {
-                    lock (this)
-                    {
-                        if (mTasks == null)
-                        {
-                            TaskListTaskCollection tmp = new TaskListTaskCollection(this);
-                            tmp.Resync();
-                            System.Threading.Interlocked.Exchange(ref mTasks, tmp);
-                        }
-                    }
-                }
-                else if (!IsFrozen && GetFlag(TaskListFlags.Smart))
-                {
-                    // Resync all the time for smart lists...
-                    //TODO: maybe use cache like normal lists, but for only a short time?
-                    lock (this)
-                    {
-                        mTasks.SmartResync();
-                    }
-                }
                 return mTasks;
             }
-        } 
+
+            set
+            {
+                mTasks = value;
+            }
+        }
         #endregion
 
         #region Construction
@@ -102,7 +111,7 @@ namespace IronCow
         internal TaskList(RawList list)
         {
             Sync(list);
-        } 
+        }
         #endregion
 
         #region Public Methods
@@ -138,7 +147,7 @@ namespace IronCow
                     SetFlag(TaskListFlags.Archived, false);
                 }
             }
-            
+
             SetFlag(TaskListFlags.Archived, false);
         }
 
@@ -161,7 +170,7 @@ namespace IronCow
         public bool GetFlag(TaskListFlags flag)
         {
             return (Flags & flag) == flag;
-        } 
+        }
         #endregion
 
         #region Syncing
@@ -190,11 +199,36 @@ namespace IronCow
             mName = list.Name;
             Filter = list.Filter;
             Position = list.Position;
+            SortOrder = (TaskListSortOrder) list.SortOrder;
             SetFlag(TaskListFlags.Archived, list.Archived == 1);
             SetFlag(TaskListFlags.Deleted, list.Deleted == 1);
             SetFlag(TaskListFlags.Locked, list.Locked == 1);
             SetFlag(TaskListFlags.Smart, list.Smart == 1);
-        } 
+        }
+
+        public void SyncTasks(SyncCallback callback)
+        {
+            if (!GetFlag(TaskListFlags.Smart))
+            {
+                TaskListTaskCollection tmp = new TaskListTaskCollection(this);
+                tmp.Resync(() => 
+                {
+                    mTasks = tmp;
+                    callback();
+                });
+            }
+            else if (!IsFrozen && GetFlag(TaskListFlags.Smart))
+            {
+                // Resync all the time for smart lists...
+                //TODO: maybe use cache like normal lists, but for only a short time?
+                lock (this)
+                {
+                    mTasks = new TaskListTaskCollection(this);
+                    mTasks.SmartResync(callback);
+                }
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -225,5 +259,32 @@ namespace IronCow
         }
 
         #endregion
+
+        public int CompareTo(object obj)
+        {
+            if (obj is TaskList)
+            {
+                TaskList other = obj as TaskList;
+
+                if (this.Name == "Inbox") return -1;
+                if (other.Name == "Inbox") return 1;
+                if (this.Name == "Sent") return 1;
+                if (other.Name == "Sent") return -1;
+
+                if (this.IsSmart != other.IsSmart)
+                {
+                    if (this.IsSmart) return 1;
+                    else return -1;
+                }
+                else
+                {
+                    return this.Name.CompareTo(other.Name);
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Cannot compare TaskList to other types of objects.");
+            }
+        }
     }
 }

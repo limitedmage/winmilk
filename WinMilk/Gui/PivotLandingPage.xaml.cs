@@ -64,72 +64,72 @@ namespace WinMilk.Gui
 
         private void LoadData()
         {
-            // empty the lists
-            /*listIncomplete.ItemsSource = new List<string>();
-            listToday.ItemsSource = new List<string>();
-            listTomorrow.ItemsSource = new List<string>();
-            listWeek.ItemsSource = new List<string>();*/
+            //// empty the lists
+            ///*listIncomplete.ItemsSource = new List<string>();
+            //listToday.ItemsSource = new List<string>();
+            //listTomorrow.ItemsSource = new List<string>();
+            //listWeek.ItemsSource = new List<string>();*/
 
-            if (App.RtmClient.HasAuthToken)
-            {
-                this.IsTasksLoading = true;
+            //if (App.RtmClient.HasAuthToken)
+            //{
+            //    this.IsTasksLoading = true;
 
-                //Lists.ItemsSource = new List<RTM.TaskList>() { new RTM.TaskList(1, "Inbox", false), new RTM.TaskList(2, "Personal", true) };
+            //    //Lists.ItemsSource = new List<RTM.TaskList>() { new RTM.TaskList(1, "Inbox", false), new RTM.TaskList(2, "Personal", true) };
 
 
-                App.RtmClient.GetLists((ObservableCollection<RTM.TaskList> list) =>
-                {
-                    Lists.ItemsSource = list;
-                    /*
-                    App.Rest.GetAllIncompleteTasks((List<RTM.Task> incompleteTasks) =>
-                    {
-                        this.IsTasksLoading = false;
+            //    App.RtmClient.GetLists((ObservableCollection<RTM.TaskList> list) =>
+            //    {
+            //        Lists.ItemsSource = list;
+            //        /*
+            //        App.Rest.GetAllIncompleteTasks((List<RTM.Task> incompleteTasks) =>
+            //        {
+            //            this.IsTasksLoading = false;
 
-                        incompleteTasks.Sort();
-                        listIncomplete.list.ItemsSource = incompleteTasks;
+            //            incompleteTasks.Sort();
+            //            listIncomplete.list.ItemsSource = incompleteTasks;
 
-                        // Due on or before today
-                        App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (List<RTM.Task> dueToday) =>
-                        {
-                            this.IsTasksLoading = false;
+            //            // Due on or before today
+            //            App.Rest.GetTasksDueOnOrBefore(DateTime.Today, (List<RTM.Task> dueToday) =>
+            //            {
+            //                this.IsTasksLoading = false;
 
-                            dueToday.Sort();
-                            listToday.list.ItemsSource = dueToday;
-                        });
+            //                dueToday.Sort();
+            //                listToday.list.ItemsSource = dueToday;
+            //            });
 
-                        // Due tomorrow
-                        App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (List<RTM.Task> dueTomorrow) =>
-                        {
-                            this.IsTasksLoading = false;
+            //            // Due tomorrow
+            //            App.Rest.GetTasksDueOn(DateTime.Today.AddDays(1), (List<RTM.Task> dueTomorrow) =>
+            //            {
+            //                this.IsTasksLoading = false;
 
-                            dueTomorrow.Sort();
-                            listTomorrow.list.ItemsSource = dueTomorrow;
-                        });
+            //                dueTomorrow.Sort();
+            //                listTomorrow.list.ItemsSource = dueTomorrow;
+            //            });
 
-                        // Due this week
-                        DateTime nextSunday = DateTime.Today;
-                        while (nextSunday.DayOfWeek != DayOfWeek.Sunday)
-                        {
-                            nextSunday = nextSunday.AddDays(1);
-                        }
+            //            // Due this week
+            //            DateTime nextSunday = DateTime.Today;
+            //            while (nextSunday.DayOfWeek != DayOfWeek.Sunday)
+            //            {
+            //                nextSunday = nextSunday.AddDays(1);
+            //            }
 
-                        App.Rest.GetTasksDueOnOrBefore(nextSunday, (List<RTM.Task> dueThisWeek) =>
-                        {
-                            this.IsTasksLoading = false;
+            //            App.Rest.GetTasksDueOnOrBefore(nextSunday, (List<RTM.Task> dueThisWeek) =>
+            //            {
+            //                this.IsTasksLoading = false;
 
-                            dueThisWeek.Sort();
-                            listWeek.list.ItemsSource = dueThisWeek;
-                        });
-                    }, s_Reload);*/
-                }, s_Reload);
+            //                dueThisWeek.Sort();
+            //                listWeek.list.ItemsSource = dueThisWeek;
+            //            });
+            //        }, s_Reload);*/
+            //    }, s_Reload);
                 
-            }
-            else
-            {
-                Login();
-            }
+            //}
+            //else
+            //{
+            //    Login();
+            //}
 
-            s_Reload = false;
+            //s_Reload = false;
         }
 
         public void Login()
@@ -147,7 +147,7 @@ namespace WinMilk.Gui
             MessageBoxResult logout = MessageBox.Show("Log out and erase your settings?", "Log out", MessageBoxButton.OKCancel);
             if (logout == MessageBoxResult.OK)
             {
-                App.RtmClient.DeleteData();
+                App.DeleteData();
                 Login();
             }
         }
@@ -250,22 +250,22 @@ namespace WinMilk.Gui
 
         private void TaskSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBox list = sender as ListBox;
+            //ListBox list = sender as ListBox;
 
-            if (!_contextMenuOpened)
-            {
-                if (list.SelectedIndex == -1)
-                {
-                    return;
-                }
+            //if (!_contextMenuOpened)
+            //{
+            //    if (list.SelectedIndex == -1)
+            //    {
+            //        return;
+            //    }
 
-                List<RTM.Task> tasks = list.ItemsSource as List<RTM.Task>;
-                RTM.Task selectedTask = tasks[list.SelectedIndex];
+            //    List<RTM.Task> tasks = list.ItemsSource as List<RTM.Task>;
+            //    RTM.Task selectedTask = tasks[list.SelectedIndex];
 
-                this.NavigationService.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));
-            }
+            //    this.NavigationService.Navigate(new Uri("/Gui/TaskDetailsPage.xaml?id=" + selectedTask.Id, UriKind.Relative));
+            //}
 
-            list.SelectedIndex = -1;
+            //list.SelectedIndex = -1;
         }
 
         private void Overlay_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -289,15 +289,15 @@ namespace WinMilk.Gui
 
         private void SubmitSmartAdd()
         {
-            SmartAddBox.IsEnabled = false;
-            IsTasksLoading = true;
+            //SmartAddBox.IsEnabled = false;
+            //IsTasksLoading = true;
 
-            App.RtmClient.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
-            {
-                CloseSmartAdd();
-                LoadData();
-                IsTasksLoading = false;
-            });
+            //App.RtmClient.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
+            //{
+            //    CloseSmartAdd();
+            //    LoadData();
+            //    IsTasksLoading = false;
+            //});
         }
 
         private void settings_Click(object sender, EventArgs e)
@@ -342,19 +342,19 @@ namespace WinMilk.Gui
 
         private void Lists_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBox list = sender as ListBox;
+            //ListBox list = sender as ListBox;
 
-            if (list.SelectedIndex == -1)
-            {
-                return;
-            }
+            //if (list.SelectedIndex == -1)
+            //{
+            //    return;
+            //}
 
-            List<RTM.TaskList> lists = list.ItemsSource as List<RTM.TaskList>;
-            RTM.TaskList selected = lists[list.SelectedIndex];
+            //List<RTM.TaskList> lists = list.ItemsSource as List<RTM.TaskList>;
+            //RTM.TaskList selected = lists[list.SelectedIndex];
 
-            this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
+            //this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
-            list.SelectedIndex = -1;
+            //list.SelectedIndex = -1;
         }
     }
 

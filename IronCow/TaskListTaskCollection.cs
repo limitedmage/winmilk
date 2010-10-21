@@ -47,10 +47,18 @@ namespace IronCow
         #endregion
 
         #region Public Methods
-        public void Resync()
+        public void Resync(SyncCallback callback)
         {
             if (Syncing)
             {
+                Owner.GetTasks(mList.Id, (tasks) =>
+                {
+                    mImpl.Clear();
+                    mImpl.AddRange(tasks);
+                    Sort();
+                    callback();
+                });
+                /*
                 var request = new RestRequest("rtm.tasks.getList");
                 request.Parameters.Add("list_id", mList.Id.ToString());
                 request.Callback = r =>
@@ -61,12 +69,15 @@ namespace IronCow
                         {
                             InternalSync(r.Tasks);
                         }
+
+                        callback();
                     };
                 Owner.ExecuteRequest(request);
+                */
             }
         }
 
-        internal void SmartResync()
+        internal void SmartResync(SyncCallback callback)
         {
             if (!mList.GetFlag(TaskListFlags.Smart))
                 throw new InvalidOperationException("This list isn't a smart list and cannot use SmartResync: " + mList.Name);
@@ -75,6 +86,9 @@ namespace IronCow
             {
                 mImpl.Clear();
                 mImpl.AddRange(tasks);
+                Sort();
+
+                callback();
             }); 
         }
 
@@ -415,5 +429,21 @@ namespace IronCow
         }
 
         #endregion
+
+        public void Sort()
+        {
+            switch (this.mList.SortOrder)
+            {
+                case TaskListSortOrder.Date:
+                    mImpl.Sort(Task.CompareByDate);
+                    break;
+                case TaskListSortOrder.Priority:
+                    mImpl.Sort(Task.CompareByPriority);
+                    break;
+                default:
+                    mImpl.Sort(Task.CompareByName);
+                    break;
+            }
+        }
     }
 }
