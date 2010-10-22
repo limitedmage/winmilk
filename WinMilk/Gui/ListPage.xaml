@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
@@ -24,17 +25,24 @@
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="WINMILK" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="{Binding ListName}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
+        <controls:Pivot x:Name="ListsPivot"
+                        Title="WINMILK"
+                        SelectionChanged="ListsPivot_SelectionChanged"
+                        ItemsSource="{Binding Lists}">
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <ScrollViewer>
-                <con:TaskListControlOld x:Name="Tasks" />
-            </ScrollViewer>
-        </Grid>
+            <controls:Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </controls:Pivot.HeaderTemplate>
+
+            <controls:Pivot.ItemTemplate>
+                <DataTemplate>
+                    <con:TaskListControl ItemsSource="{Binding Tasks}" Height="535" />
+                </DataTemplate>
+            </controls:Pivot.ItemTemplate>
+
+        </controls:Pivot>
 
         <ProgressBar IsIndeterminate="{Binding IsLoading}" 
                  Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}" 
@@ -42,20 +50,6 @@
                  VerticalAlignment="Top" 
                  Margin="0,137,0,0" 
                  Style="{StaticResource PerformanceProgressBar}"/>
-
-
     </Grid>
-
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
 
 </phone:PhoneApplicationPage>

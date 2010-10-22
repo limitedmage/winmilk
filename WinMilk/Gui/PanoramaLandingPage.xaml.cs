@@ -197,7 +197,7 @@ namespace WinMilk
             ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
             TaskList selected = lists[list.SelectedIndex];
 
-            this.NavigationService.Navigate(new Uri("/Gui/PivotListPage.xaml?id=" + selected.Id, UriKind.Relative));
+            this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
             list.SelectedIndex = -1;
         }
