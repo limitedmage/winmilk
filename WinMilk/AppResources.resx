@@ -211,6 +211,12 @@
     <value>tomorrow</value>
   </data>
   <data name="WeekTasksHeader" xml:space="preserve">
-    <value>this week</value>
+    <value>later this week</value>
+  </data>
+  <data name="NoDueTasksHeader" xml:space="preserve">
+    <value>no due</value>
+  </data>
+  <data name="OverdueTasksHeader" xml:space="preserve">
+    <value>overdue</value>
   </data>
 </root>

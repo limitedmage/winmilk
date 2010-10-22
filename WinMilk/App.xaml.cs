@@ -94,6 +94,8 @@ namespace WinMilk
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             LoadData();
+
+            
         }
 
         // Code to execute when the application is deactivated (sent to background)

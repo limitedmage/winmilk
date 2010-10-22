@@ -136,10 +136,16 @@
                     </Grid.RowDefinitions>
                     <ScrollViewer>
                         <StackPanel>
-                            <TextBlock Text="{Binding Path=Loc.TodayTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TodayList, Mode=OneWay}" />
+                            <TextBlock x:Name="OverdueHeader" Text="{Binding Path=Loc.OverdueTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=OverdueList, Mode=OneWay}" />
+                            <con:TaskListControl x:Name="OverdueList" ItemsSource="{Binding OverdueTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                            <TextBlock x:Name="TodayHeader" Text="{Binding Path=Loc.TodayTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TodayList, Mode=OneWay}" />
                             <con:TaskListControl x:Name="TodayList" ItemsSource="{Binding TodayTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
-                            <TextBlock Text="{Binding Path=Loc.TomorrowTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TomorrowList, Mode=OneWay}"/>
+                            <TextBlock x:Name="TomorrowHeader" Text="{Binding Path=Loc.TomorrowTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=TomorrowList, Mode=OneWay}"/>
                             <con:TaskListControl x:Name="TomorrowList" ItemsSource="{Binding TomorrowTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                            <TextBlock x:Name="WeekHeader" Text="{Binding Path=Loc.WeekTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=WeekList, Mode=OneWay}"/>
+                            <con:TaskListControl x:Name="WeekList" ItemsSource="{Binding WeekTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
+                            <TextBlock x:Name="NoDueHeader" Text="{Binding Path=Loc.NoDueTasksHeader, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}, ElementName=NoDueList, Mode=OneWay}"/>
+                            <con:TaskListControl x:Name="NoDueList" ItemsSource="{Binding NoDueTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                         </StackPanel>
                     </ScrollViewer>
                     <StackPanel HorizontalAlignment="Right" Margin="0,-101,0,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment">

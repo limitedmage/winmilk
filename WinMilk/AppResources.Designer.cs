@@ -214,6 +214,24 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to no due.
+        /// </summary>
+        public static string NoDueTasksHeader {
+            get {
+                return ResourceManager.GetString("NoDueTasksHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to overdue.
+        /// </summary>
+        public static string OverdueTasksHeader {
+            get {
+                return ResourceManager.GetString("OverdueTasksHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to pin to hub.
         /// </summary>
         public static string PinAppbar {
@@ -340,7 +358,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to this week.
+        ///   Looks up a localized string similar to later this week.
         /// </summary>
         public static string WeekTasksHeader {
             get {

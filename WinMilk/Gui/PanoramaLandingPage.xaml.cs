@@ -30,15 +30,15 @@ namespace WinMilk
             set { SetValue(IsLoadingProperty, value); }
         }
 
-        public static readonly DependencyProperty TodayTasksProperty =
-               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
-                   new PropertyMetadata(new ObservableCollection<Task>()));
-
         public ObservableCollection<Task> TodayTasks
         {
             get { return (ObservableCollection<Task>)GetValue(TodayTasksProperty); }
             set { SetValue(TodayTasksProperty, value); }
         }
+
+        public static readonly DependencyProperty TodayTasksProperty =
+               DependencyProperty.Register("TodayTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<Task>()));
 
         public ObservableCollection<Task> TomorrowTasks
         {
@@ -48,6 +48,36 @@ namespace WinMilk
 
         public static readonly DependencyProperty TomorrowTasksProperty =
                DependencyProperty.Register("TomorrowTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<Task>()));
+
+        public ObservableCollection<Task> OverdueTasks
+        {
+            get { return (ObservableCollection<Task>)GetValue(OverdueTasksProperty); }
+            set { SetValue(OverdueTasksProperty, value); }
+        }
+
+        public static readonly DependencyProperty OverdueTasksProperty =
+               DependencyProperty.Register("OverdueTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<Task>()));
+
+        public ObservableCollection<Task> NoDueTasks
+        {
+            get { return (ObservableCollection<Task>)GetValue(NoDueTasksProperty); }
+            set { SetValue(NoDueTasksProperty, value); }
+        }
+
+        public static readonly DependencyProperty NoDueTasksProperty =
+               DependencyProperty.Register("NoDueTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
+                   new PropertyMetadata(new ObservableCollection<Task>()));
+
+        public ObservableCollection<Task> WeekTasks
+        {
+            get { return (ObservableCollection<Task>)GetValue(WeekTasksProperty); }
+            set { SetValue(WeekTasksProperty, value); }
+        }
+
+        public static readonly DependencyProperty WeekTasksProperty =
+               DependencyProperty.Register("WeekTasks", typeof(ObservableCollection<Task>), typeof(PanoramaLandingPage),
                    new PropertyMetadata(new ObservableCollection<Task>()));
 
         public ObservableCollection<TaskList> TaskLists
@@ -110,6 +140,27 @@ namespace WinMilk
                             foreach (Task t in tomorrow)
                             {
                                 TomorrowTasks.Add(t);
+                            }
+
+                            List<Task> overdue = App.RtmClient.GetOverdueTasks();
+                            OverdueTasks = new ObservableCollection<Task>();
+                            foreach (Task t in overdue)
+                            {
+                                OverdueTasks.Add(t);
+                            }
+
+                            List<Task> week = App.RtmClient.GetWeekTasks();
+                            WeekTasks = new ObservableCollection<Task>();
+                            foreach (Task t in week)
+                            {
+                                WeekTasks.Add(t);
+                            }
+
+                            List<Task> nodue = App.RtmClient.GetNoDueTasks();
+                            NoDueTasks = new ObservableCollection<Task>();
+                            foreach (Task t in nodue)
+                            {
+                                NoDueTasks.Add(t);
                             }
                         });
 

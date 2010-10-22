@@ -362,7 +362,7 @@ namespace IronCow
                 string dueString = "";
                 if (DueDateTime.HasValue)
                 {
-                    if (DueDateTime.Value == DateTime.Today)
+                    if (DueDateTime.Value.Date == DateTime.Today)
                     {
                         dueString += "Today";
                     }
@@ -953,19 +953,20 @@ namespace IronCow
 
             if (a.DueDateTime.HasValue && b.DueDateTime.HasValue)
             {
-                cmp = a.Due.CompareTo(b.Due);
+                cmp = a.FuzzyDueDateTime.CompareTo(b.FuzzyDueDateTime);
             }
             else
             {
                 cmp = (b.DueDateTime.HasValue ? 1 : 0) - (a.DueDateTime.HasValue ? 1 : 0);
             }
+
             if (cmp == 0)
             {
-                if (b.Priority != a.Priority)
+                if (a.Priority != b.Priority)
                 {
-                    if (a.Priority == 0) return 1;
-                    else if (b.Priority == 0) return -1;
-                    else return a.Priority - b.Priority;
+                    if (a.Priority == TaskPriority.None) cmp = 1;
+                    else if (b.Priority == TaskPriority.None) cmp = -1;
+                    else cmp = a.Priority.CompareTo(b.Priority);
                 }
                 else
                 {
@@ -980,17 +981,17 @@ namespace IronCow
         {
             int cmp = 0;
 
-            if (b.Priority != a.Priority)
+            if (a.Priority != b.Priority)
             {
-                if (a.Priority == 0) return 1;
-                else if (b.Priority == 0) return -1;
-                else return a.Priority - b.Priority;
+                if (a.Priority == TaskPriority.None) cmp = 1;
+                else if (b.Priority == TaskPriority.None) cmp = -1;
+                else cmp = a.Priority.CompareTo(b.Priority);
             }
             else
             {
                 if (a.DueDateTime.HasValue && b.DueDateTime.HasValue)
                 {
-                    cmp = a.Due.CompareTo(b.Due);
+                    cmp = a.FuzzyDueDateTime.CompareTo(b.FuzzyDueDateTime);
                 }
                 else
                 {
@@ -1001,9 +1002,9 @@ namespace IronCow
                 {
                     cmp = a.Name.CompareTo(b.Name);
                 }
-
-                return cmp;
             }
+
+            return cmp;
         }
 
         public static int CompareByName(Task a, Task b)
@@ -1011,17 +1012,17 @@ namespace IronCow
             int cmp = a.Name.CompareTo(b.Name);
             if (cmp == 0)
             {
-                if (b.Priority != a.Priority)
+                if (a.Priority != b.Priority)
                 {
-                    if (a.Priority == 0) return 1;
-                    else if (b.Priority == 0) return -1;
-                    else return a.Priority - b.Priority;
+                    if (a.Priority == TaskPriority.None) cmp = 1;
+                    else if (b.Priority == TaskPriority.None) cmp = -1;
+                    else cmp = a.Priority.CompareTo(b.Priority);
                 }
                 else
                 {
                     if (a.DueDateTime.HasValue && b.DueDateTime.HasValue)
                     {
-                        cmp = a.Due.CompareTo(b.Due);
+                        cmp = a.FuzzyDueDateTime.CompareTo(b.FuzzyDueDateTime);
                     }
                     else
                     {

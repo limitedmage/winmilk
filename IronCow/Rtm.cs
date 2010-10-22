@@ -538,6 +538,29 @@ namespace IronCow
             });
         }
 
+        public List<Task> GetOverdueTasks()
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (TaskList list in TaskLists)
+            {
+                if (list.IsNormal && list.Tasks != null)
+                {
+                    foreach (Task task in list.Tasks)
+                    {
+                        if (task.IsIncomplete && task.DueDateTime.HasValue && (task.DueDateTime.Value < DateTime.Today || (task.HasDueTime && task.DueDateTime.Value < DateTime.Now)))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                }
+            }
+
+            tasks.Sort(Task.CompareByDate);
+
+            return tasks;
+        }
+
         public List<Task> GetTodayTasks()
         {
             List<Task> tasks = new List<Task>();
@@ -548,9 +571,12 @@ namespace IronCow
                 {
                     foreach (Task task in list.Tasks)
                     {
-                        if (task.IsIncomplete && task.DueDateTime.HasValue && task.DueDateTime.Value.Date <= DateTime.Today)
+                        if (task.IsIncomplete && task.DueDateTime.HasValue && task.DueDateTime.Value.Date == DateTime.Today)
                         {
-                            tasks.Add(task);
+                            if (!task.HasDueTime || (task.HasDueTime && task.DueDateTime > DateTime.Now))
+                            {
+                                tasks.Add(task);
+                            }
                         }
                     }
                 }
@@ -572,6 +598,52 @@ namespace IronCow
                     foreach (Task task in list.Tasks)
                     {
                         if (task.IsIncomplete && task.DueDateTime.HasValue && task.DueDateTime.Value.Date == DateTime.Today.AddDays(1))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                }
+            }
+
+            tasks.Sort(Task.CompareByDate);
+
+            return tasks;
+        }
+
+        public List<Task> GetWeekTasks()
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (TaskList list in TaskLists)
+            {
+                if (list.IsNormal && list.Tasks != null)
+                {
+                    foreach (Task task in list.Tasks)
+                    {
+                        if (task.IsIncomplete && task.DueDateTime.HasValue && task.DueDateTime.Value.Date > DateTime.Today.AddDays(1) && task.DueDateTime.Value.Date <= DateTime.Today.AddDays(6))
+                        {
+                            tasks.Add(task);
+                        }
+                    }
+                }
+            }
+
+            tasks.Sort(Task.CompareByDate);
+
+            return tasks;
+        }
+
+        public List<Task> GetNoDueTasks()
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (TaskList list in TaskLists)
+            {
+                if (list.IsNormal && list.Tasks != null)
+                {
+                    foreach (Task task in list.Tasks)
+                    {
+                        if (task.IsIncomplete && !task.DueDateTime.HasValue)
                         {
                             tasks.Add(task);
                         }
