@@ -82,6 +82,7 @@ namespace WinMilk.Gui
 
                             if (NavigationService.CanGoBack)
                             {
+                                PanoramaLandingPage.sReload = true;
                                 NavigationService.GoBack();
                             }
                         });

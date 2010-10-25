@@ -18,7 +18,7 @@ namespace WinMilk
 {
     public partial class PanoramaLandingPage : PhoneApplicationPage
     {
-        public bool _reload = true;
+        public static bool sReload = true;
 
         public static readonly DependencyProperty IsLoadingProperty =
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(PanoramaLandingPage),
@@ -100,7 +100,6 @@ namespace WinMilk
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            _reload = true;
             LoadData();
 
             base.OnNavigatedTo(e);
@@ -108,7 +107,7 @@ namespace WinMilk
 
         private void LoadData()
         {
-            if (_reload)
+            if (sReload)
             {
                 if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
                 {
@@ -176,7 +175,7 @@ namespace WinMilk
                 }
             }
 
-            _reload = false;
+            sReload = false;
         }
 
         public void Login()
@@ -305,7 +304,7 @@ namespace WinMilk
 
         private void Sync_Click(object sender, EventArgs e)
         {
-            _reload = true;
+            sReload = true;
             LoadData();
         }
 
@@ -326,7 +325,7 @@ namespace WinMilk
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-
+            this.NavigationService.Navigate(new Uri("/Gui/SearchPage.xaml", UriKind.Relative));
         }
 
         private void TagsButton_Click(object sender, EventArgs e)

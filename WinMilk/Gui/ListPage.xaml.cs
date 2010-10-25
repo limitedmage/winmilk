@@ -18,6 +18,8 @@ namespace WinMilk.Gui
 {
     public partial class ListPage : PhoneApplicationPage
     {
+        public static bool sReload = true;
+
         public static readonly DependencyProperty ListsProperty =
                DependencyProperty.Register("Lists", typeof(ObservableCollection<TaskList>), typeof(ListPage),
                    new PropertyMetadata((ObservableCollection<TaskList>)null));
@@ -55,20 +57,18 @@ namespace WinMilk.Gui
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadAllLists();
-
             CreateApplicationBar();
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            LoadAllLists();
+
             base.OnNavigatedTo(e);
         }
 
         private void LoadAllLists()
         {
-            //IsLoading = true;
-
             Lists = new ObservableCollection<TaskList>();
             foreach (TaskList list in App.RtmClient.TaskLists)
             {
@@ -90,6 +90,11 @@ namespace WinMilk.Gui
                         Dispatcher.BeginInvoke(() =>
                         {
                             CurrentList = l;
+                            if (sReload)
+                            {
+                                LoadList(CurrentList);
+                                sReload = false;
+                            }
                         });
                         break;
                     }
@@ -122,7 +127,7 @@ namespace WinMilk.Gui
 
             ApplicationBarIconButton sync = new ApplicationBarIconButton(new Uri("/icons/appbar.refresh.rest.png", UriKind.Relative));
             sync.Text = AppResources.SyncAppbar;
-            //sync.Click += new EventHandler(sync_Click);
+            sync.Click += new EventHandler(Sync_Click);
             ApplicationBar.Buttons.Add(sync);
 
             ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
@@ -139,11 +144,11 @@ namespace WinMilk.Gui
 
             if (e.AddedItems[0] is TaskList)
             {
-                TaskList selectedList = e.AddedItems[0] as TaskList;
+                CurrentList = e.AddedItems[0] as TaskList;
 
-                if (selectedList.Tasks == null || selectedList.Tasks.Count == 0)
+                if (CurrentList.Tasks == null || CurrentList.Tasks.Count == 0)
                 {
-                    LoadList(selectedList);
+                    LoadList(CurrentList);
                 }
             }
         }
@@ -165,6 +170,11 @@ namespace WinMilk.Gui
                     ListsPivot.SelectedItem = newList;
                 }));
             }
+        }
+
+        private void Sync_Click(object sender, EventArgs e)
+        {
+            LoadList(CurrentList);
         }
     }
 }

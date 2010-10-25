@@ -109,6 +109,9 @@
     <Compile Include="Gui\PanoramaLandingPage.xaml.cs">
       <DependentUpon>PanoramaLandingPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
     <Page Include="Gui\PanoramaLandingPage.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\SearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\SettingsPage.xaml">
       <SubType>Designer</SubType>

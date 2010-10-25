@@ -42,7 +42,8 @@ namespace IronCow
                             {
                                 if (list.Archived == 0 && list.Deleted == 0)
                                 {
-                                    Add(new TaskList(list));
+                                    TaskList newList = new TaskList(list);
+                                    Add(newList);
                                 }
                             }
 

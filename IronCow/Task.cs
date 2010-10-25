@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace IronCow
 {
-    public class Task : RtmFatElement, INotifyPropertyChanged, IComparable
+    public class Task : RtmFatElement, INotifyPropertyChanged, IComparable, IComparable<Task>
     {
         #region Callback Delegates
 
@@ -212,7 +212,20 @@ namespace IronCow
         private string mUrl;
         public string Url
         {
-            get { return mUrl; }
+            get 
+            {
+                if (HasUrl)
+                {
+                    if (mUrl.StartsWith("http:") || mUrl.StartsWith("https:") || mUrl.StartsWith("ftp:") || mUrl.StartsWith("file:"))
+                        return mUrl;
+                    else
+                        return "http://" + mUrl;
+                }
+                else
+                {
+                    return "";
+                }
+            }
             set
             {
                 if (mUrl != value)
@@ -229,7 +242,16 @@ namespace IronCow
                     }
 
                     OnPropertyChanged("Url");
+                    OnPropertyChanged("HasUrl");
                 }
+            }
+        }
+
+        public bool HasUrl
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(mUrl);
             }
         }
 
@@ -933,6 +955,8 @@ namespace IronCow
 
         #endregion
 
+        #region IComparable Members
+
         public int CompareTo(object obj)
         {
             if (obj is Task)
@@ -945,6 +969,11 @@ namespace IronCow
             {
                 throw new ArgumentException("Cannot compare Task to other types of objetcs.");
             }
+        }
+
+        public int CompareTo(Task other)
+        {
+            return Task.CompareByDate(this, other);
         }
 
         public static int CompareByDate(Task a, Task b)
@@ -1033,5 +1062,7 @@ namespace IronCow
 
             return cmp;
         }
+
+        #endregion
     }
 }
