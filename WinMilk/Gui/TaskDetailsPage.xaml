@@ -146,7 +146,7 @@
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Text="{Binding Url}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1" TextWrapping="Wrap"/>
+                            <HyperlinkButton Content="{Binding Url}" Click="HyperlinkButton_Click" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1"/>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using IronCow;
+using Microsoft.Phone.Tasks;
 
 namespace WinMilk.Gui
 {
@@ -77,6 +78,13 @@ namespace WinMilk.Gui
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask page = new WebBrowserTask();
+            page.URL = CurrentTask.Url;
+            page.Show();
         }
     }
 }
