@@ -330,7 +330,7 @@ namespace WinMilk
 
         private void TagsButton_Click(object sender, EventArgs e)
         {
-
+            this.NavigationService.Navigate(new Uri("/Gui/TagsPage.xaml", UriKind.Relative));
         }
 
         private void AboutButton_Click(object sender, EventArgs e)

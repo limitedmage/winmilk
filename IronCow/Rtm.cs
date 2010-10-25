@@ -749,9 +749,9 @@ namespace IronCow
             return tags;
         }
 
-        public Dictionary<string, List<Task>> GetTasksByTag()
+        public Dictionary<string, ObservableCollection<Task>> GetTasksByTag()
         {
-            var tasksByTag = new Dictionary<string, List<Task>>();
+            var tasksByTag = new Dictionary<string, ObservableCollection<Task>>();
             foreach (var taskList in GetParentableTaskLists(false))
             {
                 foreach (var task in taskList.Tasks)
@@ -764,7 +764,7 @@ namespace IronCow
                         }
                         else
                         {
-                            var tasks = new List<Task>();
+                            var tasks = new ObservableCollection<Task>();
                             tasks.Add(task);
                             tasksByTag.Add(tag, tasks);
                         }
