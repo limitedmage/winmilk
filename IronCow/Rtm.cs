@@ -59,12 +59,6 @@ namespace IronCow
                             {
                                 CacheTasks(() =>
                                 {
-                                    /*
-                                    foreach (TaskList list in TaskLists)
-                                    {
-                                        list.SyncTasks(() => { });
-                                    }*/
-
                                     callback();
                                 });
                             });/*
@@ -701,6 +695,21 @@ namespace IronCow
                 callback();
             });
         }
+
+        public void AddTask(string name, bool parse, int? listId, VoidCallback callback)
+        {
+            if (Client is RestClient)
+            {
+                (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) => 
+                {
+                    CacheTasks(() =>
+                    {
+                        callback();
+                    });
+                });
+            }
+        }
+
         #endregion
 
         #region Task Lists

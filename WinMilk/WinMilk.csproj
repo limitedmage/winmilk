@@ -87,6 +87,9 @@
     <Compile Include="Gui\AuthPage.xaml.cs">
       <DependentUpon>AuthPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\Controls\AddTaskControl.xaml.cs">
+      <DependentUpon>AddTaskControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\Controls\BigIconButton.xaml.cs">
       <DependentUpon>BigIconButton.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,10 @@
     <Page Include="Gui\AuthPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\Controls\AddTaskControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\Controls\BigIconButton.xaml">
       <Generator>MSBuild:Compile</Generator>

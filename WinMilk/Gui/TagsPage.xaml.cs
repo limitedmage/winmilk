@@ -57,11 +57,15 @@ namespace WinMilk.Gui
 
         public void LoadAllTags()
         {
-            Tags = new ObservableCollection<TagList>();
-            var tags = App.RtmClient.GetTasksByTag();
-            foreach (var tag in tags)
+            if (sReload)
             {
-                Tags.Add(new TagList { Tag = tag.Key, Tasks = tag.Value });
+                Tags = new ObservableCollection<TagList>();
+                var tags = App.RtmClient.GetTasksByTag();
+                foreach (var tag in tags)
+                {
+                    Tags.Add(new TagList { Tag = tag.Key, Tasks = tag.Value });
+                }
+                sReload = false;
             }
         }
 

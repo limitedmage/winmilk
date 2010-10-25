@@ -62,7 +62,11 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            LoadAllLists();
+            if (sReload)
+            {
+                LoadAllLists();
+                sReload = false;
+            }
 
             base.OnNavigatedTo(e);
         }

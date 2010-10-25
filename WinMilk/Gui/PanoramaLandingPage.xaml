@@ -234,7 +234,7 @@
                 <StackPanel>
                     <con:BigIconButton x:Name="SearchButton" Click="SearchButton_Click" Text="{Binding Path=Loc.MoreSearchButton, Source={StaticResource L10N}}" Type="feature.search" HorizontalAlignment="Left"/>
                     <con:BigIconButton x:Name="TagsButton" Click="TagsButton_Click" Text="{Binding Path=Loc.MoreTagsButton, Source={StaticResource L10N}}" Type="tag" HorizontalAlignment="Left" />
-                    <con:BigIconButton x:Name="SettingsButton" Click="SettingsButton_Click" Text="{Binding Path=Loc.MoreSettingsButton, Source={StaticResource L10N}}" Type="feature.settings" HorizontalAlignment="Left" />
+                    <!--<con:BigIconButton x:Name="SettingsButton" Click="SettingsButton_Click" Text="{Binding Path=Loc.MoreSettingsButton, Source={StaticResource L10N}}" Type="feature.settings" HorizontalAlignment="Left" />-->
                     <con:BigIconButton x:Name="LogoutButton" Click="LogoutButton_Click" Text="{Binding Path=Loc.MoreLogoutButton, Source={StaticResource L10N}}" Type="close" HorizontalAlignment="Left" />
                     <con:BigIconButton x:Name="AboutButton" Click="AboutButton_Click" Text="{Binding Path=Loc.MoreAboutButton, Source={StaticResource L10N}}" Type="questionmark" HorizontalAlignment="Left" />
                 </StackPanel>
