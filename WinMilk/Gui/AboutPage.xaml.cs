@@ -36,21 +36,21 @@ namespace WinMilk.Gui
         private void License_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://julianapena.com";
+            page.URL = "http://winmilk.codeplex.com/license";
             page.Show();
         }
 
         private void Codeplex_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://julianapena.com";
+            page.URL = "http://winmilk.codeplex.com/";
             page.Show();
         }
 
         private void Donate_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://julianapena.com";
+            page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
             page.Show();
         }
     }
