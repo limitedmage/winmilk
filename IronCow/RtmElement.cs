@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using IronCow.Rest;
+using System.Runtime.Serialization;
 
 namespace IronCow
 {
+    [DataContract]
     public abstract class RtmElement
     {
         public const int UnsyncedId = 0;
@@ -22,6 +24,7 @@ namespace IronCow
             set;
         }
 
+        [DataMember]
         public int Id { get; private set; }
         public bool IsSynced { get { return Id != UnsyncedId; } }
 

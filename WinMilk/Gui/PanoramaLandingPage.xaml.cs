@@ -18,6 +18,8 @@ namespace WinMilk
 {
     public partial class PanoramaLandingPage : PhoneApplicationPage
     {
+        #region IsLoading Property
+
         public static bool sReload = true;
 
         public static readonly DependencyProperty IsLoadingProperty =
@@ -29,6 +31,10 @@ namespace WinMilk
             get { return (bool)GetValue(IsLoadingProperty); }
             set { SetValue(IsLoadingProperty, value); }
         }
+
+        #endregion
+
+        #region Task Lists Properties
 
         public ObservableCollection<Task> TodayTasks
         {
@@ -90,12 +96,20 @@ namespace WinMilk
                DependencyProperty.Register("TaskLists", typeof(ObservableCollection<TaskList>), typeof(PanoramaLandingPage),
                    new PropertyMetadata(new ObservableCollection<TaskList>()));
 
+        #endregion
+
+        #region Construction, Loading and Navigating
 
         public PanoramaLandingPage()
         {
             InitializeComponent();
 
             IsLoading = false;
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -105,13 +119,20 @@ namespace WinMilk
             base.OnNavigatedTo(e);
         }
 
+        #endregion
+
+        #region Loading Data
+
         private void LoadData()
         {
             if (sReload)
             {
                 if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
                 {
-                    this.IsLoading = true;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.IsLoading = true;
+                    });
 
                     App.RtmClient.SyncEverything(() =>
                     {
@@ -184,6 +205,10 @@ namespace WinMilk
             this.NavigationService.Navigate(new Uri("/Gui/AuthPage.xaml", UriKind.Relative));
         }
 
+        #endregion
+
+        #region Event Handling
+
         private void ListsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox list = sender as ListBox;
@@ -201,105 +226,9 @@ namespace WinMilk
             list.SelectedIndex = -1;
         }
 
-        delegate void AnimationCompletedDelegate();
-        private AnimationCompletedDelegate popupOpened = () => { }, popupClosed = () => { };
-
-        private void InitializePopupAnimationCallbacks()
-        {
-            this.OpenPopup.Completed += (object sender, EventArgs e) =>
-            {
-                popupOpened();
-                popupOpened = () => { };
-                this.SmartAddBox.Focus();
-            };
-
-            this.ClosePopup.Completed += (object sender, EventArgs e) =>
-            {
-                popupClosed();
-                popupClosed = () => { };
-
-                this.SmartAddPopup.IsOpen = false;
-                this.SmartAddBox.Text = "";
-                this.SmartAddBox.IsEnabled = true;
-            };
-        }
-
-        private void OpenSmartAdd()
-        {
-            if (!this.SmartAddPopup.IsOpen)
-            {
-                this.SmartAddPopup.IsOpen = true;
-                this.Overlay.Visibility = Visibility.Visible;
-
-                this.OpenPopup.Begin();
-            }
-        }
-
-        private void CloseSmartAdd()
-        {
-            if (this.SmartAddPopup.IsOpen)
-            {
-                this.ClosePopup.Begin();
-                this.Overlay.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void SmartAddBox_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SubmitSmartAdd();
-            }
-        }
-
-        private void SmartAddButton_Click(object sender, EventArgs e)
-        {
-            SubmitSmartAdd();
-        }
-
-        private void AdvancedAddButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.popupClosed = () =>
-            {
-                this.NavigationService.Navigate(new Uri("/Gui/AddTaskPage.xaml", UriKind.Relative));
-            };
-
-            this.CloseSmartAdd();
-        }
-
-        private void CancelSmartAddButton_Click(object sender, RoutedEventArgs e)
-        {
-            CloseSmartAdd();
-        }
-
-        private void SubmitSmartAdd()
-        {
-            SmartAddBox.IsEnabled = false;
-            IsLoading = true;
-
-            /*
-            App.RtmClient.AddTaskWithSmartAdd(SmartAddBox.Text, () =>
-            {
-                IsLoading = false;
-                CloseSmartAdd();
-                LoadData();
-            });
-             */
-        }
-
-        private void Overlay_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (SmartAddPopup.IsOpen) CloseSmartAdd();
-        }
-
         private void AddTask_Click(object sender, EventArgs e)
         {
-            OpenSmartAdd();
-        }
-
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            InitializePopupAnimationCallbacks();
+            AddTaskPopup.Open();
         }
 
         private void Sync_Click(object sender, EventArgs e)
@@ -337,5 +266,25 @@ namespace WinMilk
         {
             this.NavigationService.Navigate(new Uri("/Gui/AboutPage.xaml", UriKind.Relative));
         }
+
+        private void AddTaskPopup_Submit(object sender, WinMilk.Gui.Controls.SubmitEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                IsLoading = true;
+            });
+            App.RtmClient.AddTask(e.Text, true, null, () =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    IsLoading = false;
+                });
+
+                sReload = true;
+                LoadData();
+            });
+        }
+
+        #endregion
     }
 }

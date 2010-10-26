@@ -180,5 +180,22 @@ namespace WinMilk.Gui
         {
             LoadList(CurrentList);
         }
+
+        private void AddTaskControl_Submit(object sentder, Controls.SubmitEventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                IsLoading = true;
+            });
+            App.RtmClient.AddTask(e.Text, true, CurrentList.Id, () =>
+            {
+                Dispatcher.BeginInvoke(() =>
+                {
+                    IsLoading = false;
+                });
+
+                LoadList(CurrentList);
+            });
+        }
     }
 }

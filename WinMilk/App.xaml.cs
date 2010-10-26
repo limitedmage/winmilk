@@ -61,10 +61,13 @@ namespace WinMilk
         public static void LoadData()
         {
             string RtmAuthToken = Helper.IsolatedStorageHelper.GetObject<string>("RtmAuthToken");
+            //TaskListCollection RtmTasks = Helper.IsolatedStorageHelper.GetObject<TaskListCollection>("RtmTasks");
+            DateTime LastSync = Helper.IsolatedStorageHelper.GetObject<DateTime>("LastSync");
 
             if (!string.IsNullOrEmpty(RtmAuthToken))
             {
                 RtmClient = new Rtm(RtmApiKey, RtmSharedKey, RtmAuthToken);
+                //RtmClient.TaskLists = RtmTasks;
             }
             else
             {
@@ -75,11 +78,16 @@ namespace WinMilk
         public static void SaveData()
         {
             Helper.IsolatedStorageHelper.SaveObject<string>("RtmAuthToken", RtmClient.AuthToken);
+            //Helper.IsolatedStorageHelper.SaveObject<TaskListCollection>("RtmTasks", RtmClient.TaskLists);
+            Helper.IsolatedStorageHelper.SaveObject<DateTime>("LastSync", DateTime.Now);
         }
 
         public static void DeleteData()
         {
             Helper.IsolatedStorageHelper.DeleteObject("RtmAuthToken");
+            //Helper.IsolatedStorageHelper.DeleteObject("RtmTasks");
+            Helper.IsolatedStorageHelper.DeleteObject("LastSync");
+            RtmClient = new Rtm(RtmApiKey, RtmSharedKey);
         }
 
         // Code to execute when the application is launching (eg, from Start)
@@ -94,8 +102,6 @@ namespace WinMilk
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
             LoadData();
-
-            
         }
 
         // Code to execute when the application is deactivated (sent to background)
@@ -126,10 +132,23 @@ namespace WinMilk
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (e.ExceptionObject is RtmException)
             {
-                // An unhandled exception has occurred; break into the debugger
-                System.Diagnostics.Debugger.Break();
+                var ex = (e.ExceptionObject as RtmException).ResponseError;
+                RootFrame.Dispatcher.BeginInvoke(() => 
+                {
+                    MessageBox.Show(ex.Message, "Error " + ex.Code, MessageBoxButton.OK);
+                });
+                e.Handled = true;
+            }
+            else
+            {
+
+                if (System.Diagnostics.Debugger.IsAttached)
+                {
+                    // An unhandled exception has occurred; break into the debugger
+                    System.Diagnostics.Debugger.Break();
+                }
             }
         }
 

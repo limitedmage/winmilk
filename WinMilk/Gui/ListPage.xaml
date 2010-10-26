@@ -50,6 +50,9 @@
                  VerticalAlignment="Top" 
                  Margin="0,137,0,0" 
                  Style="{StaticResource PerformanceProgressBar}"/>
+        
+        <con:AddTaskControl Top="200" Submit="AddTaskControl_Submit" />
+        
     </Grid>
 
 </phone:PhoneApplicationPage>

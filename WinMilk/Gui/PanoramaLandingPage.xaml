@@ -19,111 +19,6 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="PhoneApplicationPage_Loaded">
 	
-	<phone:PhoneApplicationPage.Resources>
-		<Storyboard x:Name="OpenPopup">
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="SmartAddPopup">
-				<EasingDoubleKeyFrame KeyTime="0" Value="-90">
-					<EasingDoubleKeyFrame.EasingFunction>
-						<SineEase EasingMode="EaseOut"/>
-					</EasingDoubleKeyFrame.EasingFunction>
-				</EasingDoubleKeyFrame>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-					<EasingDoubleKeyFrame.EasingFunction>
-						<SineEase EasingMode="EaseOut"/>
-					</EasingDoubleKeyFrame.EasingFunction>
-				</EasingDoubleKeyFrame>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationY)" Storyboard.TargetName="SmartAddPopup">
-				<EasingDoubleKeyFrame KeyTime="0" Value="0">
-					<EasingDoubleKeyFrame.EasingFunction>
-						<SineEase EasingMode="EaseOut"/>
-					</EasingDoubleKeyFrame.EasingFunction>
-				</EasingDoubleKeyFrame>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-					<EasingDoubleKeyFrame.EasingFunction>
-						<SineEase EasingMode="EaseOut"/>
-					</EasingDoubleKeyFrame.EasingFunction>
-				</EasingDoubleKeyFrame>
-			</DoubleAnimationUsingKeyFrames>
-			<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationZ)" Storyboard.TargetName="SmartAddPopup" d:IsOptimized="True">
-				<DoubleAnimation.EasingFunction>
-					<SineEase EasingMode="EaseOut"/>
-				</DoubleAnimation.EasingFunction>
-			</DoubleAnimation>
-			<DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.CenterOfRotationY)" Storyboard.TargetName="SmartAddPopup" d:IsOptimized="True">
-				<DoubleAnimation.EasingFunction>
-					<SineEase EasingMode="EaseOut"/>
-				</DoubleAnimation.EasingFunction>
-			</DoubleAnimation>
-			<DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.CenterOfRotationX)" Storyboard.TargetName="SmartAddPopup" d:IsOptimized="True">
-				<DoubleAnimation.EasingFunction>
-					<SineEase EasingMode="EaseOut"/>
-				</DoubleAnimation.EasingFunction>
-			</DoubleAnimation>
-			<DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.CenterOfRotationZ)" Storyboard.TargetName="SmartAddPopup" d:IsOptimized="True">
-				<DoubleAnimation.EasingFunction>
-					<SineEase EasingMode="EaseOut"/>
-				</DoubleAnimation.EasingFunction>
-			</DoubleAnimation>
-			<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetZ)" Storyboard.TargetName="SmartAddPopup" d:IsOptimized="True">
-				<DoubleAnimation.EasingFunction>
-					<SineEase EasingMode="EaseOut"/>
-				</DoubleAnimation.EasingFunction>
-			</DoubleAnimation>
-			<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
-				<EasingDoubleKeyFrame KeyTime="0" Value="0">
-					<EasingDoubleKeyFrame.EasingFunction>
-						<SineEase EasingMode="EaseOut"/>
-					</EasingDoubleKeyFrame.EasingFunction>
-				</EasingDoubleKeyFrame>
-				<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1">
-					<EasingDoubleKeyFrame.EasingFunction>
-						<SineEase EasingMode="EaseOut"/>
-					</EasingDoubleKeyFrame.EasingFunction>
-				</EasingDoubleKeyFrame>
-			</DoubleAnimationUsingKeyFrames>
-		</Storyboard>
-        <Storyboard x:Name="ClosePopup">
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationY)" Storyboard.TargetName="SmartAddPopup">
-        		<EasingDoubleKeyFrame KeyTime="0" Value="0">
-        			<EasingDoubleKeyFrame.EasingFunction>
-        				<SineEase EasingMode="EaseIn"/>
-        			</EasingDoubleKeyFrame.EasingFunction>
-        		</EasingDoubleKeyFrame>
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0">
-        			<EasingDoubleKeyFrame.EasingFunction>
-        				<SineEase EasingMode="EaseIn"/>
-        			</EasingDoubleKeyFrame.EasingFunction>
-        		</EasingDoubleKeyFrame>
-        	</DoubleAnimationUsingKeyFrames>
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.CenterOfRotationX)" Storyboard.TargetName="SmartAddPopup">
-        		<EasingDoubleKeyFrame KeyTime="0" Value="0.5">
-        			<EasingDoubleKeyFrame.EasingFunction>
-        				<SineEase EasingMode="EaseIn"/>
-        			</EasingDoubleKeyFrame.EasingFunction>
-        		</EasingDoubleKeyFrame>
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0.5">
-        			<EasingDoubleKeyFrame.EasingFunction>
-        				<SineEase EasingMode="EaseIn"/>
-        			</EasingDoubleKeyFrame.EasingFunction>
-        		</EasingDoubleKeyFrame>
-        	</DoubleAnimationUsingKeyFrames>
-        	<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.RotationX)" Storyboard.TargetName="SmartAddPopup">
-        		<EasingDoubleKeyFrame KeyTime="0" Value="0">
-        			<EasingDoubleKeyFrame.EasingFunction>
-        				<SineEase EasingMode="EaseIn"/>
-        			</EasingDoubleKeyFrame.EasingFunction>
-        		</EasingDoubleKeyFrame>
-        		<EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="90">
-        			<EasingDoubleKeyFrame.EasingFunction>
-        				<SineEase EasingMode="EaseIn"/>
-        			</EasingDoubleKeyFrame.EasingFunction>
-        		</EasingDoubleKeyFrame>
-        	</DoubleAnimationUsingKeyFrames>
-        	<DoubleAnimation Duration="0:0:0.5" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid" d:IsOptimized="True"/>
-        </Storyboard>
-	</phone:PhoneApplicationPage.Resources>
-	
 	<!--LayoutRoot contains the root grid where all other page content is placed-->
 	<Grid x:Name="LayoutRoot">
         <controls:Panorama Title="{Binding Path=Loc.AppNameLower, Source={StaticResource L10N}}" Name="Panorama">
@@ -240,32 +135,8 @@
                 </StackPanel>
             </controls:PanoramaItem>
 		</controls:Panorama>
-		
-		<Popup Name="SmartAddPopup" Height="100" VerticalAlignment="Top" d:LayoutOverrides="Height" RenderTransformOrigin="0.5,0" Margin="0,189,0,0">
-			<Popup.Projection>
-				<PlaneProjection/>
-			</Popup.Projection>
-			<Popup.RenderTransform>
-				<CompositeTransform/>
-			</Popup.RenderTransform>
-            <Grid x:Name="grid" Width="480" Background="{StaticResource PhoneAccentBrush}" con:TiltEffect.IsTiltEnabled="True">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="120" />
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="80" />
-					<RowDefinition Height="*" />
-				</Grid.RowDefinitions>
-				
-				<TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp"/>
-                <con:IconButton x:Name="SmartAddButton" Text="{Binding Path=Loc.AddTasksButton, Source={StaticResource L10N}}" Grid.Column="1" Click="SmartAddButton_Click" Type="add"/>
-
-                <HyperlinkButton x:Name="AdvancedAddButton" Content="{Binding Path=Loc.AdvancedTaskAddLink, Source={StaticResource L10N}}" Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
-                <HyperlinkButton x:Name="CancelSmartAddButton" Content="{Binding Path=Loc.CancelTaskAddLink, Source={StaticResource L10N}}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Click="CancelSmartAddButton_Click" />
-				
-			</Grid>
-		</Popup>
+        
+        <con:AddTaskControl x:Name="AddTaskPopup" Submit="AddTaskPopup_Submit" Top="200"/>
 
         <ProgressBar IsIndeterminate="{Binding IsLoading}" 
                      Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}" 
@@ -274,6 +145,5 @@
                      Margin="0,137,0,0" 
                      Style="{StaticResource PerformanceProgressBar}"/>
 
-        <Canvas Name="Overlay" Background="Transparent" MouseLeftButtonDown="Overlay_MouseLeftButtonDown" Visibility="Collapsed"/>
     </Grid>
 </phone:PhoneApplicationPage>

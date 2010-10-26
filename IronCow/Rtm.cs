@@ -204,6 +204,10 @@ namespace IronCow
             {
                 return mTaskLists;
             }
+            set
+            {
+                mTaskLists = value;
+            }
         }
 
         private ObservableCollection<Task> mTasks;
@@ -400,7 +404,8 @@ namespace IronCow
         {
             if (!HasTimeline)
                 StartTimeline(callback);
-            callback(CurrentTimeline);
+            else
+                callback(CurrentTimeline);
         }
 
         public void UndoTransaction(Transaction transaction, VoidCallback callback)
@@ -698,16 +703,19 @@ namespace IronCow
 
         public void AddTask(string name, bool parse, int? listId, VoidCallback callback)
         {
-            if (Client is RestClient)
+            GetOrStartTimeline((timeline) => 
             {
-                (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) => 
+                if (Client is RestClient)
                 {
-                    CacheTasks(() =>
+                    (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) =>
                     {
-                        callback();
+                        CacheTasks(() =>
+                        {
+                            callback();
+                        });
                     });
-                });
-            }
+                }
+            });
         }
 
         #endregion

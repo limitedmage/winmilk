@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace IronCow
 {
+    [DataContract]
     public class RtmFatElement : RtmElement
     {
-        private Rtm mOwner;
+        [DataMember]
+        public Rtm mOwner;
         internal override Rtm Owner
         {
             get { return mOwner; }
@@ -30,7 +33,8 @@ namespace IronCow
             }
         }
 
-        private bool mSyncing = true;
+        [DataMember]
+        public bool mSyncing = true;
         internal override bool Syncing
         {
             get { return mSyncing; }

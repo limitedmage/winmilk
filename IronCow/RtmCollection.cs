@@ -6,9 +6,11 @@ using System.Collections.ObjectModel;
 using IronCow.Rest;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace IronCow
 {
+    [DataContract]
     public class RtmCollection<T> : ICollection<T>, INotifyCollectionChanged, INotifyPropertyChanged where T : RtmFatElement
     {
         #region Constants
@@ -17,10 +19,15 @@ namespace IronCow
         #endregion
 
         #region Internal & Protected Properties
-        protected Rtm Owner { get; private set; }
-        protected List<T> Items { get; private set; }
 
-        internal object SyncRoot { get; private set; } 
+        [DataMember]
+        public Rtm Owner { get; set; }
+
+        [DataMember]
+        public List<T> Items { get; set; }
+
+        [DataMember]
+        public object SyncRoot { get; set; } 
         #endregion
 
         #region Public Properties

@@ -31,6 +31,8 @@ namespace WinMilk.Gui
 
         #endregion
 
+        #region Construction and Navigation
+
         public TaskDetailsPage()
         {
             InitializeComponent();
@@ -47,6 +49,10 @@ namespace WinMilk.Gui
                 CurrentTask = App.RtmClient.GetTask(id);
             }
         }
+
+        #endregion
+
+        #region Event Handlers
 
         private void CompleteButton_Click(object sender, EventArgs e)
         {
@@ -86,5 +92,7 @@ namespace WinMilk.Gui
             page.URL = CurrentTask.Url;
             page.Show();
         }
+
+        #endregion
     }
 }
