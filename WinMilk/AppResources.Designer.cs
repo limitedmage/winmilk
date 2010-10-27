@@ -250,6 +250,15 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to complete.
+        /// </summary>
+        public static string TaskCompleteButton {
+            get {
+                return ResourceManager.GetString("TaskCompleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to task.
         /// </summary>
         public static string TaskDetailsHeader {
@@ -300,6 +309,15 @@ namespace WinMilk {
         public static string TaskNotesHeader {
             get {
                 return ResourceManager.GetString("TaskNotesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to postpone.
+        /// </summary>
+        public static string TaskPostponeButton {
+            get {
+                return ResourceManager.GetString("TaskPostponeButton", resourceCulture);
             }
         }
         

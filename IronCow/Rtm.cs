@@ -59,7 +59,10 @@ namespace IronCow
                             {
                                 CacheTasks(() =>
                                 {
-                                    callback();
+                                    StartTimeline((timeline) =>
+                                    {
+                                        callback();
+                                    });
                                 });
                             });/*
                         });
@@ -703,19 +706,16 @@ namespace IronCow
 
         public void AddTask(string name, bool parse, int? listId, VoidCallback callback)
         {
-            GetOrStartTimeline((timeline) => 
+            if (Client is RestClient)
             {
-                if (Client is RestClient)
+                (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) =>
                 {
-                    (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) =>
+                    CacheTasks(() =>
                     {
-                        CacheTasks(() =>
-                        {
-                            callback();
-                        });
+                        callback();
                     });
-                }
-            });
+                });
+            }
         }
 
         #endregion

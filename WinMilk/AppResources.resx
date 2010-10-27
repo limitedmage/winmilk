@@ -219,4 +219,10 @@
   <data name="OverdueTasksHeader" xml:space="preserve">
     <value>overdue</value>
   </data>
+  <data name="TaskCompleteButton" xml:space="preserve">
+    <value>complete</value>
+  </data>
+  <data name="TaskPostponeButton" xml:space="preserve">
+    <value>postpone</value>
+  </data>
 </root>

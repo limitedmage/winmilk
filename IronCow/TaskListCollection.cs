@@ -33,26 +33,26 @@ namespace IronCow
             Clear();
             var request = new RestRequest("rtm.lists.getList");
             request.Callback = response =>
+            {
+                if (response.Lists != null)
                 {
-                    if (response.Lists != null)
+                    using (new UnsyncedScope(this))
                     {
-                        using (new UnsyncedScope(this))
+                        foreach (var list in response.Lists)
                         {
-                            foreach (var list in response.Lists)
+                            if (list.Archived == 0 && list.Deleted == 0)
                             {
-                                if (list.Archived == 0 && list.Deleted == 0)
-                                {
-                                    TaskList newList = new TaskList(list);
-                                    Add(newList);
-                                }
+                                TaskList newList = new TaskList(list);
+                                Add(newList);
                             }
-
-                            Sort();
                         }
-                    }
 
-                    callback();
-                };
+                        Sort();
+                    }
+                }
+
+                callback();
+            };
             Owner.ExecuteRequest(request);
         }
 

@@ -22,7 +22,7 @@ namespace IronCow
         private static RestRequest CreateStandardRequest(Task task, string method, VoidCallback callback)
         {
             RestRequest request = new RestRequest(method);
-            request.Parameters.Add("timeline", task.Owner.GetTimeline().ToString());
+            request.Parameters.Add("timeline", task.Owner.CurrentTimeline.ToString());
             request.Parameters.Add("list_id", task.Parent.Id.ToString());
             request.Parameters.Add("taskseries_id", task.SeriesId.ToString());
             request.Parameters.Add("task_id", task.Id.ToString());
@@ -609,15 +609,18 @@ namespace IronCow
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't complete a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.complete", callback);
+                Request request = CreateStandardRequest(this, "rtm.tasks.complete", () =>
+                {
+                    Completed = DateTime.Now;
+                    OnPropertyChanged("Completed");
+                    OnPropertyChanged("IsCompleted");
+                    OnPropertyChanged("IsIncomplete");
+
+                    callback();
+                });
                 
                 Owner.ExecuteRequest(request);
             }
-            
-            Completed = DateTime.Now;
-            OnPropertyChanged("Completed");
-            OnPropertyChanged("IsCompleted");
-            OnPropertyChanged("IsIncomplete");
         }
 
         public void Uncomplete(VoidCallback callback)
@@ -627,14 +630,16 @@ namespace IronCow
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't uncomplete a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.uncomplete", callback);
+                Request request = CreateStandardRequest(this, "rtm.tasks.uncomplete", () =>
+                {
+                    Completed = null;
+                    OnPropertyChanged("Completed");
+                    OnPropertyChanged("IsCompleted");
+                    OnPropertyChanged("IsIncomplete");
+                    callback();
+                });
                 Owner.ExecuteRequest(request);
             }
-
-            Completed = null;
-            OnPropertyChanged("Completed");
-            OnPropertyChanged("IsCompleted");
-            OnPropertyChanged("IsIncomplete");
         }
 
         public void Postpone(VoidCallback callback)
@@ -644,12 +649,14 @@ namespace IronCow
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't postpone a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.postpone", callback);
+                Request request = CreateStandardRequest(this, "rtm.tasks.postpone", () =>
+                {
+                    Postponed++;
+                    OnPropertyChanged("Postponed");
+                    callback();
+                });
                 Owner.ExecuteRequest(request);
             }
-
-            Postponed++;
-            OnPropertyChanged("Postponed");
         }
 
         public void Delete(VoidCallback callback)

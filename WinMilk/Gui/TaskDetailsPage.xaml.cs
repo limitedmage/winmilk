@@ -12,11 +12,27 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using IronCow;
 using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Shell;
 
 namespace WinMilk.Gui
 {
     public partial class TaskDetailsPage : PhoneApplicationPage
     {
+        #region IsLoading Property
+
+        public static bool sReload = true;
+
+        public static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(TaskDetailsPage),
+                new PropertyMetadata((bool)false));
+
+        public bool IsLoading
+        {
+            get { return (bool)GetValue(IsLoadingProperty); }
+            set { SetValue(IsLoadingProperty, value); }
+        }
+
+        #endregion
 
         #region Task Property
 
@@ -48,6 +64,24 @@ namespace WinMilk.Gui
 
                 CurrentTask = App.RtmClient.GetTask(id);
             }
+
+            CreateApplicationBar();
+        }
+
+        private void CreateApplicationBar()
+        {
+            // Build ApplicationBar with localized strings
+            ApplicationBar = new ApplicationBar();
+
+            ApplicationBarIconButton complete = new ApplicationBarIconButton(new Uri("/icons/appbar.check.rest.png", UriKind.Relative));
+            complete.Text = AppResources.TaskCompleteButton;
+            complete.Click += new EventHandler(CompleteButton_Click);
+            ApplicationBar.Buttons.Add(complete);
+
+            ApplicationBarIconButton postpone = new ApplicationBarIconButton(new Uri("/icons/appbar.next.rest.png", UriKind.Relative));
+            postpone.Text = AppResources.TaskPostponeButton;
+            postpone.Click += new EventHandler(PostponeButton_Click);
+            ApplicationBar.Buttons.Add(postpone);
         }
 
         #endregion
@@ -56,26 +90,44 @@ namespace WinMilk.Gui
 
         private void CompleteButton_Click(object sender, EventArgs e)
         {
-            if (CurrentTask != null)
+            if (CurrentTask != null && !IsLoading)
             {
+                IsLoading = true;
+
                 CurrentTask.Complete(() =>
                 {
-                    this.NavigationService.GoBack();
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        PanoramaLandingPage.sReload = true;
+                        ListPage.sReloadTasks = true;
+                        IsLoading = false;
+                        this.NavigationService.GoBack();
+                    });
                 });
             }
         }
 
         private void PostponeButton_Click(object sender, EventArgs e)
         {
-            if (CurrentTask != null)
+            if (CurrentTask != null  && !IsLoading)
             {
+                IsLoading = true;
+
                 CurrentTask.Postpone(() =>
                 {
-                    this.NavigationService.GoBack();
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        ListPage.sReloadTasks = true;
+                        PanoramaLandingPage.sReload = true;
+                        IsLoading = false;
+                        this.NavigationService.GoBack();
+                    });
                 });
             }
         }
 
+        /// PUNTED TO V2 ///
+        /*
         private void EditButton_Click(object sender, EventArgs e)
         {
 
@@ -85,6 +137,7 @@ namespace WinMilk.Gui
         {
             
         }
+        */
 
         private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {

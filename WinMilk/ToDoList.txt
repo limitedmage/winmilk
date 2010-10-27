@@ -1,12 +1,19 @@
 ﻿V1 - Oct 2010
-- view task URL, estimate and recurrence
-- $add tasks with advanced fields
-- $edit and delete tasks
-- $view, add, edit and delete notes
-- view tasks by list/smart list/tag
+- view task name, due, list, tags, URL, time estimate and notes
+- view tasks by list, smart list, tag and arbitrary search
+- view tasks by due date: overdue, today, tomorrow, later this week, and without due
+- complete and postpone tasks
+- add new tasks using Smart Add rules
 
 V2 - Dec 2010
+- create new lists
+- work offline
+- view complete tasks and uncomplete them
+- view task recurrence
 - smartadd help buttons
+- edit and delete tasks
+- add tasks with advanced fields
+- add, edit and delete notes
 - view, and, and edit task location w/ map
 - view completed tasks, and uncomplete them
 - work offline

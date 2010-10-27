@@ -157,9 +157,10 @@
                 <Grid>
                     <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
                     	<!-- Add note button -->
-                        <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
+                        <!-- PUNTED TO V2 -->
+                        <!--<StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
                             <con:IconButton x:Name="AddNoteButton" Text="{Binding Path=Loc.TaskNotesAddButton, Source={StaticResource L10N}}" Type="add" Click="AddNoteButton_Click"/>
-						</StackPanel>
+						</StackPanel>-->
 						
 						<!-- Notes list -->
                 		<ListBox ItemsSource="{Binding Notes}" x:Name="NotesListBox" Height="471" ItemContainerStyle="{StaticResource ListBoxItemStyle}"> 
@@ -174,10 +175,12 @@
 										<TextBlock Text="{Binding Body}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
 										
 										<!-- Note edit and delete buttons -->
+                                        <!-- PUNTED TO V2 -->
+                                        <!--
                                         <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
                                             <con:IconButton Text="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Type="edit"/>
                                             <con:IconButton Text="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Type="delete"/>
-										</StackPanel>
+										</StackPanel>-->
                 					</StackPanel>
                 				</DataTemplate>
                 			</ListBox.ItemTemplate>
@@ -187,14 +190,4 @@
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>
-
-    <!--Sample code showing usage of ApplicationBar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="CompleteButton" IconUri="/icons/appbar.check.rest.png" Text="complete" Click="CompleteButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name="PostponeButton" IconUri="/icons/appbar.next.rest.png" Text="postpone" Click="PostponeButton_Click"/>
-            <shell:ApplicationBarIconButton x:Name="EditButton" IconUri="/icons/appbar.edit.rest.png" Text="edit" Click="EditButton_Click"/>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
-
 </phone:PhoneApplicationPage>

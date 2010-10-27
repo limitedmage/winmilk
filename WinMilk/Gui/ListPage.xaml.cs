@@ -18,7 +18,8 @@ namespace WinMilk.Gui
 {
     public partial class ListPage : PhoneApplicationPage
     {
-        public static bool sReload = true;
+        public static bool sReloadLists = true;
+        public static bool sReloadTasks = true;
 
         public static readonly DependencyProperty ListsProperty =
                DependencyProperty.Register("Lists", typeof(ObservableCollection<TaskList>), typeof(ListPage),
@@ -62,10 +63,16 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (sReload)
+            if (sReloadLists)
             {
                 LoadAllLists();
-                sReload = false;
+                sReloadLists = false;
+            }
+
+            if (sReloadTasks)
+            {
+                LoadList(CurrentList);
+                sReloadTasks = false;
             }
 
             base.OnNavigatedTo(e);
@@ -94,11 +101,7 @@ namespace WinMilk.Gui
                         Dispatcher.BeginInvoke(() =>
                         {
                             CurrentList = l;
-                            if (sReload)
-                            {
-                                LoadList(CurrentList);
-                                sReload = false;
-                            }
+                            
                         });
                         break;
                     }
@@ -110,13 +113,16 @@ namespace WinMilk.Gui
         {
             IsLoading = true;
 
-            list.SyncTasks(() =>
+            if (list != null)
             {
-                Dispatcher.BeginInvoke(() =>
+                list.SyncTasks(() =>
                 {
-                    IsLoading = false;
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        IsLoading = false;
+                    });
                 });
-            });
+            }
         }
 
         private void CreateApplicationBar()
@@ -134,9 +140,9 @@ namespace WinMilk.Gui
             sync.Click += new EventHandler(Sync_Click);
             ApplicationBar.Buttons.Add(sync);
 
-            ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
+            //ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
             //settings.Click += new EventHandler(settings_Click);
-            ApplicationBar.MenuItems.Add(pin);
+            //ApplicationBar.MenuItems.Add(pin);
         }
 
         private void ListsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)

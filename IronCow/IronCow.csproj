@@ -42,7 +42,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Servicemodel.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
