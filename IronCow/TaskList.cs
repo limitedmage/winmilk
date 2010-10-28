@@ -11,8 +11,8 @@ namespace IronCow
 {
     public enum TaskListSortOrder
     {
-        Date = 0,
-        Priority = 1,
+        Date = 1,
+        Priority = 0,
         Name = 2
     }
 

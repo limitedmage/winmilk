@@ -86,6 +86,7 @@ namespace IronCow
             if (!mList.GetFlag(TaskListFlags.Smart))
                 throw new InvalidOperationException("This list isn't a smart list and cannot use SmartResync: " + mList.Name);
 
+            /*
             Owner.GetTasks(mList.Filter, (tasks) => 
             {
                 mImpl.Clear();
@@ -93,7 +94,12 @@ namespace IronCow
                 Sort();
 
                 callback();
-            }); 
+            }); */
+
+            mImpl.Clear();
+            mImpl.AddRange(Owner.SearchTasksLocally(mList.Filter));
+            Sort();
+            callback();
         }
 
         internal void InternalSync(RawList[] lists)
@@ -436,6 +442,7 @@ namespace IronCow
 
         public void Sort()
         {
+            /*
             switch (this.mList.SortOrder)
             {
                 case TaskListSortOrder.Date:
@@ -447,7 +454,8 @@ namespace IronCow
                 default:
                     mImpl.Sort(Task.CompareByName);
                     break;
-            }
+            }*/
+            mImpl.Sort(Task.CompareByDate);
         }
     }
 }

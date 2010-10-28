@@ -43,93 +43,96 @@ namespace IronCow.Search
         {
             var tokens = new TokenCollection();
 
-            StateFlags state = StateFlags.None;
-            string[] words = input.Split(' ', '\t');
-            for (int i = 0; i < words.Length; i++)
+            if (!string.IsNullOrEmpty(input))
             {
-                string word = words[i];
+                StateFlags state = StateFlags.None;
+                string[] words = input.Split(' ', '\t');
+                for (int i = 0; i < words.Length; i++)
+                {
+                    string word = words[i];
 
-                int addClosingParen = 0;
-                bool addClosingQuote = false;
+                    int addClosingParen = 0;
+                    bool addClosingQuote = false;
 
-                while (word[0] == '(')
-                {
-                    tokens.Add(new Token(TokenType.ParenthesisOpen));
-                    word = word.Substring(1);
-                }
-                if (word.Length == 0)
-                    continue;
-                if (word[0] == '"')
-                {
-                    if ((state & StateFlags.IsInsideQuotes) != 0)
-                        throw new Exception();
-                    tokens.Add(new Token(TokenType.Quote));
-                    state |= StateFlags.IsInsideQuotes;
-                    word = word.Substring(1);
-                }
-                if (word.Length == 0)
-                    continue;
-
-                while (word[word.Length - 1] == ')')
-                {
-                    ++addClosingParen;
-                    word = word.Substring(0, word.Length - 1);
-                }
-                if (word.Length == 0)
-                {
-                    while (addClosingParen-- > 0)
-                        tokens.Add(new Token(TokenType.ParenthesisClose));
-                    continue;
-                }
-                if (word[word.Length - 1] == '"')
-                {
-                    addClosingQuote = true;
-                    word = word.Substring(0, word.Length - 1);
-                }
-                if (word.Length == 0)
-                {
-                    if (addClosingQuote)
-                        tokens.Add(new Token(TokenType.Quote));
-                    while (addClosingParen-- > 0)
-                        tokens.Add(new Token(TokenType.ParenthesisClose));
-                }
-
-                int semiColonIndex = word.IndexOf(':');
-                if (semiColonIndex < 0 || (state & StateFlags.IsInsideQuotes) != 0)
-                {
-                    if ((state & StateFlags.IsInsideQuotes) == 0 && word == "AND")
-                        tokens.Add(new Token(TokenType.BooleanAnd));
-                    else if ((state & StateFlags.IsInsideQuotes) == 0 && word == "OR")
-                        tokens.Add(new Token(TokenType.BooleanOr));
-                    else if ((state & StateFlags.IsInsideQuotes) == 0 && word == "NOT")
-                        tokens.Add(new Token(TokenType.UnaryNot));
-                    else
-                        tokens.Add(new Token(word));
-                }
-                else
-                {
-                    string operatorName = word.Substring(0, semiColonIndex);
-                    tokens.Add(new Token(TokenType.Operator, operatorName));
-
-                    string operatorArgumentStart = word.Substring(semiColonIndex + 1);
-                    if (operatorArgumentStart[0] == '"')
+                    while (word[0] == '(')
                     {
+                        tokens.Add(new Token(TokenType.ParenthesisOpen));
+                        word = word.Substring(1);
+                    }
+                    if (word.Length == 0)
+                        continue;
+                    if (word[0] == '"')
+                    {
+                        if ((state & StateFlags.IsInsideQuotes) != 0)
+                            throw new Exception();
                         tokens.Add(new Token(TokenType.Quote));
                         state |= StateFlags.IsInsideQuotes;
-                        operatorArgumentStart = operatorArgumentStart.Substring(1);
+                        word = word.Substring(1);
                     }
-                    tokens.Add(new Token(operatorArgumentStart));
-                }
+                    if (word.Length == 0)
+                        continue;
 
-                if (addClosingQuote)
-                {
-                    if ((state & StateFlags.IsInsideQuotes) == 0)
-                        throw new Exception();
-                    tokens.Add(new Token(TokenType.Quote));
-                    state &= ~StateFlags.IsInsideQuotes;
+                    while (word[word.Length - 1] == ')')
+                    {
+                        ++addClosingParen;
+                        word = word.Substring(0, word.Length - 1);
+                    }
+                    if (word.Length == 0)
+                    {
+                        while (addClosingParen-- > 0)
+                            tokens.Add(new Token(TokenType.ParenthesisClose));
+                        continue;
+                    }
+                    if (word[word.Length - 1] == '"')
+                    {
+                        addClosingQuote = true;
+                        word = word.Substring(0, word.Length - 1);
+                    }
+                    if (word.Length == 0)
+                    {
+                        if (addClosingQuote)
+                            tokens.Add(new Token(TokenType.Quote));
+                        while (addClosingParen-- > 0)
+                            tokens.Add(new Token(TokenType.ParenthesisClose));
+                    }
+
+                    int semiColonIndex = word.IndexOf(':');
+                    if (semiColonIndex < 0 || (state & StateFlags.IsInsideQuotes) != 0)
+                    {
+                        if ((state & StateFlags.IsInsideQuotes) == 0 && word.Equals("AND", StringComparison.OrdinalIgnoreCase))
+                            tokens.Add(new Token(TokenType.BooleanAnd));
+                        else if ((state & StateFlags.IsInsideQuotes) == 0 && word.Equals("OR", StringComparison.OrdinalIgnoreCase))
+                            tokens.Add(new Token(TokenType.BooleanOr));
+                        else if ((state & StateFlags.IsInsideQuotes) == 0 && word.Equals("NOT", StringComparison.OrdinalIgnoreCase))
+                            tokens.Add(new Token(TokenType.UnaryNot));
+                        else
+                            tokens.Add(new Token(word));
+                    }
+                    else
+                    {
+                        string operatorName = word.Substring(0, semiColonIndex);
+                        tokens.Add(new Token(TokenType.Operator, operatorName));
+
+                        string operatorArgumentStart = word.Substring(semiColonIndex + 1);
+                        if (operatorArgumentStart[0] == '"')
+                        {
+                            tokens.Add(new Token(TokenType.Quote));
+                            state |= StateFlags.IsInsideQuotes;
+                            operatorArgumentStart = operatorArgumentStart.Substring(1);
+                        }
+                        tokens.Add(new Token(operatorArgumentStart));
+                    }
+
+                    if (addClosingQuote)
+                    {
+                        if ((state & StateFlags.IsInsideQuotes) == 0)
+                            throw new Exception();
+                        tokens.Add(new Token(TokenType.Quote));
+                        state &= ~StateFlags.IsInsideQuotes;
+                    }
+                    while (addClosingParen-- > 0)
+                        tokens.Add(new Token(TokenType.ParenthesisClose));
                 }
-                while (addClosingParen-- > 0)
-                    tokens.Add(new Token(TokenType.ParenthesisClose));
             }
 
             return BuildSentences(tokens);
@@ -310,7 +313,7 @@ namespace IronCow.Search
                     booleanNode.Add(leftNode);
                     booleanNode.Add(rightNode);
                     --i; // make sure that "i++" will go back to the same value of "i",
-                         // which makes us end up on the node after "rightNode".
+                    // which makes us end up on the node after "rightNode".
 
                     if (rightNode is ParenthesisGroupNode)
                     {

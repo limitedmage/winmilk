@@ -480,6 +480,32 @@ namespace IronCow
             GetTasks(RtmElement.UnsyncedId, filter, callback);
         }
 
+        public List<Task> SearchTasksLocally(string filter)
+        {
+            var lexicalAnalyzer = new Search.LexicalAnalyzer();
+            var tokens = lexicalAnalyzer.Tokenize(filter);
+            var astRoot = lexicalAnalyzer.BuildAst(tokens);
+
+            bool includeArchivedLists = astRoot.NeedsArchivedLists();
+
+            var resultTasks = new List<Task>();
+            var searchableTaskLists = GetSearchableTaskLists(includeArchivedLists);
+            foreach (var list in searchableTaskLists)
+            {
+                if (list.Tasks != null)
+                {
+                    foreach (var task in list.Tasks)
+                    {
+                        var context = new Search.SearchContext(task, DateFormat.Default);
+                        if (astRoot.ShouldInclude(context))
+                            resultTasks.Add(task);
+                    }
+                }
+            }
+                
+            return resultTasks;
+        }
+
         public void GetTasks(int listId, string filter, TaskArrayCallback callback)
         {
             if (SearchMode == SearchMode.LocalOnly || SearchMode == SearchMode.LocalAndRemote)

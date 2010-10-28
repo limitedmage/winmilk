@@ -316,6 +316,14 @@ namespace IronCow
                 return new FuzzyDateTime(result, false);
             }
 
+            // "now"
+            match = Regex.Match(input, @"^now$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                var result = DateTime.Now;
+                return new FuzzyDateTime(result, true);
+            }
+
             throw new ArgumentException();
         }
 

@@ -115,6 +115,7 @@ namespace WinMilk.Gui
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             LoadData();
+            SyncData();
 
             base.OnNavigatedTo(e);
         }
@@ -122,6 +123,35 @@ namespace WinMilk.Gui
         #endregion
 
         #region Loading Data
+
+        private void SyncData()
+        {
+            if (sReload)
+            {
+                if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        this.IsLoading = true;
+                    });
+
+                    App.RtmClient.SyncEverything(() =>
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            LoadData();
+                            IsLoading = false;
+                        });
+                    });
+                }
+                else
+                {
+                    Login();
+                }
+            }
+
+            sReload = false;
+        }
 
         private void LoadData()
         {
@@ -171,78 +201,7 @@ namespace WinMilk.Gui
             }
 
 
-            if (sReload)
-            {
-                if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
-                {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        this.IsLoading = true;
-                    });
-
-                    App.RtmClient.SyncEverything(() =>
-                    {
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            TaskLists = new ObservableCollection<TaskList>();
-                            foreach (TaskList l in App.RtmClient.TaskLists)
-                            {
-                                TaskLists.Add(l);
-                            }
-                        });
-
-
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            List<Task> today = App.RtmClient.GetTodayTasks();
-                            TodayTasks = new ObservableCollection<Task>();
-                            foreach (Task t in today)
-                            {
-                                TodayTasks.Add(t);
-                            }
-
-                            List<Task> tomorrow = App.RtmClient.GetTomorrowTasks();
-                            TomorrowTasks = new ObservableCollection<Task>();
-                            foreach (Task t in tomorrow)
-                            {
-                                TomorrowTasks.Add(t);
-                            }
-
-                            List<Task> overdue = App.RtmClient.GetOverdueTasks();
-                            OverdueTasks = new ObservableCollection<Task>();
-                            foreach (Task t in overdue)
-                            {
-                                OverdueTasks.Add(t);
-                            }
-
-                            List<Task> week = App.RtmClient.GetWeekTasks();
-                            WeekTasks = new ObservableCollection<Task>();
-                            foreach (Task t in week)
-                            {
-                                WeekTasks.Add(t);
-                            }
-
-                            List<Task> nodue = App.RtmClient.GetNoDueTasks();
-                            NoDueTasks = new ObservableCollection<Task>();
-                            foreach (Task t in nodue)
-                            {
-                                NoDueTasks.Add(t);
-                            }
-                        });
-
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            IsLoading = false;
-                        });
-                    });
-                }
-                else
-                {
-                    Login();
-                }
-            }
-
-            sReload = false;
+            
         }
 
         public void Login()
