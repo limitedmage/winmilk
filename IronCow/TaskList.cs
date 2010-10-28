@@ -94,7 +94,13 @@ namespace IronCow
             set
             {
                 mTasks = value;
+                OnPropertyChanged("Count");
             }
+        }
+
+        public int Count
+        {
+            get { return mTasks == null ? 0 : mTasks.Count; }
         }
         #endregion
 
@@ -191,6 +197,7 @@ namespace IronCow
 
                 mTasks.Sort();
                 OnPropertyChanged("Tasks");
+                OnPropertyChanged("Count");
             }
         }
 
@@ -219,6 +226,7 @@ namespace IronCow
                 {
                     mTasks = tmp;
                     OnPropertyChanged("Tasks");
+                    OnPropertyChanged("Count");
                     callback();
                 });
             }
@@ -230,6 +238,7 @@ namespace IronCow
                 {
                     mTasks = tmp;
                     OnPropertyChanged("Tasks");
+                    OnPropertyChanged("Count");
                     callback();
                 });
             }

@@ -58,7 +58,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         
-        <controls:Pivot Title="{Binding Path=Loc.AppNameCaps, Source={StaticResource L10N}}" Name="TaskDetailsPanel" DataContext="{Binding Task}">
+        <controls:Pivot Title="{Binding NameUpper}" Name="TaskDetailsPanel" DataContext="{Binding Task}">
             
 			<!-- Task details -->
             <controls:PivotItem x:Name="TaskPivotItem" Header="{Binding Path=Loc.TaskDetailsHeader, Source={StaticResource L10N}}">

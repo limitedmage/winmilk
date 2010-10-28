@@ -58,26 +58,8 @@ namespace WinMilk.Gui
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             CreateApplicationBar();
-        }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            if (sReload)
-            {
-                LoadAllLists();
-                sReload = false;
-            }
-
-            base.OnNavigatedTo(e);
-        }
-
-        private void LoadAllLists()
-        {
-            Lists = new ObservableCollection<TaskList>();
-            foreach (TaskList list in App.RtmClient.TaskLists)
-            {
-                Lists.Add(list);
-            }
+            LoadAllLists();
 
             string idStr;
 
@@ -94,12 +76,44 @@ namespace WinMilk.Gui
                         Dispatcher.BeginInvoke(() =>
                         {
                             CurrentList = l;
-                            LoadList(CurrentList);
+                            //LoadList(CurrentList);
                         });
                         break;
                     }
                 }
             }
+
+            sReload = false;
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (sReload)
+            {
+                LoadAllLists();
+                sReload = false;
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
+        private void LoadAllLists()
+        {
+            // save old selected index
+            int oldIndex = ListsPivot.SelectedIndex;
+
+            var tmp = new ObservableCollection<TaskList>();
+            foreach (TaskList list in App.RtmClient.TaskLists)
+            {
+                tmp.Add(list);
+            }
+            Lists = tmp;
+
+            // restore index
+            Dispatcher.BeginInvoke(() =>
+            {
+                ListsPivot.SelectedIndex = oldIndex;
+            });
         }
 
         private void LoadList(TaskList list)
@@ -148,7 +162,7 @@ namespace WinMilk.Gui
 
                 if (CurrentList.Tasks == null || CurrentList.Tasks.Count == 0)
                 {
-                    LoadList(CurrentList);
+                    //LoadList(CurrentList);
                 }
             }
         }
@@ -174,7 +188,12 @@ namespace WinMilk.Gui
 
         private void Sync_Click(object sender, EventArgs e)
         {
-            LoadList(CurrentList);
+            //LoadList(CurrentList);
+
+            App.RtmClient.CacheTasks(() =>
+            {
+                LoadAllLists();
+            });
         }
 
         private void AddTaskControl_Submit(object sentder, Controls.SubmitEventArgs e)

@@ -225,4 +225,25 @@
   <data name="TaskPostponeButton" xml:space="preserve">
     <value>postpone</value>
   </data>
+  <data name="ListPageTitle" xml:space="preserve">
+    <value>LISTS</value>
+  </data>
+  <data name="MoreDonateButton" xml:space="preserve">
+    <value>donate</value>
+  </data>
+  <data name="SearchPageHeader" xml:space="preserve">
+    <value>search</value>
+  </data>
+  <data name="SmartAddExample" xml:space="preserve">
+    <value>Eg: pick up the milk today !1 #personal</value>
+  </data>
+  <data name="SmartAddHeader" xml:space="preserve">
+    <value>smart add</value>
+  </data>
+  <data name="TagListPageHeader" xml:space="preserve">
+    <value>tags</value>
+  </data>
+  <data name="TagPageTitle" xml:space="preserve">
+    <value>TAGS</value>
+  </data>
 </root>

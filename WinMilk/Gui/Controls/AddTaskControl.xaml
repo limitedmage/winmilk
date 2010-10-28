@@ -56,7 +56,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid x:Name="MainGrid" Width="480" Height="120" 
+        <Grid x:Name="MainGrid" Width="480" Height="Auto" 
               Background="{StaticResource PhoneAccentBrush}" 
               VerticalAlignment="Top" Canvas.ZIndex="1" Margin="{Binding MainGridMargin}">
             <Grid.Projection>
@@ -66,21 +66,33 @@
                 <CompositeTransform/>
             </Grid.RenderTransform>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="80" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp"/>
-            <con:BigIconButton x:Name="SmartAddButton" Grid.Column="1" Click="SmartAddButton_Click" Type="add"/>
+            <TextBlock Text="{Binding Path=Loc.SmartAddHeader, Source={StaticResource L10N}}" 
+                       Grid.Row="0" Margin="12,0" FontSize="{StaticResource PhoneFontSizeExtraLarge}" />
+                
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <HyperlinkButton x:Name="AdvancedAddButton" Content="{Binding Path=Loc.AdvancedTaskAddLink, Source={StaticResource L10N}}" Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
-            <HyperlinkButton x:Name="CancelSmartAddButton" Content="{Binding Path=Loc.CancelTaskAddLink, Source={StaticResource L10N}}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Click="CancelSmartAddButton_Click" />
+                <TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp" InputScope="Search"/>
+                <con:BigIconButton x:Name="SmartAddButton" Grid.Column="1" Click="SmartAddButton_Click" Type="add"/>
+            </Grid>
+
+            <TextBlock Text="{Binding Path=Loc.SmartAddExample, Source={StaticResource L10N}}"
+                       Grid.Row="2" Margin="12,0,12,10"/>
+            
+
+            <!--<HyperlinkButton x:Name="AdvancedAddButton" Content="{Binding Path=Loc.AdvancedTaskAddLink, Source={StaticResource L10N}}" Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
+            <HyperlinkButton x:Name="CancelSmartAddButton" Content="{Binding Path=Loc.CancelTaskAddLink, Source={StaticResource L10N}}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Click="CancelSmartAddButton_Click" />-->
         </Grid>
-        <Canvas Name="Overlay" Background="Transparent" MouseLeftButtonDown="Overlay_MouseLeftButtonDown"/>
+        <Canvas Name="Overlay" Background="#99000000" MouseLeftButtonDown="Overlay_MouseLeftButtonDown"/>
     </Grid>
 </UserControl>

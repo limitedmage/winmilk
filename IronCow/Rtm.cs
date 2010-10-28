@@ -753,6 +753,12 @@ namespace IronCow
                 if (taskList != null)
                     taskList.InternalSync(list);
             }
+
+            // reload every smart list
+            foreach (var list in TaskLists)
+            {
+                if (list.IsSmart) list.SyncTasks(() => { });
+            }
         }
 
         public void AddTask(string name, bool parse, int? listId, VoidCallback callback)

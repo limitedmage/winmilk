@@ -26,7 +26,7 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <controls:Pivot x:Name="ListsPivot"
-                        Title="WINMILK"
+                        Title="LISTS"
                         SelectionChanged="ListsPivot_SelectionChanged"
                         ItemsSource="{Binding Lists}">
 

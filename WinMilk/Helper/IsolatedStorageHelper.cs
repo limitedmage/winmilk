@@ -17,7 +17,10 @@
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Runtime.Serialization.Json;
+using System.Xml.Serialization;
+using System.Xml;
 using System.Text;
+using System;
 
 namespace WinMilk.Helper
 {
@@ -42,7 +45,7 @@ namespace WinMilk.Helper
         {
             if (objectToSave != null)
             {
-                string serializedObject = Serialize(objectToSave);
+                string serializedObject = Serialize<T>(objectToSave);
                 IsolatedStorageSettings.ApplicationSettings[key] = serializedObject;
             }
         }
@@ -52,12 +55,17 @@ namespace WinMilk.Helper
             IsolatedStorageSettings.ApplicationSettings.Remove(key);
         }
 
-        private static string Serialize(object objectToSerialize)
+        private static string Serialize<T>(object objectToSerialize)
         {
+            if (typeof(T) == typeof(string))
+            {
+                return (string) objectToSerialize;
+            }
+
             using (MemoryStream ms = new MemoryStream())
             {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(objectToSerialize.GetType());
-                serializer.WriteObject(ms, objectToSerialize);
+                XmlSerializer s = new XmlSerializer(typeof(T));
+                s.Serialize(ms, objectToSerialize);
                 ms.Position = 0;
 
                 using (StreamReader reader = new StreamReader(ms))
@@ -67,12 +75,19 @@ namespace WinMilk.Helper
             }
         }
 
-        private static T Deserialize<T>(string jsonString)
+        private static T Deserialize<T>(string serializedString)
         {
-            using (MemoryStream ms = new MemoryStream(Encoding.Unicode.GetBytes(jsonString)))
+            if (typeof(T) == typeof(string))
             {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(T));
-                return (T)serializer.ReadObject(ms);
+                object o = serializedString;
+                return (T)o;
+            }
+
+            XmlSerializer s = new XmlSerializer(typeof(T));
+
+            using (XmlReader reader = XmlReader.Create(new StringReader(serializedString)))
+            {
+                return (T)s.Deserialize(reader);
             }
         }
     }

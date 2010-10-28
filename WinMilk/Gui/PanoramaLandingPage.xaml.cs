@@ -13,6 +13,8 @@ using Microsoft.Phone.Controls;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
 using IronCow;
+using Microsoft.Phone.Tasks;
+using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
@@ -120,6 +122,17 @@ namespace WinMilk.Gui
             base.OnNavigatedTo(e);
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (AddTaskPopup.IsOpen)
+            {
+                AddTaskPopup.Close();
+                e.Cancel = true;
+            }
+
+            base.OnBackKeyPress(e);
+        }
+
         #endregion
 
         #region Loading Data
@@ -130,16 +143,17 @@ namespace WinMilk.Gui
             {
                 if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    SmartDispatcher.BeginInvoke(() =>
                     {
                         this.IsLoading = true;
                     });
 
                     App.RtmClient.SyncEverything(() =>
                     {
-                        Dispatcher.BeginInvoke(() =>
+                        LoadData();
+
+                        SmartDispatcher.BeginInvoke(() =>
                         {
-                            LoadData();
                             IsLoading = false;
                         });
                     });
@@ -158,50 +172,57 @@ namespace WinMilk.Gui
             if (App.RtmClient.TaskLists != null)
             {
 
-                TaskLists = new ObservableCollection<TaskList>();
+                var tempTaskLists = new ObservableCollection<TaskList>();
                 foreach (TaskList l in App.RtmClient.TaskLists)
                 {
-                    TaskLists.Add(l);
+                    tempTaskLists.Add(l);
                 }
 
                 List<Task> today = App.RtmClient.GetTodayTasks();
-                TodayTasks = new ObservableCollection<Task>();
+                var tempTodayTasks = new ObservableCollection<Task>();
                 foreach (Task t in today)
                 {
-                    TodayTasks.Add(t);
+                    tempTodayTasks.Add(t);
                 }
 
                 List<Task> tomorrow = App.RtmClient.GetTomorrowTasks();
-                TomorrowTasks = new ObservableCollection<Task>();
+                var tempTomorrowTasks = new ObservableCollection<Task>();
                 foreach (Task t in tomorrow)
                 {
-                    TomorrowTasks.Add(t);
+                    tempTomorrowTasks.Add(t);
                 }
 
                 List<Task> overdue = App.RtmClient.GetOverdueTasks();
-                OverdueTasks = new ObservableCollection<Task>();
+                var tempOverdueTasks = new ObservableCollection<Task>();
                 foreach (Task t in overdue)
                 {
-                    OverdueTasks.Add(t);
+                    tempOverdueTasks.Add(t);
                 }
 
                 List<Task> week = App.RtmClient.GetWeekTasks();
-                WeekTasks = new ObservableCollection<Task>();
+                var tempWeekTasks = new ObservableCollection<Task>();
                 foreach (Task t in week)
                 {
-                    WeekTasks.Add(t);
+                    tempWeekTasks.Add(t);
                 }
 
                 List<Task> nodue = App.RtmClient.GetNoDueTasks();
-                NoDueTasks = new ObservableCollection<Task>();
+                var tempNoDueTasks = new ObservableCollection<Task>();
                 foreach (Task t in nodue)
                 {
-                    NoDueTasks.Add(t);
+                    tempNoDueTasks.Add(t);
                 }
+
+                SmartDispatcher.BeginInvoke(() =>
+                {
+                    TaskLists = tempTaskLists;
+                    TodayTasks = tempTodayTasks;
+                    TomorrowTasks = tempTomorrowTasks;
+                    OverdueTasks = tempOverdueTasks;
+                    WeekTasks = tempWeekTasks;
+                    NoDueTasks = tempNoDueTasks;
+                });
             }
-
-
-            
         }
 
         public void Login()
@@ -289,6 +310,13 @@ namespace WinMilk.Gui
                 sReload = true;
                 LoadData();
             });
+        }
+
+        private void DonateButton_Click(object sender, EventArgs e)
+        {
+            WebBrowserTask page = new WebBrowserTask();
+            page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
+            page.Show();
         }
 
         #endregion

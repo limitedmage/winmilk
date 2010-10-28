@@ -4,6 +4,7 @@
 - view tasks by due date: overdue, today, tomorrow, later this week, and without due
 - complete and postpone tasks
 - add new tasks using Smart Add rules
+- cache tasks locally for viewing offline
 
 V2 - Dec 2010
 - create new lists

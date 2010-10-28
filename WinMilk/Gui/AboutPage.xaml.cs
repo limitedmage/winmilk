@@ -53,5 +53,12 @@ namespace WinMilk.Gui
             page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
             page.Show();
         }
+
+        private void RTM_Click(object senter, RoutedEventArgs e)
+        {
+            WebBrowserTask page = new WebBrowserTask();
+            page.URL = "http://rememberthemilk.com";
+            page.Show();
+        }
     }
 }

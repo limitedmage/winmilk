@@ -205,8 +205,13 @@ namespace IronCow
                     }
 
                     OnPropertyChanged("Name");
+                    OnPropertyChanged("NameUpper");
                 }
             }
+        }
+        public string NameUpper
+        {
+            get { return Name.ToUpper(); }
         }
 
         private string mUrl;

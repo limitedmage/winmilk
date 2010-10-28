@@ -132,6 +132,7 @@
                     <!--<con:BigIconButton x:Name="SettingsButton" Click="SettingsButton_Click" Text="{Binding Path=Loc.MoreSettingsButton, Source={StaticResource L10N}}" Type="feature.settings" HorizontalAlignment="Left" />-->
                     <con:BigIconButton x:Name="LogoutButton" Click="LogoutButton_Click" Text="{Binding Path=Loc.MoreLogoutButton, Source={StaticResource L10N}}" Type="close" HorizontalAlignment="Left" />
                     <con:BigIconButton x:Name="AboutButton" Click="AboutButton_Click" Text="{Binding Path=Loc.MoreAboutButton, Source={StaticResource L10N}}" Type="questionmark" HorizontalAlignment="Left" />
+                    <con:BigIconButton x:Name="DonateButton" Click="DonateButton_Click" Text="{Binding Path=Loc.MoreDonateButton, Source={StaticResource L10N}}" Type="share" HorizontalAlignment="Left" />
                 </StackPanel>
             </controls:PanoramaItem>
 		</controls:Panorama>

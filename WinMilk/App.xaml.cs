@@ -65,7 +65,7 @@ namespace WinMilk
         public static void LoadData()
         {
             string RtmAuthToken = Helper.IsolatedStorageHelper.GetObject<string>("RtmAuthToken");
-            DateTime LastSync = Helper.IsolatedStorageHelper.GetObject<DateTime>("LastSync");
+            //DateTime LastSync = Helper.IsolatedStorageHelper.GetObject<DateTime>("LastSync");
             ListsResponse = Helper.IsolatedStorageHelper.GetObject<Response>("ListsResponse");
             TasksResponse = Helper.IsolatedStorageHelper.GetObject<Response>("TasksResponse");
 
@@ -95,7 +95,7 @@ namespace WinMilk
         public static void SaveData()
         {
             Helper.IsolatedStorageHelper.SaveObject<string>("RtmAuthToken", RtmClient.AuthToken);
-            Helper.IsolatedStorageHelper.SaveObject<DateTime>("LastSync", DateTime.Now);
+            //Helper.IsolatedStorageHelper.SaveObject<DateTime>("LastSync", DateTime.Now);
             Helper.IsolatedStorageHelper.SaveObject<Response>("ListsResponse", ListsResponse);
             Helper.IsolatedStorageHelper.SaveObject<Response>("TasksResponse", TasksResponse);
         }
@@ -103,7 +103,7 @@ namespace WinMilk
         public static void DeleteData()
         {
             Helper.IsolatedStorageHelper.DeleteObject("RtmAuthToken");
-            Helper.IsolatedStorageHelper.DeleteObject("LastSync");
+            //Helper.IsolatedStorageHelper.DeleteObject("LastSync");
             Helper.IsolatedStorageHelper.DeleteObject("ListsResponse");
             Helper.IsolatedStorageHelper.DeleteObject("TasksResponse");
             RtmClient = new Rtm(RtmApiKey, RtmSharedKey);
@@ -123,6 +123,7 @@ namespace WinMilk
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            //DeleteData();
             LoadData();
         }
 

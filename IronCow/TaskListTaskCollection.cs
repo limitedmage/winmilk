@@ -81,7 +81,7 @@ namespace IronCow
             }
         }
 
-        internal void SmartResync(SyncCallback callback)
+        public void SmartResync(SyncCallback callback)
         {
             if (!mList.GetFlag(TaskListFlags.Smart))
                 throw new InvalidOperationException("This list isn't a smart list and cannot use SmartResync: " + mList.Name);

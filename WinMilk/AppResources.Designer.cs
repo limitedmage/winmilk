@@ -151,6 +151,15 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LISTS.
+        /// </summary>
+        public static string ListPageTitle {
+            get {
+                return ResourceManager.GetString("ListPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to lists.
         /// </summary>
         public static string ListsHeader {
@@ -174,6 +183,15 @@ namespace WinMilk {
         public static string MoreActionsHeader {
             get {
                 return ResourceManager.GetString("MoreActionsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to donate.
+        /// </summary>
+        public static string MoreDonateButton {
+            get {
+                return ResourceManager.GetString("MoreDonateButton", resourceCulture);
             }
         }
         
@@ -241,11 +259,56 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to search.
+        /// </summary>
+        public static string SearchPageHeader {
+            get {
+                return ResourceManager.GetString("SearchPageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Eg: pick up the milk today !1 #personal.
+        /// </summary>
+        public static string SmartAddExample {
+            get {
+                return ResourceManager.GetString("SmartAddExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to smart add.
+        /// </summary>
+        public static string SmartAddHeader {
+            get {
+                return ResourceManager.GetString("SmartAddHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to sync.
         /// </summary>
         public static string SyncAppbar {
             get {
                 return ResourceManager.GetString("SyncAppbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tags.
+        /// </summary>
+        public static string TagListPageHeader {
+            get {
+                return ResourceManager.GetString("TagListPageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TAGS.
+        /// </summary>
+        public static string TagPageTitle {
+            get {
+                return ResourceManager.GetString("TagPageTitle", resourceCulture);
             }
         }
         

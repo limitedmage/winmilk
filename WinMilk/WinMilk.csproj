@@ -128,6 +128,7 @@
       <DependentUpon>TaskDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\IsolatedStorageHelper.cs" />
+    <Compile Include="Helper\SmartDispatcher.cs" />
     <Compile Include="Helper\SortableObservableCollection.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -419,7 +420,7 @@
     <Content Include="icons\appbar.sync.rest.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="oldSplashScreenImage.jpg" />
+    <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AppResources.es-MX.resx">
