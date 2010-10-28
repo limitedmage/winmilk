@@ -118,13 +118,17 @@
     <Compile Include="Gui\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\TagsPage.xaml.cs">
-      <DependentUpon>TagsPage.xaml</DependentUpon>
+    <Compile Include="Gui\TagListPage.xaml.cs">
+      <DependentUpon>TagListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\TagPage.xaml.cs">
+      <DependentUpon>TagPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\TaskDetailsPage.xaml.cs">
       <DependentUpon>TaskDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helper\IsolatedStorageHelper.cs" />
+    <Compile Include="Helper\SortableObservableCollection.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -177,7 +181,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\TagsPage.xaml">
+    <Page Include="Gui\TagListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\TagPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

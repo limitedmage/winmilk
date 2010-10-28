@@ -13,25 +13,26 @@ using Microsoft.Phone.Controls;
 using System.Collections.ObjectModel;
 using IronCow;
 using System.ComponentModel;
+using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
-    public partial class TagsPage : PhoneApplicationPage, INotifyPropertyChanged
+    public partial class TagPage : PhoneApplicationPage, INotifyPropertyChanged
     {
-        public static bool sReload = true;
+        private bool reload;
 
         public static readonly DependencyProperty TagsProperty =
-               DependencyProperty.Register("Tags", typeof(ObservableCollection<TagList>), typeof(TagsPage),
-                   new PropertyMetadata(new ObservableCollection<TagList>()));
+               DependencyProperty.Register("Tags", typeof(SortableObservableCollection<TagList>), typeof(TagPage),
+                   new PropertyMetadata(new SortableObservableCollection<TagList>()));
 
-        public ObservableCollection<TagList> Tags
+        public SortableObservableCollection<TagList> Tags
         {
-            get { return (ObservableCollection<TagList>)GetValue(TagsProperty); }
+            get { return (SortableObservableCollection<TagList>)GetValue(TagsProperty); }
             set { SetValue(TagsProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentTagProperty =
-               DependencyProperty.Register("CurrentTag", typeof(TagList), typeof(TagsPage),
+               DependencyProperty.Register("CurrentTag", typeof(TagList), typeof(TagPage),
                    new PropertyMetadata((TagList)null, new PropertyChangedCallback(OnCurrentTagChanged)));
 
         public TagList CurrentTag
@@ -41,7 +42,7 @@ namespace WinMilk.Gui
         }
 
         public static readonly DependencyProperty IsLoadingProperty =
-            DependencyProperty.Register("IsLoading", typeof(bool), typeof(TagsPage),
+            DependencyProperty.Register("IsLoading", typeof(bool), typeof(TagPage),
                 new PropertyMetadata((bool)false));
 
         public bool IsLoading
@@ -50,22 +51,42 @@ namespace WinMilk.Gui
             set { SetValue(IsLoadingProperty, value); }
         }
 
-        public TagsPage()
+        public TagPage()
         {
             InitializeComponent();
+            reload = true;
         }
 
         public void LoadAllTags()
         {
-            if (sReload)
+            if (reload)
             {
-                Tags = new ObservableCollection<TagList>();
+                Tags = new SortableObservableCollection<TagList>();
                 var tags = App.RtmClient.GetTasksByTag();
                 foreach (var tag in tags)
                 {
                     Tags.Add(new TagList { Tag = tag.Key, Tasks = tag.Value });
                 }
-                sReload = false;
+
+                Tags.Sort();
+
+                // select current tag
+                string curr;
+
+                if (this.NavigationContext.QueryString.TryGetValue("tag", out curr))
+                {
+                    // find task by name, and select it
+                    foreach (TagList l in Tags)
+                    {
+                        if (l.Tag == curr)
+                        {
+                            CurrentTag = l;
+                            break;
+                        }
+                    }
+                }
+
+                reload = false;
             }
         }
 
@@ -89,7 +110,7 @@ namespace WinMilk.Gui
 
         private static void OnCurrentTagChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            TagsPage target = d as TagsPage;
+            TagPage target = d as TagPage;
             TagList oldTag = e.OldValue as TagList;
             TagList newTag = target.CurrentTag;
             target.OnCurrentTagChanged(oldTag, newTag);
@@ -97,13 +118,10 @@ namespace WinMilk.Gui
 
         private void OnCurrentTagChanged(TagList oldTag, TagList newTag)
         {
-            if (newTag.Tag != oldTag.Tag)
+            Dispatcher.BeginInvoke(() =>
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    TagsPivot.SelectedItem = newTag;
-                });
-            }
+                TagsPivot.SelectedItem = newTag;
+            });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -119,15 +137,20 @@ namespace WinMilk.Gui
             }
         }
 
-        public class TagList
-        {
-            public string Tag { get; set; }
-            public ObservableCollection<Task> Tasks { get; set; }
-        }
-
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
             LoadAllTags();
+        }
+
+        public class TagList : IComparable<TagList>
+        {
+            public string Tag { get; set; }
+            public ObservableCollection<Task> Tasks { get; set; }
+
+            public int CompareTo(TagList other)
+            {
+                return this.Tag.CompareTo(other.Tag);
+            }
         }
     }
 }
