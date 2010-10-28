@@ -51,16 +51,18 @@ namespace IronCow
         {
             if (Syncing)
             {
+                /*
                 Owner.GetTasks(mList.Id, (tasks) =>
                 {
                     mImpl.Clear();
                     mImpl.AddRange(tasks);
                     Sort();
                     callback();
-                });
-                /*
+                });*/
+                
                 var request = new RestRequest("rtm.tasks.getList");
                 request.Parameters.Add("list_id", mList.Id.ToString());
+                request.Parameters.Add("filter", "status:Incomplete");
                 request.Callback = r =>
                     {
                         mImpl.Clear();
@@ -70,10 +72,12 @@ namespace IronCow
                             InternalSync(r.Tasks);
                         }
 
+                        Sort();
+
                         callback();
                     };
                 Owner.ExecuteRequest(request);
-                */
+                
             }
         }
 

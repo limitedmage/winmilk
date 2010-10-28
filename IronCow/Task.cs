@@ -353,8 +353,8 @@ namespace IronCow
                     }
                     else
                     {
-                        var dateFormat = IsSynced ? Owner.UserSettings.DateFormat : DateFormat.Default;
-                        var timeFormat = IsSynced ? Owner.UserSettings.TimeFormat : TimeFormat.Default;
+                        var dateFormat = /*IsSynced ? Owner.UserSettings.DateFormat :*/ DateFormat.Default;
+                        var timeFormat = /*IsSynced ? Owner.UserSettings.TimeFormat :*/ TimeFormat.Default;
                         var dateTime = DateConverter.ParseDateTime(value, dateFormat);
 
                         HasDueTime = dateTime.HasTime;
@@ -652,7 +652,22 @@ namespace IronCow
                 Request request = CreateStandardRequest(this, "rtm.tasks.postpone", () =>
                 {
                     Postponed++;
+                    
+
+                    if (DueDateTime.HasValue)
+                    {
+                        DueDateTime = DueDateTime.Value.AddDays(1);
+                    }
+                    else
+                    {
+                        DueDateTime = DateTime.Today;
+                    }
+
                     OnPropertyChanged("Postponed");
+                    OnPropertyChanged("DueString");
+                    OnPropertyChanged("DueDateTime");
+                    OnPropertyChanged("Due");
+
                     callback();
                 });
                 Owner.ExecuteRequest(request);

@@ -14,7 +14,7 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using IronCow;
 
-namespace WinMilk
+namespace WinMilk.Gui
 {
     public partial class PanoramaLandingPage : PhoneApplicationPage
     {
@@ -125,6 +125,52 @@ namespace WinMilk
 
         private void LoadData()
         {
+            if (App.RtmClient.TaskLists != null)
+            {
+
+                TaskLists = new ObservableCollection<TaskList>();
+                foreach (TaskList l in App.RtmClient.TaskLists)
+                {
+                    TaskLists.Add(l);
+                }
+
+                List<Task> today = App.RtmClient.GetTodayTasks();
+                TodayTasks = new ObservableCollection<Task>();
+                foreach (Task t in today)
+                {
+                    TodayTasks.Add(t);
+                }
+
+                List<Task> tomorrow = App.RtmClient.GetTomorrowTasks();
+                TomorrowTasks = new ObservableCollection<Task>();
+                foreach (Task t in tomorrow)
+                {
+                    TomorrowTasks.Add(t);
+                }
+
+                List<Task> overdue = App.RtmClient.GetOverdueTasks();
+                OverdueTasks = new ObservableCollection<Task>();
+                foreach (Task t in overdue)
+                {
+                    OverdueTasks.Add(t);
+                }
+
+                List<Task> week = App.RtmClient.GetWeekTasks();
+                WeekTasks = new ObservableCollection<Task>();
+                foreach (Task t in week)
+                {
+                    WeekTasks.Add(t);
+                }
+
+                List<Task> nodue = App.RtmClient.GetNoDueTasks();
+                NoDueTasks = new ObservableCollection<Task>();
+                foreach (Task t in nodue)
+                {
+                    NoDueTasks.Add(t);
+                }
+            }
+
+
             if (sReload)
             {
                 if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
@@ -221,6 +267,7 @@ namespace WinMilk
             ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
             TaskList selected = lists[list.SelectedIndex];
 
+            ListPage.sReload = true;
             this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
             list.SelectedIndex = -1;

@@ -99,7 +99,6 @@ namespace WinMilk.Gui
                     Dispatcher.BeginInvoke(() =>
                     {
                         PanoramaLandingPage.sReload = true;
-                        ListPage.sReloadTasks = true;
                         IsLoading = false;
                         this.NavigationService.GoBack();
                     });
@@ -117,7 +116,6 @@ namespace WinMilk.Gui
                 {
                     Dispatcher.BeginInvoke(() =>
                     {
-                        ListPage.sReloadTasks = true;
                         PanoramaLandingPage.sReload = true;
                         IsLoading = false;
                         this.NavigationService.GoBack();
@@ -139,7 +137,7 @@ namespace WinMilk.Gui
         }
         */
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void Url_Click(object sender, MouseButtonEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
             page.URL = CurrentTask.Url;

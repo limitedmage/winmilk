@@ -9,7 +9,7 @@
 	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:con="clr-namespace:WinMilk.Gui.Controls" x:Name="phoneApplicationPage"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
-	x:Class="WinMilk.PanoramaLandingPage"
+	x:Class="WinMilk.Gui.PanoramaLandingPage"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
 	FontSize="{StaticResource PhoneFontSizeNormal}"
 	Foreground="{StaticResource PhoneForegroundBrush}"

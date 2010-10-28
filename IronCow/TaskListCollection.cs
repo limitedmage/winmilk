@@ -34,26 +34,31 @@ namespace IronCow
             var request = new RestRequest("rtm.lists.getList");
             request.Callback = response =>
             {
-                if (response.Lists != null)
-                {
-                    using (new UnsyncedScope(this))
-                    {
-                        foreach (var list in response.Lists)
-                        {
-                            if (list.Archived == 0 && list.Deleted == 0)
-                            {
-                                TaskList newList = new TaskList(list);
-                                Add(newList);
-                            }
-                        }
-
-                        Sort();
-                    }
-                }
+                SyncFromResponse(response);
 
                 callback();
             };
             Owner.ExecuteRequest(request);
+        }
+
+        public void SyncFromResponse(Response response)
+        {
+            if (response.Lists != null)
+            {
+                using (new UnsyncedScope(this))
+                {
+                    foreach (var list in response.Lists)
+                    {
+                        if (list.Archived == 0 && list.Deleted == 0)
+                        {
+                            TaskList newList = new TaskList(list);
+                            Add(newList);
+                        }
+                    }
+
+                    Sort();
+                }
+            }
         }
 
         protected override void ExecuteAddElementRequest(TaskList item, SyncCallback callback)

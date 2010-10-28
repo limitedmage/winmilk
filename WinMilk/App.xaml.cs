@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IronCow;
+using IronCow.Rest;
 
 namespace WinMilk
 {
@@ -28,6 +30,8 @@ namespace WinMilk
         private static readonly string RtmSharedKey = "ea04c412d8a8ce87";
 
         public static Rtm RtmClient;
+        public static Response ListsResponse;
+        public static Response TasksResponse;
 
         /// <summary>
         /// Constructor for the Application object.
@@ -61,8 +65,9 @@ namespace WinMilk
         public static void LoadData()
         {
             string RtmAuthToken = Helper.IsolatedStorageHelper.GetObject<string>("RtmAuthToken");
-            //TaskListCollection RtmTasks = Helper.IsolatedStorageHelper.GetObject<TaskListCollection>("RtmTasks");
             DateTime LastSync = Helper.IsolatedStorageHelper.GetObject<DateTime>("LastSync");
+            ListsResponse = Helper.IsolatedStorageHelper.GetObject<Response>("ListsResponse");
+            TasksResponse = Helper.IsolatedStorageHelper.GetObject<Response>("TasksResponse");
 
             if (!string.IsNullOrEmpty(RtmAuthToken))
             {
@@ -73,21 +78,45 @@ namespace WinMilk
             {
                 RtmClient = new Rtm(RtmApiKey, RtmSharedKey);
             }
+
+            RtmClient.CacheListsEvent += OnCacheLists;
+            RtmClient.CacheTasksEvent += OnCacheTasks;
+
+            if (ListsResponse != null)
+            {
+                RtmClient.LoadListsFromResponse(ListsResponse);
+            }
+            if (TasksResponse != null)
+            {
+                RtmClient.LoadTasksFromResponse(TasksResponse);
+            }
         }
 
         public static void SaveData()
         {
             Helper.IsolatedStorageHelper.SaveObject<string>("RtmAuthToken", RtmClient.AuthToken);
-            //Helper.IsolatedStorageHelper.SaveObject<TaskListCollection>("RtmTasks", RtmClient.TaskLists);
             Helper.IsolatedStorageHelper.SaveObject<DateTime>("LastSync", DateTime.Now);
+            Helper.IsolatedStorageHelper.SaveObject<Response>("ListsResponse", ListsResponse);
+            Helper.IsolatedStorageHelper.SaveObject<Response>("TasksResponse", TasksResponse);
         }
 
         public static void DeleteData()
         {
             Helper.IsolatedStorageHelper.DeleteObject("RtmAuthToken");
-            //Helper.IsolatedStorageHelper.DeleteObject("RtmTasks");
             Helper.IsolatedStorageHelper.DeleteObject("LastSync");
+            Helper.IsolatedStorageHelper.DeleteObject("ListsResponse");
+            Helper.IsolatedStorageHelper.DeleteObject("TasksResponse");
             RtmClient = new Rtm(RtmApiKey, RtmSharedKey);
+        }
+
+        public static void OnCacheLists(Response response)
+        {
+            ListsResponse = response;
+        }
+
+        public static void OnCacheTasks(Response response)
+        {
+            TasksResponse = response;
         }
 
         // Code to execute when the application is launching (eg, from Start)

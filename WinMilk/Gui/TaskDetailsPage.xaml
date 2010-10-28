@@ -16,6 +16,7 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     shell:SystemTray.IsVisible="True">
+    
     <phone:PhoneApplicationPage.Resources>
         <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
         	<Setter Property="Background" Value="Transparent"/>
@@ -54,9 +55,9 @@
         </Style>
     </phone:PhoneApplicationPage.Resources>
     
-
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        
         <controls:Pivot Title="{Binding Path=Loc.AppNameCaps, Source={StaticResource L10N}}" Name="TaskDetailsPanel" DataContext="{Binding Task}">
             
 			<!-- Task details -->
@@ -146,7 +147,7 @@
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
                             </TextBlock>
-                            <HyperlinkButton Content="{Binding Url}" Click="HyperlinkButton_Click" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Column="1"/>
+                            <TextBlock Text="{Binding Url}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" MouseLeftButtonDown="Url_Click" Grid.Column="1" TextDecorations="Underline"/>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>
@@ -189,5 +190,12 @@
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>
+
+        <ProgressBar IsIndeterminate="{Binding IsLoading}" 
+                 Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}" 
+                 Height="10" 
+                 VerticalAlignment="Top" 
+                 Margin="0,137,0,0" 
+                 Style="{StaticResource PerformanceProgressBar}"/>
     </Grid>
 </phone:PhoneApplicationPage>

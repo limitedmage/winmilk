@@ -13,6 +13,7 @@ namespace IronCow
         #region Callback Delegates
 
         public delegate void VoidCallback();
+        public delegate void ResponsesCallback(Response listsResponse, Response tasksResponse);
 
         // authentication delegates
         public delegate void FrobCallback(string frob);
@@ -32,6 +33,10 @@ namespace IronCow
         // task list delegates
         public delegate void TaskListCallback(TaskList list);
 
+        // cache events
+        public event ResponseCallback CacheTasksEvent;
+        public event ResponseCallback CacheListsEvent;
+
         #endregion
 
         #region Private Members
@@ -43,7 +48,7 @@ namespace IronCow
         #endregion
 
         #region Syncing Methods
-
+        
         public void SyncEverything(SyncCallback callback)
         {
             /*
@@ -54,7 +59,7 @@ namespace IronCow
                     SyncContacts(() =>
                     {
                         SyncContactGroups(() =>
-                        {*/
+                        {
                             SyncTaskLists(() =>
                             {
                                 CacheTasks(() =>
@@ -64,11 +69,22 @@ namespace IronCow
                                         callback();
                                     });
                                 });
-                            });/*
+                            });
                         });
                     });
                 });
             });*/
+
+            CacheLists(() => 
+            {
+                CacheTasks(() =>
+                {
+                    StartTimeline((timeline) =>
+                    {
+                        callback();
+                    });
+                });
+            });
         }
 
         public void SyncUserSettings(SyncCallback callback)
@@ -84,6 +100,7 @@ namespace IronCow
         public void SyncTaskLists(SyncCallback callback)
         {
             TaskListCollection tmp = new TaskListCollection(this);
+
             tmp.Resync(() =>
             {
                 System.Threading.Interlocked.Exchange(ref mTaskLists, tmp);
@@ -680,7 +697,7 @@ namespace IronCow
             return null;
         }
 
-        private void CacheTasks(VoidCallback callback)
+        public void CacheTasks(VoidCallback callback)
         {
             if (!Syncing)
                 throw new InvalidOperationException();
@@ -693,15 +710,23 @@ namespace IronCow
 
             GetResponse("rtm.tasks.getList", parameters, (response) =>
             {
-                foreach (var list in response.Tasks)
-                {
-                    TaskList taskList = taskLists.GetById(list.Id);
-                    if (taskList != null)
-                        taskList.InternalSync(list);
-                }
+                LoadTasksFromResponse(response);
+
+                if (CacheTasksEvent != null)
+                    CacheTasksEvent(response);
 
                 callback();
             });
+        }
+
+        public void LoadTasksFromResponse(Response response)
+        {
+            foreach (var list in response.Tasks)
+            {
+                TaskList taskList = TaskLists.GetById(list.Id);
+                if (taskList != null)
+                    taskList.InternalSync(list);
+            }
         }
 
         public void AddTask(string name, bool parse, int? listId, VoidCallback callback)
@@ -721,6 +746,44 @@ namespace IronCow
         #endregion
 
         #region Task Lists
+        public void CacheLists(VoidCallback callback)
+        {
+            GetResponse("rtm.lists.getList", response =>
+            {
+                LoadListsFromResponse(response);
+
+                if (CacheListsEvent != null)
+                    CacheListsEvent(response);
+
+                callback();
+            });
+        }
+
+        public void LoadListsFromResponse(Response response)
+        {
+            TaskListCollection temp = new TaskListCollection(this);
+
+            if (response.Lists != null)
+            {
+                using (new UnsyncedScope(temp))
+                {
+                    foreach (var list in response.Lists)
+                    {
+                        if (list.Archived == 0 && list.Deleted == 0)
+                        {
+                            TaskList newList = new TaskList(list);
+                            temp.Add(newList);
+                        }
+                    }
+
+                    temp.Sort();
+                }
+            }
+
+            System.Threading.Interlocked.Exchange(ref mTaskLists, temp);
+        }
+
+
         public TaskList GetInbox()
         {
             return TaskLists["Inbox"];

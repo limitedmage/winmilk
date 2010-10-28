@@ -18,8 +18,7 @@ namespace WinMilk.Gui
 {
     public partial class ListPage : PhoneApplicationPage
     {
-        public static bool sReloadLists = true;
-        public static bool sReloadTasks = true;
+        public static bool sReload = true;
 
         public static readonly DependencyProperty ListsProperty =
                DependencyProperty.Register("Lists", typeof(ObservableCollection<TaskList>), typeof(ListPage),
@@ -63,16 +62,10 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (sReloadLists)
+            if (sReload)
             {
                 LoadAllLists();
-                sReloadLists = false;
-            }
-
-            if (sReloadTasks)
-            {
-                LoadList(CurrentList);
-                sReloadTasks = false;
+                sReload = false;
             }
 
             base.OnNavigatedTo(e);
@@ -101,7 +94,7 @@ namespace WinMilk.Gui
                         Dispatcher.BeginInvoke(() =>
                         {
                             CurrentList = l;
-                            
+                            LoadList(CurrentList);
                         });
                         break;
                     }
@@ -113,16 +106,13 @@ namespace WinMilk.Gui
         {
             IsLoading = true;
 
-            if (list != null)
+            list.SyncTasks(() =>
             {
-                list.SyncTasks(() =>
+                Dispatcher.BeginInvoke(() =>
                 {
-                    Dispatcher.BeginInvoke(() =>
-                    {
-                        IsLoading = false;
-                    });
+                    IsLoading = false;
                 });
-            }
+            });
         }
 
         private void CreateApplicationBar()
@@ -140,9 +130,9 @@ namespace WinMilk.Gui
             sync.Click += new EventHandler(Sync_Click);
             ApplicationBar.Buttons.Add(sync);
 
-            //ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
+            ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
             //settings.Click += new EventHandler(settings_Click);
-            //ApplicationBar.MenuItems.Add(pin);
+            ApplicationBar.MenuItems.Add(pin);
         }
 
         private void ListsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
