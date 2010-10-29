@@ -93,6 +93,10 @@
             <!--<HyperlinkButton x:Name="AdvancedAddButton" Content="{Binding Path=Loc.AdvancedTaskAddLink, Source={StaticResource L10N}}" Grid.Row="1" HorizontalAlignment="Left" Click="AdvancedAddButton_Click" />
             <HyperlinkButton x:Name="CancelSmartAddButton" Content="{Binding Path=Loc.CancelTaskAddLink, Source={StaticResource L10N}}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Click="CancelSmartAddButton_Click" />-->
         </Grid>
-        <Canvas Name="Overlay" Background="#99000000" MouseLeftButtonDown="Overlay_MouseLeftButtonDown"/>
+        <Canvas Name="Overlay" MouseLeftButtonDown="Overlay_MouseLeftButtonDown">
+            <Canvas.Background>
+                <SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}" />
+            </Canvas.Background>
+        </Canvas>
     </Grid>
 </UserControl>

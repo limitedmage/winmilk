@@ -16,6 +16,7 @@ using IronCow;
 using Microsoft.Phone.Tasks;
 using WinMilk.Helper;
 using Microsoft.Phone.Shell;
+using System.ComponentModel;
 
 namespace WinMilk.Gui
 {
@@ -184,95 +185,131 @@ namespace WinMilk.Gui
 
         private void SyncData()
         {
-            if (sReload)
+            BackgroundWorker b = new BackgroundWorker();
+            b.DoWork += (s, e) =>
             {
-                if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
+                if (sReload)
                 {
-                    SmartDispatcher.BeginInvoke(() =>
+                    if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
                     {
-                        this.IsLoading = true;
-                    });
-
-                    App.RtmClient.SyncEverything(() =>
-                    {
-                        LoadData();
-
                         SmartDispatcher.BeginInvoke(() =>
                         {
-                            IsLoading = false;
+                            this.IsLoading = true;
                         });
-                    });
-                }
-                else
-                {
-                    Login();
-                }
-            }
 
-            sReload = false;
+                        App.RtmClient.SyncEverything(() =>
+                        {
+                            LoadData();
+
+                            SmartDispatcher.BeginInvoke(() =>
+                            {
+                                IsLoading = false;
+                            });
+                        });
+                    }
+                    else
+                    {
+                        Login();
+                    }
+                }
+
+                sReload = false;
+            };
+
+            b.RunWorkerAsync();
         }
 
         private void LoadData()
         {
+            BackgroundWorker b = new BackgroundWorker();
+            b.DoWork += (s, e) =>
+            {
+                LoadDataInBackground();
+            };
+            b.RunWorkerAsync();
+        }
+
+        private void LoadDataInBackground()
+        {
             if (App.RtmClient.TaskLists != null)
             {
+                var tempTaskLists = new SortableObservableCollection<TaskList>();
 
-                var tempTaskLists = new ObservableCollection<TaskList>();
+                var tempOverdueTasks = new SortableObservableCollection<Task>();
+                var tempTodayTasks = new SortableObservableCollection<Task>();
+                var tempTomorrowTasks = new SortableObservableCollection<Task>();
+                var tempWeekTasks = new SortableObservableCollection<Task>();
+                var tempNoDueTasks = new SortableObservableCollection<Task>();
+
+                var tempTags = new SortableObservableCollection<string>();
+
                 foreach (TaskList l in App.RtmClient.TaskLists)
                 {
                     tempTaskLists.Add(l);
+
+                    if (l.IsNormal && l.Tasks != null)
+                    {
+                        foreach (Task task in l.Tasks)
+                        {
+                            // add tags
+                            foreach (string tag in task.Tags)
+                            {
+                                if (!tempTags.Contains(tag)) tempTags.Add(tag);
+                            }
+
+                            if (task.IsIncomplete)
+                            {
+                                if (task.DueDateTime.HasValue)
+                                {
+                                    // overdue
+                                    if (task.DueDateTime.Value < DateTime.Today || (task.HasDueTime && task.DueDateTime.Value < DateTime.Now))
+                                    {
+                                        tempOverdueTasks.Add(task);
+                                    }
+                                    // today
+                                    else if (task.DueDateTime.Value.Date == DateTime.Today)
+                                    {
+                                        tempTodayTasks.Add(task);
+                                    }
+                                    // tomorrow
+                                    else if (task.DueDateTime.Value.Date == DateTime.Today.AddDays(1))
+                                    {
+                                        tempTomorrowTasks.Add(task);
+                                    }
+                                    // this week
+                                    else if (task.DueDateTime.Value.Date > DateTime.Today.AddDays(1) && task.DueDateTime.Value.Date <= DateTime.Today.AddDays(6))
+                                    {
+                                        tempWeekTasks.Add(task);
+                                    }
+                                }
+                                else
+                                {
+                                    // no due
+                                    tempNoDueTasks.Add(task);
+                                }
+                            }
+                        }
+                    }
                 }
 
-                List<Task> today = App.RtmClient.GetTodayTasks();
-                var tempTodayTasks = new ObservableCollection<Task>();
-                foreach (Task t in today)
-                {
-                    tempTodayTasks.Add(t);
-                }
+                tempOverdueTasks.Sort();
+                tempTodayTasks.Sort();
+                tempTomorrowTasks.Sort();
+                tempWeekTasks.Sort();
+                tempNoDueTasks.Sort();
 
-                List<Task> tomorrow = App.RtmClient.GetTomorrowTasks();
-                var tempTomorrowTasks = new ObservableCollection<Task>();
-                foreach (Task t in tomorrow)
-                {
-                    tempTomorrowTasks.Add(t);
-                }
-
-                List<Task> overdue = App.RtmClient.GetOverdueTasks();
-                var tempOverdueTasks = new ObservableCollection<Task>();
-                foreach (Task t in overdue)
-                {
-                    tempOverdueTasks.Add(t);
-                }
-
-                List<Task> week = App.RtmClient.GetWeekTasks();
-                var tempWeekTasks = new ObservableCollection<Task>();
-                foreach (Task t in week)
-                {
-                    tempWeekTasks.Add(t);
-                }
-
-                List<Task> nodue = App.RtmClient.GetNoDueTasks();
-                var tempNoDueTasks = new ObservableCollection<Task>();
-                foreach (Task t in nodue)
-                {
-                    tempNoDueTasks.Add(t);
-                }
-
-                var tempTags = new SortableObservableCollection<string>();
-                foreach (var tag in App.RtmClient.GetTasksByTag())
-                {
-                    tempTags.Add(tag.Key);
-                }
                 tempTags.Sort();
 
                 SmartDispatcher.BeginInvoke(() =>
                 {
                     TaskLists = tempTaskLists;
+
                     TodayTasks = tempTodayTasks;
                     TomorrowTasks = tempTomorrowTasks;
                     OverdueTasks = tempOverdueTasks;
                     WeekTasks = tempWeekTasks;
                     NoDueTasks = tempNoDueTasks;
+
                     Tags = tempTags;
                 });
             }

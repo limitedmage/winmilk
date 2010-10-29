@@ -146,33 +146,32 @@
         </Style>
 
         <DataTemplate x:Key="TaskTemplate">
-            <Grid Height="90" Margin="0,3">
+            <Grid Height="Auto" Margin="0,3">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-                <Rectangle Fill="{Binding PriorityColor}" Grid.Column="0"/>
+                <Rectangle Grid.Column="0" Grid.RowSpan="2">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{StaticResource PhoneChromeColor}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+                
+                <Rectangle Fill="{Binding PriorityColor}" Grid.Column="0" Grid.RowSpan="2"/>
 
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <con:DynamicTextBlock Text="{Binding Name}" FontSize="28" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBlock Text="{Binding DueString}" Grid.Row="1" />
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding List}" Grid.Column="0"/>
-                        <TextBlock Text="{Binding TagsString}" Grid.Column="1" />
-                    </Grid>
-                </Grid>
+                <con:DynamicTextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBlock Text="{Binding DueString}" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="2" />
+                <TextBlock Text="{Binding List}" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="3"/>
+                <TextBlock Text="{Binding TagsString}" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="4" />
             </Grid>
         </DataTemplate>
 

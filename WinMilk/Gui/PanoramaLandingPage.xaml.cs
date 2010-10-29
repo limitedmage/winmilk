@@ -171,46 +171,55 @@ namespace WinMilk.Gui
         {
             if (App.RtmClient.TaskLists != null)
             {
-
                 var tempTaskLists = new ObservableCollection<TaskList>();
+
+                var tempOverdueTasks = new ObservableCollection<Task>();
+                var tempTodayTasks = new ObservableCollection<Task>();
+                var tempTomorrowTasks = new ObservableCollection<Task>();
+                var tempWeekTasks = new ObservableCollection<Task>();
+                var tempNoDueTasks = new ObservableCollection<Task>();
+
                 foreach (TaskList l in App.RtmClient.TaskLists)
                 {
                     tempTaskLists.Add(l);
-                }
 
-                List<Task> today = App.RtmClient.GetTodayTasks();
-                var tempTodayTasks = new ObservableCollection<Task>();
-                foreach (Task t in today)
-                {
-                    tempTodayTasks.Add(t);
-                }
-
-                List<Task> tomorrow = App.RtmClient.GetTomorrowTasks();
-                var tempTomorrowTasks = new ObservableCollection<Task>();
-                foreach (Task t in tomorrow)
-                {
-                    tempTomorrowTasks.Add(t);
-                }
-
-                List<Task> overdue = App.RtmClient.GetOverdueTasks();
-                var tempOverdueTasks = new ObservableCollection<Task>();
-                foreach (Task t in overdue)
-                {
-                    tempOverdueTasks.Add(t);
-                }
-
-                List<Task> week = App.RtmClient.GetWeekTasks();
-                var tempWeekTasks = new ObservableCollection<Task>();
-                foreach (Task t in week)
-                {
-                    tempWeekTasks.Add(t);
-                }
-
-                List<Task> nodue = App.RtmClient.GetNoDueTasks();
-                var tempNoDueTasks = new ObservableCollection<Task>();
-                foreach (Task t in nodue)
-                {
-                    tempNoDueTasks.Add(t);
+                    if (l.IsNormal && l.Tasks != null)
+                    {
+                        foreach (Task task in l.Tasks)
+                        {
+                            if (task.IsIncomplete)
+                            {
+                                if (task.DueDateTime.HasValue)
+                                {
+                                    // overdue
+                                    if (task.DueDateTime.Value < DateTime.Today || (task.HasDueTime && task.DueDateTime.Value < DateTime.Now))
+                                    {
+                                        tempOverdueTasks.Add(task);
+                                    }
+                                    // today
+                                    else if (task.DueDateTime.Value.Date == DateTime.Today)
+                                    {
+                                        tempTodayTasks.Add(task);
+                                    }
+                                    // tomorrow
+                                    else if (task.DueDateTime.Value.Date == DateTime.Today.AddDays(1))
+                                    {
+                                        tempTomorrowTasks.Add(task);
+                                    }
+                                    // this week
+                                    else if (task.DueDateTime.Value.Date > DateTime.Today.AddDays(1) && task.DueDateTime.Value.Date <= DateTime.Today.AddDays(6))
+                                    {
+                                        tempWeekTasks.Add(task);
+                                    }
+                                }
+                                else
+                                {
+                                    // no due
+                                    tempNoDueTasks.Add(task);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 SmartDispatcher.BeginInvoke(() =>
