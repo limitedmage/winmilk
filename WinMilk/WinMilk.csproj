@@ -121,9 +121,6 @@
     <Compile Include="Gui\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\TagListPage.xaml.cs">
-      <DependentUpon>TagListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\TagPage.xaml.cs">
       <DependentUpon>TagPage.xaml</DependentUpon>
     </Compile>
@@ -186,10 +183,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\SettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\TagListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

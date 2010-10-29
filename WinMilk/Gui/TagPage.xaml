@@ -19,30 +19,25 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <controls:Pivot x:Name="TagsPivot"
-                        Title="TAGS"
-                        SelectionChanged="TagsPivot_SelectionChanged"
-                        ItemsSource="{Binding Tags}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            <controls:Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Tag}" />
-                </DataTemplate>
-            </controls:Pivot.HeaderTemplate>
+            <!--TitlePanel contains the name of the application and page title-->
+            <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" DataContext="{Binding CurrentTag}">
+                <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=Loc.TagPageTitle, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBlock x:Name="PageTitle" Text="{Binding Tag}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
 
-            <controls:Pivot.ItemTemplate>
-                <DataTemplate>
-                    <con:TaskListControl ItemsSource="{Binding Tasks}" Height="535" />
-                </DataTemplate>
-            </controls:Pivot.ItemTemplate>
-
-        </controls:Pivot>
+            <!--ContentPanel - place additional content here-->
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" DataContext="{Binding CurrentTag}">
+                <con:TaskListControl ItemsSource="{Binding Tasks}" />
+            </Grid>
+        </Grid>
 
         <ProgressBar IsIndeterminate="{Binding IsLoading}" 
                  Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}" 

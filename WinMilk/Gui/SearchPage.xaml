@@ -49,8 +49,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox TextWrapping="Wrap" Grid.Column="0" Name="SearchQueryTextBox"/>
-                <WinMilk_Gui_Controls:BigIconButton HorizontalAlignment="Right" VerticalAlignment="Top" Type="feature.search" Grid.Column="1" Click="SearchButton_Click"/>
+                <TextBox Grid.Column="0" Name="SearchQueryTextBox" InputScope="Search" KeyUp="SearchQueryTextBox_KeyUp" />
+                <WinMilk_Gui_Controls:BigIconButton HorizontalAlignment="Right" VerticalAlignment="Top" Type="feature.search" Grid.Column="1" Click="SearchButton_Click" x:Name="SearchButton"/>
             </Grid>
             
             <WinMilk_Gui_Controls:TaskListControl Grid.Row="1" x:Name="ResultsList" ItemsSource="{Binding ResultTasks}"/>

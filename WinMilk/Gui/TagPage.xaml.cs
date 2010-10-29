@@ -17,23 +17,11 @@ using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
-    public partial class TagPage : PhoneApplicationPage, INotifyPropertyChanged
+    public partial class TagPage : PhoneApplicationPage
     {
-        private bool reload;
-
-        public static readonly DependencyProperty TagsProperty =
-               DependencyProperty.Register("Tags", typeof(SortableObservableCollection<TagList>), typeof(TagPage),
-                   new PropertyMetadata(new SortableObservableCollection<TagList>()));
-
-        public SortableObservableCollection<TagList> Tags
-        {
-            get { return (SortableObservableCollection<TagList>)GetValue(TagsProperty); }
-            set { SetValue(TagsProperty, value); }
-        }
-
         public static readonly DependencyProperty CurrentTagProperty =
                DependencyProperty.Register("CurrentTag", typeof(TagList), typeof(TagPage),
-                   new PropertyMetadata((TagList)null, new PropertyChangedCallback(OnCurrentTagChanged)));
+                   new PropertyMetadata((TagList)null));
 
         public TagList CurrentTag
         {
@@ -54,103 +42,38 @@ namespace WinMilk.Gui
         public TagPage()
         {
             InitializeComponent();
-            reload = true;
         }
 
-        public void LoadAllTags()
+        public void LoadTag()
         {
-            if (reload)
+            var tags = App.RtmClient.GetTasksByTag();
+            
+            // select current tag
+            string curr;
+
+            if (this.NavigationContext.QueryString.TryGetValue("tag", out curr))
             {
-                Tags = new SortableObservableCollection<TagList>();
-                var tags = App.RtmClient.GetTasksByTag();
-                foreach (var tag in tags)
+                // find task by name, and select it
+                foreach (var l in tags)
                 {
-                    Tags.Add(new TagList { Tag = tag.Key, Tasks = tag.Value });
-                }
-
-                Tags.Sort();
-
-                // select current tag
-                string curr;
-
-                if (this.NavigationContext.QueryString.TryGetValue("tag", out curr))
-                {
-                    // find task by name, and select it
-                    foreach (TagList l in Tags)
+                    if (l.Key == curr)
                     {
-                        if (l.Tag == curr)
-                        {
-                            CurrentTag = l;
-                            break;
-                        }
+                        CurrentTag = new TagList { Tag = l.Key, Tasks = l.Value };
+                        break;
                     }
                 }
-
-                reload = false;
-            }
-        }
-
-        private void TagsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //if (e.AddedItems.Count == 0)
-            //{
-            //    return;
-            //}
-
-            //if (e.AddedItems[0] is TaskList)
-            //{
-            //    CurrentList = e.AddedItems[0] as TaskList;
-
-            //    if (CurrentList.Tasks == null || CurrentList.Tasks.Count == 0)
-            //    {
-            //        LoadList(CurrentList);
-            //    }
-            //}
-        }
-
-        private static void OnCurrentTagChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            TagPage target = d as TagPage;
-            TagList oldTag = e.OldValue as TagList;
-            TagList newTag = target.CurrentTag;
-            target.OnCurrentTagChanged(oldTag, newTag);
-        }
-
-        private void OnCurrentTagChanged(TagList oldTag, TagList newTag)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                TagsPivot.SelectedItem = newTag;
-            });
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                });
             }
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadAllTags();
+            LoadTag();
         }
 
-        public class TagList : IComparable<TagList>
+        public class TagList
         {
             public string Tag { get; set; }
             public ObservableCollection<Task> Tasks { get; set; }
-
-            public int CompareTo(TagList other)
-            {
-                return this.Tag.CompareTo(other.Tag);
-            }
         }
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using IronCow;
 using System.Collections.ObjectModel;
+using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
@@ -27,15 +28,15 @@ namespace WinMilk.Gui
             set { SetValue(IsLoadingProperty, value); }
         }
 
-        public ObservableCollection<Task> ResultTasks
+        public SortableObservableCollection<Task> ResultTasks
         {
-            get { return (ObservableCollection<Task>)GetValue(ResultTasksProperty); }
+            get { return (SortableObservableCollection<Task>)GetValue(ResultTasksProperty); }
             set { SetValue(ResultTasksProperty, value); }
         }
 
         public static readonly DependencyProperty ResultTasksProperty =
-               DependencyProperty.Register("ResultTasks", typeof(ObservableCollection<Task>), typeof(SearchPage),
-                   new PropertyMetadata(new ObservableCollection<Task>()));
+               DependencyProperty.Register("ResultTasks", typeof(SortableObservableCollection<Task>), typeof(SearchPage),
+                   new PropertyMetadata(new SortableObservableCollection<Task>()));
 
 
         public SearchPage()
@@ -43,21 +44,37 @@ namespace WinMilk.Gui
             InitializeComponent();
         }
 
+        private void DoSearch()
+        {
+            try
+            {
+                var res = App.RtmClient.SearchTasksLocally(SearchQueryTextBox.Text);
+                ResultTasks.Clear();
+                foreach (Task t in res)
+                {
+                    ResultTasks.Add(t);
+                }
+                ResultTasks.Sort();
+            }
+            catch (Exception)
+            {
+                // ignore any exception while processing 
+            }
+        }
+
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            IsLoading = true;
-            App.RtmClient.GetTasks(SearchQueryTextBox.Text, tasks => 
+            DoSearch();
+        }
+
+        private void SearchQueryTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
             {
-                Dispatcher.BeginInvoke(() =>
-                {
-                    ResultTasks.Clear();
-                    foreach (Task t in tasks)
-                    {
-                        ResultTasks.Add(t);
-                    }
-                    IsLoading = false;
-                });
-            });
+                // remove focus from text box to close keyboard
+                this.Focus();
+                DoSearch();
+            }
         }
     }
 }
