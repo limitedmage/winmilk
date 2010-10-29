@@ -866,19 +866,22 @@ namespace IronCow
             var tasksByTag = new Dictionary<string, ObservableCollection<Task>>();
             foreach (var taskList in GetParentableTaskLists(false))
             {
-                foreach (var task in taskList.Tasks)
+                if (taskList.Tasks != null)
                 {
-                    foreach (var tag in task.Tags)
+                    foreach (var task in taskList.Tasks)
                     {
-                        if (tasksByTag.ContainsKey(tag))
+                        foreach (var tag in task.Tags)
                         {
-                            tasksByTag[tag].Add(task);
-                        }
-                        else
-                        {
-                            var tasks = new ObservableCollection<Task>();
-                            tasks.Add(task);
-                            tasksByTag.Add(tag, tasks);
+                            if (tasksByTag.ContainsKey(tag))
+                            {
+                                tasksByTag[tag].Add(task);
+                            }
+                            else
+                            {
+                                var tasks = new ObservableCollection<Task>();
+                                tasks.Add(task);
+                                tasksByTag.Add(tag, tasks);
+                            }
                         }
                     }
                 }
