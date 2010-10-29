@@ -98,7 +98,6 @@ namespace WinMilk.Gui
                 {
                     Dispatcher.BeginInvoke(() =>
                     {
-                        PanoramaLandingPage.sReload = true;
                         PivotLandingPage.sReload = true;
                         IsLoading = false;
                         this.NavigationService.GoBack();
@@ -117,7 +116,6 @@ namespace WinMilk.Gui
                 {
                     Dispatcher.BeginInvoke(() =>
                     {
-                        PanoramaLandingPage.sReload = true;
                         PivotLandingPage.sReload = true;
                         IsLoading = false;
                         this.NavigationService.GoBack();
