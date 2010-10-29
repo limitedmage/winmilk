@@ -124,7 +124,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to After authenticating and authorizing the app, tap the done button.
+        ///   Looks up a localized string similar to After logging in and authorizing the app, tap the done button.
         /// </summary>
         public static string AuthInstructions {
             get {
@@ -133,7 +133,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to authenticate.
+        ///   Looks up a localized string similar to log in.
         /// </summary>
         public static string AuthPageTitle {
             get {
@@ -165,6 +165,42 @@ namespace WinMilk {
         public static string ListsHeader {
             get {
                 return ResourceManager.GetString("ListsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must log in and authorize the app before continuing.
+        /// </summary>
+        public static string LogInMessageBoxText {
+            get {
+                return ResourceManager.GetString("LogInMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to WinMilk!.
+        /// </summary>
+        public static string LogInMessageBoxTitle {
+            get {
+                return ResourceManager.GetString("LogInMessageBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out and erase your settings?.
+        /// </summary>
+        public static string LogOutMessageBoxText {
+            get {
+                return ResourceManager.GetString("LogOutMessageBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Log out.
+        /// </summary>
+        public static string LogOutMessageBoxTitle {
+            get {
+                return ResourceManager.GetString("LogOutMessageBoxTitle", resourceCulture);
             }
         }
         

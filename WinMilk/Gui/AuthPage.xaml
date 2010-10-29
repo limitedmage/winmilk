@@ -50,7 +50,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
-                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}"/>
+                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}" Margin="12,13,0,13" />
                 <con:IconButton Text="{Binding Path=Loc.AuthDoneButton, Source={StaticResource L10N}}" Type="check" Click="AuthDoneButton_Click" Grid.Column="1"/>
             </Grid>
         </Grid>

@@ -139,10 +139,10 @@
     <value>done</value>
   </data>
   <data name="AuthInstructions" xml:space="preserve">
-    <value>After authenticating and authorizing the app, tap the done button</value>
+    <value>After logging in and authorizing the app, tap the done button</value>
   </data>
   <data name="AuthPageTitle" xml:space="preserve">
-    <value>authenticate</value>
+    <value>log in</value>
   </data>
   <data name="CancelTaskAddLink" xml:space="preserve">
     <value>Cancel</value>
@@ -245,5 +245,17 @@
   </data>
   <data name="TagPageTitle" xml:space="preserve">
     <value>TAG</value>
+  </data>
+  <data name="LogInMessageBoxText" xml:space="preserve">
+    <value>You must log in and authorize the app before continuing</value>
+  </data>
+  <data name="LogInMessageBoxTitle" xml:space="preserve">
+    <value>Welcome to WinMilk!</value>
+  </data>
+  <data name="LogOutMessageBoxText" xml:space="preserve">
+    <value>Log out and erase your settings?</value>
+  </data>
+  <data name="LogOutMessageBoxTitle" xml:space="preserve">
+    <value>Log out</value>
   </data>
 </root>

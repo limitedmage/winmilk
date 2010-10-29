@@ -15,6 +15,7 @@
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     shell:SystemTray.IsVisible="True"
+    con:TiltEffect.IsTiltEnabled="True"
     Loaded="PhoneApplicationPage_Loaded">
 
     <!--LayoutRoot is the root grid where all page content is placed-->

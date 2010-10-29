@@ -319,7 +319,7 @@ namespace WinMilk.Gui
         {
             SmartDispatcher.BeginInvoke(() =>
             {
-                MessageBoxResult login = MessageBox.Show("You must log in and authenticate before continuing.", "Authenticate", MessageBoxButton.OK);
+                MessageBoxResult login = MessageBox.Show(AppResources.LogInMessageBoxText, AppResources.LogInMessageBoxTitle, MessageBoxButton.OK);
                 this.NavigationService.Navigate(new Uri("/Gui/AuthPage.xaml", UriKind.Relative));
             });
         }
@@ -372,7 +372,7 @@ namespace WinMilk.Gui
 
         private void LogoutButton_Click(object sender, EventArgs e)
         {
-            MessageBoxResult logout = MessageBox.Show("Log out and erase your settings?", "Log out", MessageBoxButton.OKCancel);
+            MessageBoxResult logout = MessageBox.Show(AppResources.LogOutMessageBoxText, AppResources.LogOutMessageBoxTitle, MessageBoxButton.OKCancel);
             if (logout == MessageBoxResult.OK)
             {
                 App.DeleteData();
