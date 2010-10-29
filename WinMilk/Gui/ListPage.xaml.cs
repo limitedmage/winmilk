@@ -71,9 +71,8 @@ namespace WinMilk.Gui
             if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
             {
                 // set current list
-                int listId = int.Parse(idStr);
-
-                CurrentList = App.RtmClient.TaskLists.GetById(listId);
+                int id = int.Parse(idStr);
+                CurrentList = App.RtmClient.TaskLists.GetById(id);
             }
         }
 
@@ -89,7 +88,9 @@ namespace WinMilk.Gui
                 SmartDispatcher.BeginInvoke(() =>
                 {
                     IsLoading = false;
-                    UpdateCurrentList();
+                    var newList = App.RtmClient.TaskLists.GetById(CurrentList.Id);
+                    CurrentList = null;
+                    CurrentList = newList;
                 });
             });
         }
@@ -126,7 +127,10 @@ namespace WinMilk.Gui
             {
                 IsLoading = true;
             });
-            App.RtmClient.AddTask(e.Text, true, CurrentList.Id, () =>
+
+            int? id = CurrentList.IsSmart ? null : (int?) CurrentList.Id;
+
+            App.RtmClient.AddTask(e.Text, true, id, () =>
             {
                 SmartDispatcher.BeginInvoke(() =>
                 {

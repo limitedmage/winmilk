@@ -18,6 +18,8 @@ namespace WinMilk.Gui
 {
     public partial class SearchPage : PhoneApplicationPage
     {
+        private bool loaded;
+
         public static readonly DependencyProperty IsLoadingProperty =
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(SearchPage),
                 new PropertyMetadata((bool)false));
@@ -42,6 +44,7 @@ namespace WinMilk.Gui
         public SearchPage()
         {
             InitializeComponent();
+            loaded = false;
         }
 
         private void DoSearch()
@@ -74,6 +77,16 @@ namespace WinMilk.Gui
                 // remove focus from text box to close keyboard
                 this.Focus();
                 DoSearch();
+            }
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (!loaded)
+            {
+                ResultTasks.Clear();
+                SearchQueryTextBox.Focus();
+                loaded = true;
             }
         }
     }

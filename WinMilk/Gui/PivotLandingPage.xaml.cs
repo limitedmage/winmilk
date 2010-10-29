@@ -317,8 +317,11 @@ namespace WinMilk.Gui
 
         public void Login()
         {
-            MessageBoxResult login = MessageBox.Show("You must log in and authenticate before continuing.", "Authenticate", MessageBoxButton.OK);
-            this.NavigationService.Navigate(new Uri("/Gui/AuthPage.xaml", UriKind.Relative));
+            SmartDispatcher.BeginInvoke(() =>
+            {
+                MessageBoxResult login = MessageBox.Show("You must log in and authenticate before continuing.", "Authenticate", MessageBoxButton.OK);
+                this.NavigationService.Navigate(new Uri("/Gui/AuthPage.xaml", UriKind.Relative));
+            });
         }
 
         #endregion
