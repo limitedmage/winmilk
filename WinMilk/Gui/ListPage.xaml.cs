@@ -32,7 +32,7 @@ namespace WinMilk.Gui
 
         public static readonly DependencyProperty CurrentListProperty =
                DependencyProperty.Register("CurrentList", typeof(TaskList), typeof(ListPage),
-                   new PropertyMetadata(new TaskList(), new PropertyChangedCallback(OnCurrentListChanged)));
+                   new PropertyMetadata(new TaskList())); //new PropertyChangedCallback(OnCurrentListChanged)));
 
         public TaskList CurrentList
         {
@@ -76,6 +76,7 @@ namespace WinMilk.Gui
                         Dispatcher.BeginInvoke(() =>
                         {
                             CurrentList = l;
+                            ListsPivot.SelectedItem = CurrentList;
                             //LoadList(CurrentList);
                         });
                         break;
