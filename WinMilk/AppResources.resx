@@ -226,7 +226,7 @@
     <value>postpone</value>
   </data>
   <data name="ListPageTitle" xml:space="preserve">
-    <value>LISTS</value>
+    <value>LIST</value>
   </data>
   <data name="MoreDonateButton" xml:space="preserve">
     <value>donate</value>
@@ -240,10 +240,10 @@
   <data name="SmartAddHeader" xml:space="preserve">
     <value>smart add</value>
   </data>
-  <data name="TagListPageHeader" xml:space="preserve">
+  <data name="TagsHeader" xml:space="preserve">
     <value>tags</value>
   </data>
   <data name="TagPageTitle" xml:space="preserve">
-    <value>TAGS</value>
+    <value>TAG</value>
   </data>
 </root>

@@ -19,30 +19,23 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+        
+            <!--TitlePanel contains the name of the application and page title-->
+            <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28" DataContext="{Binding CurrentList}">
+                <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=Loc.ListPageTitle, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBlock x:Name="PageTitle" Text="{Binding Name}" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            </StackPanel>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <controls:Pivot x:Name="ListsPivot"
-                        Title="LISTS"
-                        SelectionChanged="ListsPivot_SelectionChanged"
-                        ItemsSource="{Binding Lists}">
-
-            <controls:Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}" />
-                </DataTemplate>
-            </controls:Pivot.HeaderTemplate>
-
-            <controls:Pivot.ItemTemplate>
-                <DataTemplate>
-                    <con:TaskListControl ItemsSource="{Binding Tasks}" Height="535" />
-                </DataTemplate>
-            </controls:Pivot.ItemTemplate>
-
-        </controls:Pivot>
+            <!--ContentPanel - place additional content here-->
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" DataContext="{Binding CurrentList}">
+                <con:TaskListControl ItemsSource="{Binding Tasks}" />
+            </Grid>
+        </Grid>
 
         <ProgressBar IsIndeterminate="{Binding IsLoading}" 
                  Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}" 
@@ -51,7 +44,7 @@
                  Margin="0,137,0,0" 
                  Style="{StaticResource PerformanceProgressBar}"/>
         
-        <con:AddTaskControl Top="200" Submit="AddTaskControl_Submit" />
+        <con:AddTaskControl Top="0" Submit="AddTaskControl_Submit" x:Name="AddTask" />
         
     </Grid>
 

@@ -13,26 +13,17 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IronCow;
+using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
     public partial class ListPage : PhoneApplicationPage
     {
-        public static bool sReload = true;
-
-        public static readonly DependencyProperty ListsProperty =
-               DependencyProperty.Register("Lists", typeof(ObservableCollection<TaskList>), typeof(ListPage),
-                   new PropertyMetadata((ObservableCollection<TaskList>)null));
-
-        public ObservableCollection<TaskList> Lists
-        {
-            get { return (ObservableCollection<TaskList>)GetValue(ListsProperty); }
-            set { SetValue(ListsProperty, value); }
-        }
+        public static bool sReload = false;
 
         public static readonly DependencyProperty CurrentListProperty =
                DependencyProperty.Register("CurrentList", typeof(TaskList), typeof(ListPage),
-                   new PropertyMetadata(new TaskList())); //new PropertyChangedCallback(OnCurrentListChanged)));
+                   new PropertyMetadata(new TaskList()));
 
         public TaskList CurrentList
         {
@@ -59,8 +50,22 @@ namespace WinMilk.Gui
         {
             CreateApplicationBar();
 
-            LoadAllLists();
+            UpdateCurrentList();
+        }
 
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (sReload)
+            {
+                ResyncLists();
+                sReload = false;
+            }
+
+            base.OnNavigatedTo(e);
+        }
+
+        private void UpdateCurrentList()
+        {
             string idStr;
 
             if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
@@ -68,64 +73,23 @@ namespace WinMilk.Gui
                 // set current list
                 int listId = int.Parse(idStr);
 
-                // find list by id, and select it
-                foreach (TaskList l in Lists)
-                {
-                    if (l.Id == listId)
-                    {
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            CurrentList = l;
-                            ListsPivot.SelectedItem = CurrentList;
-                            //LoadList(CurrentList);
-                        });
-                        break;
-                    }
-                }
+                CurrentList = App.RtmClient.TaskLists.GetById(listId);
             }
-
-            sReload = false;
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        private void ResyncLists()
         {
-            if (sReload)
+            SmartDispatcher.BeginInvoke(() =>
             {
-                LoadAllLists();
-                sReload = false;
-            }
-
-            base.OnNavigatedTo(e);
-        }
-
-        private void LoadAllLists()
-        {
-            // save old selected index
-            int oldIndex = ListsPivot.SelectedIndex;
-
-            var tmp = new ObservableCollection<TaskList>();
-            foreach (TaskList list in App.RtmClient.TaskLists)
-            {
-                tmp.Add(list);
-            }
-            Lists = tmp;
-
-            // restore index
-            Dispatcher.BeginInvoke(() =>
-            {
-                ListsPivot.SelectedIndex = oldIndex;
+                IsLoading = true;
             });
-        }
 
-        private void LoadList(TaskList list)
-        {
-            IsLoading = true;
-
-            list.SyncTasks(() =>
+            App.RtmClient.CacheTasks(() =>
             {
-                Dispatcher.BeginInvoke(() =>
+                SmartDispatcher.BeginInvoke(() =>
                 {
                     IsLoading = false;
+                    UpdateCurrentList();
                 });
             });
         }
@@ -137,81 +101,51 @@ namespace WinMilk.Gui
 
             ApplicationBarIconButton add = new ApplicationBarIconButton(new Uri("/icons/appbar.add.rest.png", UriKind.Relative));
             add.Text = AppResources.AddTaskAppbar;
-            //add.Click += new EventHandler(add_Click);
+            add.Click += new EventHandler(Add_Click);
             ApplicationBar.Buttons.Add(add);
 
             ApplicationBarIconButton sync = new ApplicationBarIconButton(new Uri("/icons/appbar.refresh.rest.png", UriKind.Relative));
             sync.Text = AppResources.SyncAppbar;
             sync.Click += new EventHandler(Sync_Click);
             ApplicationBar.Buttons.Add(sync);
-
-            ApplicationBarMenuItem pin = new ApplicationBarMenuItem(AppResources.PinAppbar);
-            //settings.Click += new EventHandler(settings_Click);
-            ApplicationBar.MenuItems.Add(pin);
-        }
-
-        private void ListsPivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count == 0)
-            {
-                return;
-            }
-
-            if (e.AddedItems[0] is TaskList)
-            {
-                CurrentList = e.AddedItems[0] as TaskList;
-
-                if (CurrentList.Tasks == null || CurrentList.Tasks.Count == 0)
-                {
-                    //LoadList(CurrentList);
-                }
-            }
-        }
-
-        private static void OnCurrentListChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ListPage target = d as ListPage;
-            TaskList oldList = e.OldValue as TaskList;
-            TaskList newList = target.CurrentList;
-            target.OnCurrentListChanged(oldList, newList);
-        }
-
-        private void OnCurrentListChanged(TaskList oldList, TaskList newList)
-        {
-            if (newList != oldList)
-            {
-                Dispatcher.BeginInvoke((Action)(() =>
-                {
-                    ListsPivot.SelectedItem = newList;
-                }));
-            }
         }
 
         private void Sync_Click(object sender, EventArgs e)
         {
-            //LoadList(CurrentList);
-
-            App.RtmClient.CacheTasks(() =>
-            {
-                LoadAllLists();
-            });
+            ResyncLists();
         }
 
-        private void AddTaskControl_Submit(object sentder, Controls.SubmitEventArgs e)
+        private void Add_Click(object sender, EventArgs e)
         {
-            Dispatcher.BeginInvoke(() =>
+            AddTask.Open();
+        }
+
+        private void AddTaskControl_Submit(object sender, Controls.SubmitEventArgs e)
+        {
+            SmartDispatcher.BeginInvoke(() =>
             {
                 IsLoading = true;
             });
             App.RtmClient.AddTask(e.Text, true, CurrentList.Id, () =>
             {
-                Dispatcher.BeginInvoke(() =>
+                SmartDispatcher.BeginInvoke(() =>
                 {
                     IsLoading = false;
                 });
 
-                LoadList(CurrentList);
+                ResyncLists();
             });
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (AddTask.IsOpen)
+            {
+                AddTask.Close();
+                e.Cancel = true;
+            }
+
+            base.OnBackKeyPress(e);
         }
     }
 }

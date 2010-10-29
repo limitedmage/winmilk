@@ -247,7 +247,6 @@ namespace WinMilk.Gui
             ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
             TaskList selected = lists[list.SelectedIndex];
 
-            ListPage.sReload = true;
             this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
             list.SelectedIndex = -1;

@@ -99,6 +99,16 @@ namespace WinMilk.Gui
                DependencyProperty.Register("TaskLists", typeof(ObservableCollection<TaskList>), typeof(PivotLandingPage),
                    new PropertyMetadata(new ObservableCollection<TaskList>()));
 
+        public readonly static DependencyProperty TagsProperty =
+            DependencyProperty.Register("Tags", typeof(SortableObservableCollection<string>), typeof(PivotLandingPage),
+                new PropertyMetadata((SortableObservableCollection<string>)null));
+
+        public SortableObservableCollection<string> Tags
+        {
+            get { return (SortableObservableCollection<string>)GetValue(TagsProperty); }
+            set { SetValue(TagsProperty, value); }
+        }
+
         #endregion
 
         #region Construction, Loading and Navigating
@@ -106,13 +116,15 @@ namespace WinMilk.Gui
         public PivotLandingPage()
         {
             InitializeComponent();
+            CreateApplicationBar();
 
             IsLoading = false;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            CreateApplicationBar();
+            LoadData();
+            SyncData();
         }
 
         private void CreateApplicationBar()
@@ -129,12 +141,28 @@ namespace WinMilk.Gui
             sync.Text = AppResources.SyncAppbar;
             sync.Click += new EventHandler(Sync_Click);
             ApplicationBar.Buttons.Add(sync);
+
+            ApplicationBarIconButton search = new ApplicationBarIconButton(new Uri("/icons/appbar.feature.search.rest.png", UriKind.Relative));
+            search.Text = AppResources.MoreSearchButton;
+            search.Click += new EventHandler(SearchButton_Click);
+            ApplicationBar.Buttons.Add(search);
+
+            ApplicationBarMenuItem logout = new ApplicationBarMenuItem(AppResources.MoreLogoutButton);
+            logout.Click += new EventHandler(LogoutButton_Click);
+            ApplicationBar.MenuItems.Add(logout);
+
+            ApplicationBarMenuItem about = new ApplicationBarMenuItem(AppResources.MoreAboutButton);
+            about.Click += new EventHandler(AboutButton_Click);
+            ApplicationBar.MenuItems.Add(about);
+
+            ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
+            donate.Click += new EventHandler(DonateButton_Click);
+            ApplicationBar.MenuItems.Add(donate);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            LoadData();
-            SyncData();
+            
 
             base.OnNavigatedTo(e);
         }
@@ -230,6 +258,13 @@ namespace WinMilk.Gui
                     tempNoDueTasks.Add(t);
                 }
 
+                var tempTags = new SortableObservableCollection<string>();
+                foreach (var tag in App.RtmClient.GetTasksByTag())
+                {
+                    tempTags.Add(tag.Key);
+                }
+                tempTags.Sort();
+
                 SmartDispatcher.BeginInvoke(() =>
                 {
                     TaskLists = tempTaskLists;
@@ -238,6 +273,7 @@ namespace WinMilk.Gui
                     OverdueTasks = tempOverdueTasks;
                     WeekTasks = tempWeekTasks;
                     NoDueTasks = tempNoDueTasks;
+                    Tags = tempTags;
                 });
             }
         }
@@ -264,10 +300,18 @@ namespace WinMilk.Gui
             ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
             TaskList selected = lists[list.SelectedIndex];
 
-            ListPage.sReload = true;
             this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
 
             list.SelectedIndex = -1;
+        }
+
+        private void TagsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                string currentTag = e.AddedItems[0] as string;
+                NavigationService.Navigate(new Uri("/Gui/TagPage.xaml?tag=" + Uri.EscapeUriString(currentTag), UriKind.Relative));
+            }
         }
 
         private void AddTask_Click(object sender, EventArgs e)

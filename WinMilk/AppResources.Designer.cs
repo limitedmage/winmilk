@@ -151,7 +151,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LISTS.
+        ///   Looks up a localized string similar to LIST.
         /// </summary>
         public static string ListPageTitle {
             get {
@@ -295,20 +295,20 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to tags.
-        /// </summary>
-        public static string TagListPageHeader {
-            get {
-                return ResourceManager.GetString("TagListPageHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TAGS.
+        ///   Looks up a localized string similar to TAG.
         /// </summary>
         public static string TagPageTitle {
             get {
                 return ResourceManager.GetString("TagPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to tags.
+        /// </summary>
+        public static string TagsHeader {
+            get {
+                return ResourceManager.GetString("TagsHeader", resourceCulture);
             }
         }
         
