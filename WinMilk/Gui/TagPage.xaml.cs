@@ -17,7 +17,7 @@ using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
-    public partial class TagPage : PhoneApplicationPage
+    public partial class TagPage : Clarity.Phone.Controls.AnimatedBasePage
     {
         public static readonly DependencyProperty CurrentTagProperty =
                DependencyProperty.Register("CurrentTag", typeof(TagList), typeof(TagPage),
@@ -42,6 +42,8 @@ namespace WinMilk.Gui
         public TagPage()
         {
             InitializeComponent();
+
+            AnimationContext = LayoutRoot;
         }
 
         public void LoadTag()

@@ -52,8 +52,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, proc
-sorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, proc&#xD;&#xA;sorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Servicemodel.Web" />
@@ -345,6 +344,10 @@ sorArchitecture=MSIL" />
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Clarity\Clarity.csproj">
+      <Project>{EA446F70-D067-44A9-936C-3F3060FD54B7}</Project>
+      <Name>Clarity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IronCow\IronCow.csproj">
       <Project>{22D8C142-6D0F-4D5E-8B46-9FCA34CE3A8E}</Project>
       <Name>IronCow</Name>

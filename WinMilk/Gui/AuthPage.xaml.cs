@@ -10,12 +10,11 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
-using WinMilk.Gui.Controls.ProgressBar;
 using IronCow;
 
 namespace WinMilk.Gui
 {
-    public partial class AuthPage : PhoneApplicationPage
+    public partial class AuthPage : Clarity.Phone.Controls.AnimatedBasePage
     {
 
         #region IsLoading

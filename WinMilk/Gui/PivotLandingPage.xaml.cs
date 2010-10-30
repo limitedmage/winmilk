@@ -17,10 +17,12 @@ using Microsoft.Phone.Tasks;
 using WinMilk.Helper;
 using Microsoft.Phone.Shell;
 using System.ComponentModel;
+using Clarity.Phone.Controls;
+using Clarity.Phone.Controls.Animations;
 
 namespace WinMilk.Gui
 {
-    public partial class PivotLandingPage : PhoneApplicationPage
+    public partial class PivotLandingPage : AnimatedBasePage
     {
         #region IsLoading Property
 
@@ -120,6 +122,7 @@ namespace WinMilk.Gui
             CreateApplicationBar();
 
             IsLoading = false;
+            AnimationContext = LayoutRoot;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -163,8 +166,6 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            
-
             base.OnNavigatedTo(e);
         }
 
@@ -178,6 +179,51 @@ namespace WinMilk.Gui
 
             base.OnBackKeyPress(e);
         }
+
+        // Page animation
+        /*
+        protected override AnimatorHelperBase GetAnimation(AnimationType animationType, Uri toOrFrom)
+        {
+            
+            AnimatorHelperBase animation;
+
+            switch (animationType)
+            {
+                case AnimationType.NavigateBackwardIn:
+                    animation = new TurnstileBackwardInAnimator();
+                    break;
+
+                case AnimationType.NavigateBackwardOut:
+                    animation = new TurnstileBackwardOutAnimator();
+                    break;
+
+                case AnimationType.NavigateForwardIn:
+                    animation = new TurnstileForwardInAnimator();
+                    break;
+
+                default:
+                    animation = new TurnstileForwardOutAnimator();
+                    break;
+            }
+
+            animation.RootElement = AnimationContext;
+            return animation;
+
+            if (toOrFrom != null)
+            {
+                if (toOrFrom.OriginalString.Contains("ListPage.xaml"))
+                {
+                    return GetContinuumAnimation(ListsList.ItemContainerGenerator.ContainerFromIndex(ListsList.SelectedIndex) as FrameworkElement, animationType);
+                }
+
+                if (toOrFrom.OriginalString.Contains("TagPage.xaml"))
+                {
+                    return GetContinuumAnimation(TagsList.ItemContainerGenerator.ContainerFromIndex(TagsList.SelectedIndex) as FrameworkElement, animationType);
+                }
+            }
+
+            return null;
+        }*/
 
         #endregion
 
@@ -330,19 +376,11 @@ namespace WinMilk.Gui
 
         private void ListsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBox list = sender as ListBox;
-
-            if (list.SelectedIndex == -1)
+            if (e.AddedItems.Count > 0)
             {
-                return;
+                TaskList selected = e.AddedItems[0] as TaskList;
+                this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
             }
-
-            ObservableCollection<TaskList> lists = list.ItemsSource as ObservableCollection<TaskList>;
-            TaskList selected = lists[list.SelectedIndex];
-
-            this.NavigationService.Navigate(new Uri("/Gui/ListPage.xaml?id=" + selected.Id, UriKind.Relative));
-
-            list.SelectedIndex = -1;
         }
 
         private void TagsList_SelectionChanged(object sender, SelectionChangedEventArgs e)

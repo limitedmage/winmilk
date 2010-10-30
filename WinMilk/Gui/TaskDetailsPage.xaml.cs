@@ -13,10 +13,11 @@ using Microsoft.Phone.Controls;
 using IronCow;
 using Microsoft.Phone.Tasks;
 using Microsoft.Phone.Shell;
+using Clarity.Phone.Controls;
 
 namespace WinMilk.Gui
 {
-    public partial class TaskDetailsPage : PhoneApplicationPage
+    public partial class TaskDetailsPage : AnimatedBasePage
     {
         #region IsLoading Property
 
@@ -52,6 +53,8 @@ namespace WinMilk.Gui
         public TaskDetailsPage()
         {
             InitializeComponent();
+
+            AnimationContext = LayoutRoot;
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)

@@ -97,13 +97,13 @@ namespace Clarity.Phone.Controls
 
             if (_isAnimating)
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 return;
             }
 
             if (_loadingAndAnimatingIn)
             {
-                e.Cancel = true;
+                //e.Cancel = true;
                 return;
             }
 

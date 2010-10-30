@@ -16,7 +16,7 @@ using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
-    public partial class SearchPage : PhoneApplicationPage
+    public partial class SearchPage : Clarity.Phone.Controls.AnimatedBasePage
     {
         private bool loaded;
 
@@ -45,6 +45,7 @@ namespace WinMilk.Gui
         {
             InitializeComponent();
             loaded = false;
+            AnimationContext = LayoutRoot;
         }
 
         private void DoSearch()

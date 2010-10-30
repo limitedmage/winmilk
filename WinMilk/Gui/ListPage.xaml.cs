@@ -14,10 +14,11 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using IronCow;
 using WinMilk.Helper;
+using Clarity.Phone.Controls;
 
 namespace WinMilk.Gui
 {
-    public partial class ListPage : PhoneApplicationPage
+    public partial class ListPage : AnimatedBasePage
     {
         public static bool sReload = false;
 
@@ -44,6 +45,7 @@ namespace WinMilk.Gui
         public ListPage()
         {
             InitializeComponent();
+            AnimationContext = LayoutRoot;
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
