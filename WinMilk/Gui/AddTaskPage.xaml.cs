@@ -49,5 +49,15 @@ namespace WinMilk.Gui
 			
             
         }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            taskList.Items = new System.Collections.ObjectModel.ObservableCollection<object>();
+            taskList.Items.Add(0);
+            taskList.Items.Add(1);
+            taskList.Items.Add(2);
+            taskList.Items.Add(3);
+            taskList.Items.Add(4);
+        }
     }
 }

@@ -52,8 +52,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
-    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, proc
-sorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, proc&#xD;&#xA;sorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Servicemodel.Web" />
@@ -95,6 +94,10 @@ sorArchitecture=MSIL" />
       <DependentUpon>IconButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Controls\ListPicker.cs" />
+    <Compile Include="Gui\Controls\PickerBoxButton.xaml.cs">
+      <DependentUpon>PickerBoxButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\Controls\PickerBoxDialog.cs" />
     <Compile Include="Gui\Controls\ProgressBar\BooleanToVisibilityConverter.cs" />
     <Compile Include="Gui\Controls\ProgressBar\ProgressBarWithText.xaml.cs">
       <DependentUpon>ProgressBarWithText.xaml</DependentUpon>
@@ -152,6 +155,10 @@ sorArchitecture=MSIL" />
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\Controls\IconButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\Controls\PickerBoxButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

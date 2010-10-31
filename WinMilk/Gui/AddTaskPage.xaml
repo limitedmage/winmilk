@@ -16,7 +16,8 @@
     mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
     shell:SystemTray.IsVisible="True"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    con:TiltEffect.IsTiltEnabled="True">
+    con:TiltEffect.IsTiltEnabled="True"
+    Loaded="PhoneApplicationPage_Loaded">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -102,7 +103,7 @@
         			</Grid.ColumnDefinitions>
 
         			<TextBlock Text="List" Style="{StaticResource PhoneTextLargeStyle}" VerticalAlignment="Center" Grid.Column="0"/>
-                    <TextBox x:Name="taskList" Grid.Column="1" />
+                    <con:PickerBoxButton x:Name="taskList" Grid.Column="1" />
                 </Grid>
 
         		<Grid Grid.Row="4">

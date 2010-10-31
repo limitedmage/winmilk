@@ -613,7 +613,7 @@ namespace WinMilk.Gui.Controls
 
         #endregion
     }
-
+    /*
     /// <summary>
     /// Couple of simple helpers for walking the visual tree
     /// </summary>
@@ -643,6 +643,6 @@ namespace WinMilk.Gui.Controls
         {
             return VisualTreeHelper.GetParent(node) as FrameworkElement;
         }
-    }
+    }*/
 }
 
