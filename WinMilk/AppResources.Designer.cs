@@ -133,7 +133,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to log in.
+        ///   Looks up a localized string similar to LOG IN.
         /// </summary>
         public static string AuthPageTitle {
             get {

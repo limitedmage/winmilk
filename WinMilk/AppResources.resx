@@ -142,7 +142,7 @@
     <value>After logging in and authorizing the app, tap the done button</value>
   </data>
   <data name="AuthPageTitle" xml:space="preserve">
-    <value>log in</value>
+    <value>LOG IN</value>
   </data>
   <data name="CancelTaskAddLink" xml:space="preserve">
     <value>Cancel</value>
