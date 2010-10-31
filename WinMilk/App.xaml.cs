@@ -104,6 +104,8 @@ namespace WinMilk
             IsolatedStorageHelper.DeleteObject("ListsResponse");
             IsolatedStorageHelper.DeleteObject("TasksResponse");
             RtmClient = new Rtm(RtmApiKey, RtmSharedKey);
+            ListsResponse = null;
+            TasksResponse = null;
         }
 
         public static void OnCacheLists(Response response)

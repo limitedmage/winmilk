@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:con="clr-namespace:WinMilk.Gui.Controls" x:Name="phoneApplicationPage"
+    xmlns:delay="clr-namespace:Delay;assembly=PhonePerformance"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
 	x:Class="WinMilk.Gui.PivotLandingPage"
 	FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -15,12 +16,12 @@
 	Foreground="{StaticResource PhoneForegroundBrush}"
 	SupportedOrientations="Portrait" Orientation="Portrait"
 	shell:SystemTray.IsVisible="True"
-    con:TiltEffect.IsTiltEnabled="True"
+    
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="PhoneApplicationPage_Loaded">
-	
-	<!--LayoutRoot contains the root grid where all other page content is placed-->
-	<Grid x:Name="LayoutRoot">
+
+    <!--LayoutRoot contains the root grid where all other page content is placed-->
+    <Grid x:Name="LayoutRoot">
         <controls:Pivot Title="{Binding Path=Loc.AppNameCaps, Source={StaticResource L10N}}" Name="Pivot">
 
             <!--Panorama item one-->
@@ -43,18 +44,13 @@
                             <con:TaskListControl x:Name="NoDueList" ItemsSource="{Binding NoDueTasks}" ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                         </StackPanel>
                     </ScrollViewer>
-                    <!--
-                    <StackPanel HorizontalAlignment="Right" Margin="0,-101,0,0" Orientation="Horizontal" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment">
-                    	<con:BigIconButton Type="add" Text="" Click="AddTask_Click"/>
-						<con:BigIconButton Type="sync" Text="" Click="Sync_Click" />
-                    </StackPanel>-->
                 </Grid>
             </controls:PivotItem>
 
             <controls:PivotItem x:Name="ListsPanel" Header="{Binding Path=Loc.ListsHeader, Source={StaticResource L10N}}">
                 <Grid>
-                    <ListBox x:Name="ListsList" SelectionChanged="ListsList_SelectionChanged" ItemsSource="{Binding TaskLists}">
-                        <ListBox.Resources>
+                    <delay:DeferredLoadListBox x:Name="ListsList" SelectionChanged="ListsList_SelectionChanged" ItemsSource="{Binding TaskLists}">
+                        <delay:DeferredLoadListBox.Resources>
                             <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
                                 <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="BorderThickness" Value="0"/>
@@ -62,6 +58,7 @@
                                 <Setter Property="Padding" Value="0"/>
                                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
                                 <Setter Property="VerticalContentAlignment" Value="Top"/>
+                                <Setter Property="Height" Value="70" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListBoxItem">
@@ -90,12 +87,19 @@
                                     </Setter.Value>
                                 </Setter>
                             </Style>
-                        </ListBox.Resources>
-                        <ListBox.ItemContainerStyle>
+                        </delay:DeferredLoadListBox.Resources>
+                        
+                        <delay:DeferredLoadListBox.ItemContainerStyle>
                             <StaticResource ResourceKey="ListBoxItemStyle"/>
-                        </ListBox.ItemContainerStyle>
+                        </delay:DeferredLoadListBox.ItemContainerStyle>
 
-                        <ListBox.ItemTemplate>
+                        <delay:DeferredLoadListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </delay:DeferredLoadListBox.ItemsPanel>
+
+                        <delay:DeferredLoadListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Width="410" Height="70" Margin="5" Background="{StaticResource PhoneChromeBrush}">
                                     <Grid.ColumnDefinitions>
@@ -121,8 +125,8 @@
                                     <TextBlock Text="{Binding Count}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}}" />
                                 </Grid>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </delay:DeferredLoadListBox.ItemTemplate>
+                    </delay:DeferredLoadListBox>
                 </Grid>
             </controls:PivotItem>
 
@@ -135,7 +139,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PivotItem>
-            
+
         </controls:Pivot>
 
         <con:AddTaskControl x:Name="AddTaskPopup" Submit="AddTaskPopup_Submit" Top="0"/>

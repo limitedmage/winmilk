@@ -175,6 +175,14 @@
             </Grid>
         </DataTemplate>
 
+        <Style x:Key="TaskContainterStyle" TargetType="ListBoxItem">
+            <Setter Property="Height" Value="80"/>
+        </Style>
+
+        <ItemsPanelTemplate x:Key="TaskPanelTemplate">
+            <StackPanel/>
+        </ItemsPanelTemplate>
+
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

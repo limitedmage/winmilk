@@ -14,10 +14,11 @@ using System.ComponentModel;
 using System.Collections;
 using System.Collections.ObjectModel;
 using IronCow;
+using Delay;
 
 namespace WinMilk.Gui.Controls
 {
-    public class TaskListControl : ListBox, INotifyPropertyChanged
+    public class TaskListControl : DeferredLoadListBox, INotifyPropertyChanged
     {
         public bool HasItems
         {
@@ -39,6 +40,8 @@ namespace WinMilk.Gui.Controls
             this.Loaded += new RoutedEventHandler(TaskListControl_Loaded);
 
             this.ItemTemplate = App.Current.Resources["TaskTemplate"] as DataTemplate;
+            this.ItemContainerStyle = App.Current.Resources["TaskContainterStyle"] as Style;
+            this.ItemsPanel = App.Current.Resources["TaskPanelTemplate"] as ItemsPanelTemplate;
         }
 
         void TaskListControl_Loaded(object sender, RoutedEventArgs e)

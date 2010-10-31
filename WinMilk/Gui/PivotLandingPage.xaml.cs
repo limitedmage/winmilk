@@ -124,8 +124,11 @@ namespace WinMilk.Gui
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadData();
-            SyncData();
+            if (sReload)
+            {
+                LoadData();
+                SyncData();
+            }
         }
 
         private void CreateApplicationBar()
@@ -188,32 +191,27 @@ namespace WinMilk.Gui
             BackgroundWorker b = new BackgroundWorker();
             b.DoWork += (s, e) =>
             {
-                if (sReload)
+                if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
                 {
-                    if (!string.IsNullOrEmpty(App.RtmClient.AuthToken))
+                    SmartDispatcher.BeginInvoke(() =>
                     {
+                        this.IsLoading = true;
+                    });
+
+                    App.RtmClient.SyncEverything(() =>
+                    {
+                        LoadData();
+
                         SmartDispatcher.BeginInvoke(() =>
                         {
-                            this.IsLoading = true;
+                            IsLoading = false;
                         });
-
-                        App.RtmClient.SyncEverything(() =>
-                        {
-                            LoadData();
-
-                            SmartDispatcher.BeginInvoke(() =>
-                            {
-                                IsLoading = false;
-                            });
-                        });
-                    }
-                    else
-                    {
-                        Login();
-                    }
+                    });
                 }
-
-                sReload = false;
+                else
+                {
+                    Login();
+                }
             };
 
             b.RunWorkerAsync();
@@ -361,7 +359,6 @@ namespace WinMilk.Gui
 
         private void Sync_Click(object sender, EventArgs e)
         {
-            sReload = true;
             SyncData();
         }
 
