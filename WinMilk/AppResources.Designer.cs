@@ -241,6 +241,15 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to report a bug.
+        /// </summary>
+        public static string MoreReportButton {
+            get {
+                return ResourceManager.GetString("MoreReportButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to search.
         /// </summary>
         public static string MoreSearchButton {

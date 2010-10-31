@@ -156,6 +156,10 @@ namespace WinMilk.Gui
             about.Click += new EventHandler(AboutButton_Click);
             ApplicationBar.MenuItems.Add(about);
 
+            ApplicationBarMenuItem report = new ApplicationBarMenuItem(AppResources.MoreReportButton);
+            report.Click += new EventHandler(ReportButton_Click);
+            ApplicationBar.MenuItems.Add(report);
+
             ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
             donate.Click += new EventHandler(DonateButton_Click);
             ApplicationBar.MenuItems.Add(donate);
@@ -411,6 +415,13 @@ namespace WinMilk.Gui
                 sReload = true;
                 LoadData();
             });
+        }
+
+        private void ReportButton_Click(object sender, EventArgs e)
+        {
+            WebBrowserTask page = new WebBrowserTask();
+            page.URL = "http://winmilk.codeplex.com/WorkItem/Create";
+            page.Show();
         }
 
         private void DonateButton_Click(object sender, EventArgs e)
