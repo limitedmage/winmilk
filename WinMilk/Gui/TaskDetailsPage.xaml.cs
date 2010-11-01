@@ -137,7 +137,7 @@ namespace WinMilk.Gui
         }
         */
 
-        private void Url_Click(object sender, MouseButtonEventArgs e)
+        private void Url_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
             page.URL = CurrentTask.Url;

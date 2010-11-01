@@ -241,7 +241,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to report a bug.
+        ///   Looks up a localized string similar to report bug or suggest feature.
         /// </summary>
         public static string MoreReportButton {
             get {

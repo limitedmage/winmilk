@@ -156,13 +156,13 @@ namespace WinMilk.Gui
             about.Click += new EventHandler(AboutButton_Click);
             ApplicationBar.MenuItems.Add(about);
 
-            ApplicationBarMenuItem report = new ApplicationBarMenuItem(AppResources.MoreReportButton);
-            report.Click += new EventHandler(ReportButton_Click);
-            ApplicationBar.MenuItems.Add(report);
-
             ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
             donate.Click += new EventHandler(DonateButton_Click);
             ApplicationBar.MenuItems.Add(donate);
+
+            ApplicationBarMenuItem report = new ApplicationBarMenuItem(AppResources.MoreReportButton);
+            report.Click += new EventHandler(ReportButton_Click);
+            ApplicationBar.MenuItems.Add(report);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
@@ -186,6 +186,8 @@ namespace WinMilk.Gui
         #endregion
 
         #region Loading Data
+
+        
 
         private void SyncData()
         {
@@ -420,7 +422,7 @@ namespace WinMilk.Gui
         private void ReportButton_Click(object sender, EventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://winmilk.codeplex.com/WorkItem/Create";
+            page.URL = "http://winmilk.uservoice.com";
             page.Show();
         }
 

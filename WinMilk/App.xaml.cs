@@ -167,16 +167,32 @@ namespace WinMilk
                 {
                     MessageBox.Show(ex.Message, "Error " + ex.Code, MessageBoxButton.OK);
                 });
-                e.Handled = true;
+            }
+            else if (e.ExceptionObject is WebException)
+            {
+                WebException ex = e.ExceptionObject as WebException;
+
+                RootFrame.Dispatcher.BeginInvoke(() =>
+                {
+                    MessageBox.Show(ex.Message + "\nAre you connected to the Internet?", "Error contacting server", MessageBoxButton.OK);
+                });
             }
             else
             {
-
-                if (System.Diagnostics.Debugger.IsAttached)
+                RootFrame.Dispatcher.BeginInvoke(() =>
                 {
-                    // An unhandled exception has occurred; break into the debugger
-                    System.Diagnostics.Debugger.Break();
-                }
+                    Exception ex = e.ExceptionObject;
+
+                    MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButton.OK);
+                });
+            }
+
+            e.Handled = true;
+
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                // An unhandled exception has occurred; break into the debugger
+                System.Diagnostics.Debugger.Break();
             }
         }
 

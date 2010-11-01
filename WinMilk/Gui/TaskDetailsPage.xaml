@@ -156,7 +156,10 @@
 		        					<SolidColorBrush Color="{StaticResource PhoneBorderColor}"/>
 		        				</TextBlock.Foreground>
                             </TextBlock>
-                            <TextBlock Text="{Binding Url}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" MouseLeftButtonDown="Url_Click" Grid.Column="1" TextDecorations="Underline"/>
+                            <Button BorderThickness="0" Click="Url_Click" Grid.Column="1">
+                                <TextBlock Text="{Binding Url}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}"/>
+                            </Button>
+                            
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

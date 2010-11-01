@@ -259,6 +259,6 @@
     <value>Log out</value>
   </data>
   <data name="MoreReportButton" xml:space="preserve">
-    <value>report a bug</value>
+    <value>report bug or suggest feature</value>
   </data>
 </root>
