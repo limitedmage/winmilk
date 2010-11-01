@@ -38,7 +38,7 @@
 
             <ProgressBar IsIndeterminate="{Binding IsLoading}" 
                          Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}"  
-                         Style="{StaticResource PerformanceProgressBar}" Margin="0,0,0,10" />
+                         Style="{StaticResource PerformanceProgressBar}" />
 
             <phone:WebBrowser Name="webBrowser1" Grid.Row="1" Navigating="webBrowser1_Navigating" Navigated="webBrowser1_Navigated"/>
 
