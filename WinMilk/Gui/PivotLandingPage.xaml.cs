@@ -421,9 +421,10 @@ namespace WinMilk.Gui
 
         private void ReportButton_Click(object sender, EventArgs e)
         {
-            WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://winmilk.uservoice.com";
-            page.Show();
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+            emailComposeTask.To = "winmilk@julianapena.com";
+            emailComposeTask.Subject = "WinMilk bug or suggestion";
+            emailComposeTask.Show();
         }
 
         private void DonateButton_Click(object sender, EventArgs e)
