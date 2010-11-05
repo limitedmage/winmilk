@@ -124,7 +124,7 @@
     <value>add</value>
   </data>
   <data name="AdvancedTaskAddLink" xml:space="preserve">
-    <value>Advanced...</value>
+    <value>advanced...</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>WinMilk</value>
@@ -260,5 +260,35 @@
   </data>
   <data name="MoreReportButton" xml:space="preserve">
     <value>report bug or suggest feature</value>
+  </data>
+  <data name="AddTaskDue" xml:space="preserve">
+    <value>Due</value>
+  </data>
+  <data name="AddTaskDueDay" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="AddTaskDueNever" xml:space="preserve">
+    <value>Never</value>
+  </data>
+  <data name="AddTaskDueTime" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="AddTaskList" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="AddTaskName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="AddTaskPriority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="AddTaskPriorityNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="AddTaskTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="AddTaskTitle" xml:space="preserve">
+    <value>add task</value>
   </data>
 </root>

@@ -70,6 +70,78 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Due.
+        /// </summary>
+        public static string AddTaskDue {
+            get {
+                return ResourceManager.GetString("AddTaskDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Day.
+        /// </summary>
+        public static string AddTaskDueDay {
+            get {
+                return ResourceManager.GetString("AddTaskDueDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Never.
+        /// </summary>
+        public static string AddTaskDueNever {
+            get {
+                return ResourceManager.GetString("AddTaskDueNever", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string AddTaskDueTime {
+            get {
+                return ResourceManager.GetString("AddTaskDueTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List.
+        /// </summary>
+        public static string AddTaskList {
+            get {
+                return ResourceManager.GetString("AddTaskList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string AddTaskName {
+            get {
+                return ResourceManager.GetString("AddTaskName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Priority.
+        /// </summary>
+        public static string AddTaskPriority {
+            get {
+                return ResourceManager.GetString("AddTaskPriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string AddTaskPriorityNone {
+            get {
+                return ResourceManager.GetString("AddTaskPriorityNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
         public static string AddTasksButton {
@@ -79,7 +151,25 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced....
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string AddTaskTags {
+            get {
+                return ResourceManager.GetString("AddTaskTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to add task.
+        /// </summary>
+        public static string AddTaskTitle {
+            get {
+                return ResourceManager.GetString("AddTaskTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to advanced....
         /// </summary>
         public static string AdvancedTaskAddLink {
             get {

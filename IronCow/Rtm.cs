@@ -765,11 +765,14 @@ namespace IronCow
         {
             if (Client is RestClient)
             {
-                (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) =>
+                GetOrStartTimeline((t) =>
                 {
-                    CacheTasks(() =>
+                    (Client as RestClient).AddTask(name, parse, listId, CurrentTimeline, (list) =>
                     {
-                        callback();
+                        CacheTasks(() =>
+                        {
+                            callback();
+                        });
                     });
                 });
             }
