@@ -49,20 +49,6 @@
                                      Click="Author_Click"/>
                 </toolkit:WrapPanel>
 
-                <toolkit:WrapPanel Orientation="Horizontal"  Margin="0,10,0,10">
-                    <TextBlock Text="Licensed under the" FontSize="24"/>
-                    <HyperlinkButton HorizontalAlignment="Left"
-                                     Content="Microsoft Public License"
-                                     Click="License_Click"/>
-                </toolkit:WrapPanel>
-
-                <toolkit:WrapPanel Orientation="Horizontal"  Margin="0,10,0,10">
-                    <TextBlock Text="Source code available at" FontSize="24"/>
-                    <HyperlinkButton HorizontalAlignment="Left"
-                                     Content="Codeplex" 
-                                     Click="Codeplex_Click"/>
-                </toolkit:WrapPanel>
-
                 <toolkit:WrapPanel Orientation="Horizontal" Margin="0,10,0,10">
                     <TextBlock Text="Like this app?" FontSize="24"/>
                     <HyperlinkButton HorizontalAlignment="Left"

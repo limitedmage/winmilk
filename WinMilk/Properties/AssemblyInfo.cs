@@ -7,7 +7,7 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("WinMilk")]
-[assembly: AssemblyDescription("Task manager that syncs with Remember the Milk")]
+[assembly: AssemblyDescription("Task and to-do list app that syncs with Remember the Milk")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Juliana Pena")]
 [assembly: AssemblyProduct("WinMilk")]
