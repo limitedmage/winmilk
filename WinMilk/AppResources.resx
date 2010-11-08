@@ -261,4 +261,31 @@
   <data name="MoreReportButton" xml:space="preserve">
     <value>report bug or suggest feature</value>
   </data>
+  <data name="AboutAuthorLink" xml:space="preserve">
+    <value>Juliana Peña</value>
+  </data>
+  <data name="AboutCreatedBy" xml:space="preserve">
+    <value>Created by</value>
+  </data>
+  <data name="AboutDisclaimer" xml:space="preserve">
+    <value>This app uses the Remember The Milk API but is not endorsed or certified by Remember The Milk.</value>
+  </data>
+  <data name="AboutDonateLink" xml:space="preserve">
+    <value>Buy me a cup of coffee!</value>
+  </data>
+  <data name="AboutDonatePrompt" xml:space="preserve">
+    <value>Like this app?</value>
+  </data>
+  <data name="AboutOK" xml:space="preserve">
+    <value>ok</value>
+  </data>
+  <data name="AboutPageHeader" xml:space="preserve">
+    <value>about</value>
+  </data>
+  <data name="AboutRTMLink" xml:space="preserve">
+    <value>Go To Remember the Milk</value>
+  </data>
+  <data name="AboutVersion" xml:space="preserve">
+    <value>Version 1.0</value>
+  </data>
 </root>

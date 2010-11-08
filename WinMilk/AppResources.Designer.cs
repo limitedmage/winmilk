@@ -61,6 +61,87 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Juliana Peña.
+        /// </summary>
+        public static string AboutAuthorLink {
+            get {
+                return ResourceManager.GetString("AboutAuthorLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created by.
+        /// </summary>
+        public static string AboutCreatedBy {
+            get {
+                return ResourceManager.GetString("AboutCreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This app uses the Remember The Milk API but is not endorsed or certified by Remember The Milk..
+        /// </summary>
+        public static string AboutDisclaimer {
+            get {
+                return ResourceManager.GetString("AboutDisclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buy me a cup of coffee!.
+        /// </summary>
+        public static string AboutDonateLink {
+            get {
+                return ResourceManager.GetString("AboutDonateLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Like this app?.
+        /// </summary>
+        public static string AboutDonatePrompt {
+            get {
+                return ResourceManager.GetString("AboutDonatePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ok.
+        /// </summary>
+        public static string AboutOK {
+            get {
+                return ResourceManager.GetString("AboutOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to about.
+        /// </summary>
+        public static string AboutPageHeader {
+            get {
+                return ResourceManager.GetString("AboutPageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go To Remember the Milk.
+        /// </summary>
+        public static string AboutRTMLink {
+            get {
+                return ResourceManager.GetString("AboutRTMLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version 1.0.
+        /// </summary>
+        public static string AboutVersion {
+            get {
+                return ResourceManager.GetString("AboutVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add task.
         /// </summary>
         public static string AddTaskAppbar {
