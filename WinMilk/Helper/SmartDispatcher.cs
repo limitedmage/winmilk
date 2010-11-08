@@ -3,10 +3,10 @@
 // Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
 // All other rights reserved.
 
-using System.ComponentModel;
-using System.Windows.Threading;
-using System.Windows;
 using System;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace WinMilk.Helper
 {

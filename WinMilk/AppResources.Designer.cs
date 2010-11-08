@@ -70,6 +70,24 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Buy me a cup of coffee!.
+        /// </summary>
+        public static string AboutCoffeeLink {
+            get {
+                return ResourceManager.GetString("AboutCoffeeLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Like this app?.
+        /// </summary>
+        public static string AboutCoffeePrompt {
+            get {
+                return ResourceManager.GetString("AboutCoffeePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created by.
         /// </summary>
         public static string AboutCreatedBy {
@@ -84,24 +102,6 @@ namespace WinMilk {
         public static string AboutDisclaimer {
             get {
                 return ResourceManager.GetString("AboutDisclaimer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Buy me a cup of coffee!.
-        /// </summary>
-        public static string AboutDonateLink {
-            get {
-                return ResourceManager.GetString("AboutDonateLink", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Like this app?.
-        /// </summary>
-        public static string AboutDonatePrompt {
-            get {
-                return ResourceManager.GetString("AboutDonatePrompt", resourceCulture);
             }
         }
         

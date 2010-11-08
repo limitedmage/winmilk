@@ -270,10 +270,10 @@
   <data name="AboutDisclaimer" xml:space="preserve">
     <value>This app uses the Remember The Milk API but is not endorsed or certified by Remember The Milk.</value>
   </data>
-  <data name="AboutDonateLink" xml:space="preserve">
+  <data name="AboutCoffeeLink" xml:space="preserve">
     <value>Buy me a cup of coffee!</value>
   </data>
-  <data name="AboutDonatePrompt" xml:space="preserve">
+  <data name="AboutCoffeePrompt" xml:space="preserve">
     <value>Like this app?</value>
   </data>
   <data name="AboutOK" xml:space="preserve">

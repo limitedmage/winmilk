@@ -38,11 +38,8 @@
 
 namespace WinMilk.Gui.Controls
 {
-    using System;
-    using System.Net;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Markup;
 
     /// <summary>
     /// A simple text control that truncates the text to ellipses when there

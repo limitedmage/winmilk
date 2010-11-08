@@ -16,11 +16,8 @@
 
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Runtime.Serialization.Json;
-using System.Xml.Serialization;
 using System.Xml;
-using System.Text;
-using System;
+using System.Xml.Serialization;
 
 namespace WinMilk.Helper
 {

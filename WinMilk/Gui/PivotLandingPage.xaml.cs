@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Microsoft.Phone.Controls;
-using System.Windows.Data;
-using System.Collections.ObjectModel;
 using IronCow;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using WinMilk.Helper;
-using Microsoft.Phone.Shell;
-using System.ComponentModel;
 
 namespace WinMilk.Gui
 {
@@ -166,13 +157,6 @@ namespace WinMilk.Gui
             ApplicationBar.MenuItems.Add(report);
         }
 
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            
-
-            base.OnNavigatedTo(e);
-        }
-
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if (AddTaskPopup.IsOpen)
@@ -187,8 +171,6 @@ namespace WinMilk.Gui
         #endregion
 
         #region Loading Data
-
-        
 
         private void SyncData()
         {
