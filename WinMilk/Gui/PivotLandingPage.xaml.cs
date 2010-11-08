@@ -156,9 +156,10 @@ namespace WinMilk.Gui
             about.Click += new EventHandler(AboutButton_Click);
             ApplicationBar.MenuItems.Add(about);
 
-            ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
+            /*** Removed as per Microsoft Policies :( ***/
+            /*ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
             donate.Click += new EventHandler(DonateButton_Click);
-            ApplicationBar.MenuItems.Add(donate);
+            ApplicationBar.MenuItems.Add(donate);*/
 
             ApplicationBarMenuItem report = new ApplicationBarMenuItem(AppResources.MoreReportButton);
             report.Click += new EventHandler(ReportButton_Click);
@@ -427,12 +428,15 @@ namespace WinMilk.Gui
             emailComposeTask.Show();
         }
 
+        /*** Removed as per Microsoft Policies :( ***/
+        /*
         private void DonateButton_Click(object sender, EventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
             page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
             page.Show();
         }
+        */
 
         #endregion
     }
