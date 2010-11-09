@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using IronCow.Rest;
-using System.Globalization;
-using System.Collections.Specialized;
 using System.Windows.Media;
+using IronCow.Rest;
 
 namespace IronCow
 {

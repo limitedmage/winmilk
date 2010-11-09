@@ -142,9 +142,6 @@
     <Compile Include="User.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram2.cd" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />
