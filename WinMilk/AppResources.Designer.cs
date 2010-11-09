@@ -133,11 +133,20 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Version 1.0.
+        ///   Looks up a localized string similar to Version 1.1.
         /// </summary>
         public static string AboutVersion {
             get {
                 return ResourceManager.GetString("AboutVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visit WinMilk&apos;s site.
+        /// </summary>
+        public static string AboutVisitSite {
+            get {
+                return ResourceManager.GetString("AboutVisitSite", resourceCulture);
             }
         }
         
@@ -160,7 +169,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Advanced....
+        ///   Looks up a localized string similar to advanced....
         /// </summary>
         public static string AdvancedTaskAddLink {
             get {

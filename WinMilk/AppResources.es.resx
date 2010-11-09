@@ -117,14 +117,41 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutAuthorLink" xml:space="preserve">
+    <value>Juliana Peña</value>
+  </data>
+  <data name="AboutCoffeeLink" xml:space="preserve">
+    <value>¡Cómprame un café!</value>
+  </data>
+  <data name="AboutCoffeePrompt" xml:space="preserve">
+    <value>¿Te gusta esta app?</value>
+  </data>
+  <data name="AboutCreatedBy" xml:space="preserve">
+    <value>Creada por</value>
+  </data>
+  <data name="AboutDisclaimer" xml:space="preserve">
+    <value>Esta app usa el API de Remember the Milk pero no está avalada o certificada por Remember The Milk.</value>
+  </data>
+  <data name="AboutOK" xml:space="preserve">
+    <value>ok</value>
+  </data>
+  <data name="AboutPageHeader" xml:space="preserve">
+    <value>acerca de</value>
+  </data>
+  <data name="AboutRTMLink" xml:space="preserve">
+    <value>Ir a Remember the Milk</value>
+  </data>
+  <data name="AboutVersion" xml:space="preserve">
+    <value>Versión 1.1</value>
+  </data>
   <data name="AddTaskAppbar" xml:space="preserve">
-    <value>add task</value>
+    <value>agregar tarea</value>
   </data>
   <data name="AddTasksButton" xml:space="preserve">
-    <value>add</value>
+    <value>agregar</value>
   </data>
   <data name="AdvancedTaskAddLink" xml:space="preserve">
-    <value>advanced...</value>
+    <value>avanzado...</value>
   </data>
   <data name="AppName" xml:space="preserve">
     <value>WinMilk</value>
@@ -136,159 +163,132 @@
     <value>winmilk</value>
   </data>
   <data name="AuthDoneButton" xml:space="preserve">
-    <value>done</value>
+    <value>listo</value>
   </data>
   <data name="AuthInstructions" xml:space="preserve">
-    <value>After logging in and authorizing the app, tap the done button</value>
+    <value>Después de ingresar y autorizar la app, toca el botón de listo</value>
   </data>
   <data name="AuthPageTitle" xml:space="preserve">
-    <value>LOG IN</value>
+    <value>INGRESAR</value>
   </data>
   <data name="CancelTaskAddLink" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
+  </data>
+  <data name="ListPageTitle" xml:space="preserve">
+    <value>LISTA</value>
   </data>
   <data name="ListsHeader" xml:space="preserve">
-    <value>lists</value>
+    <value>listas</value>
+  </data>
+  <data name="LogInMessageBoxText" xml:space="preserve">
+    <value>Debes ingresar con tu cuenta antes de continuar</value>
+  </data>
+  <data name="LogInMessageBoxTitle" xml:space="preserve">
+    <value>¡Bienvenido a WinMilk!</value>
+  </data>
+  <data name="LogOutMessageBoxText" xml:space="preserve">
+    <value>¿Cerrar sesión y borrar tu configuración?</value>
+  </data>
+  <data name="LogOutMessageBoxTitle" xml:space="preserve">
+    <value>Cerrar sesión</value>
   </data>
   <data name="MoreAboutButton" xml:space="preserve">
-    <value>about</value>
+    <value>acerca de</value>
   </data>
   <data name="MoreActionsHeader" xml:space="preserve">
-    <value>more</value>
+    <value>más</value>
+  </data>
+  <data name="MoreDonateButton" xml:space="preserve">
+    <value>donar</value>
   </data>
   <data name="MoreLogoutButton" xml:space="preserve">
-    <value>log out</value>
+    <value>cerrar sesión</value>
+  </data>
+  <data name="MoreReportButton" xml:space="preserve">
+    <value>reportar falla o sugerencia</value>
   </data>
   <data name="MoreSearchButton" xml:space="preserve">
-    <value>search</value>
+    <value>buscar</value>
   </data>
   <data name="MoreSettingsButton" xml:space="preserve">
-    <value>settings</value>
+    <value>configuración</value>
   </data>
   <data name="MoreTagsButton" xml:space="preserve">
-    <value>tags</value>
+    <value>etiquetas</value>
+  </data>
+  <data name="NoDueTasksHeader" xml:space="preserve">
+    <value>sin límite</value>
+  </data>
+  <data name="OverdueTasksHeader" xml:space="preserve">
+    <value>vencidas</value>
   </data>
   <data name="PinAppbar" xml:space="preserve">
-    <value>pin to hub</value>
+    <value>prender a hub</value>
+  </data>
+  <data name="SearchPageHeader" xml:space="preserve">
+    <value>buscar</value>
+  </data>
+  <data name="SmartAddExample" xml:space="preserve">
+    <value>Ej: recoger la leche today !1 #personal</value>
+  </data>
+  <data name="SmartAddHeader" xml:space="preserve">
+    <value>smart add</value>
   </data>
   <data name="SyncAppbar" xml:space="preserve">
-    <value>sync</value>
+    <value>sincronizar</value>
+  </data>
+  <data name="TagPageTitle" xml:space="preserve">
+    <value>ETIQUETA</value>
+  </data>
+  <data name="TagsHeader" xml:space="preserve">
+    <value>etiquetas</value>
+  </data>
+  <data name="TaskCompleteButton" xml:space="preserve">
+    <value>completar</value>
   </data>
   <data name="TaskDetailsHeader" xml:space="preserve">
-    <value>task</value>
+    <value>tarea</value>
   </data>
   <data name="TaskListDetail" xml:space="preserve">
-    <value>List</value>
+    <value>Lista</value>
   </data>
   <data name="TaskNotesAddButton" xml:space="preserve">
-    <value>add</value>
+    <value>añadir</value>
   </data>
   <data name="TaskNotesDeleteButton" xml:space="preserve">
-    <value>delete</value>
+    <value>borrar</value>
   </data>
   <data name="TaskNotesEditButton" xml:space="preserve">
-    <value>edit</value>
+    <value>editar</value>
   </data>
   <data name="TaskNotesHeader" xml:space="preserve">
-    <value>notes</value>
+    <value>notas</value>
+  </data>
+  <data name="TaskPostponeButton" xml:space="preserve">
+    <value>posponer</value>
   </data>
   <data name="TasksHeader" xml:space="preserve">
-    <value>tasks</value>
+    <value>tareas</value>
   </data>
   <data name="TaskTagsDetail" xml:space="preserve">
-    <value>Tags</value>
+    <value>Etiq.</value>
   </data>
   <data name="TaskURLDetail" xml:space="preserve">
     <value>URL</value>
   </data>
   <data name="TaskWhenDetail" xml:space="preserve">
-    <value>When</value>
+    <value>Fecha</value>
   </data>
   <data name="TodayTasksHeader" xml:space="preserve">
-    <value>today</value>
+    <value>hoy</value>
   </data>
   <data name="TomorrowTasksHeader" xml:space="preserve">
-    <value>tomorrow</value>
+    <value>mañana</value>
   </data>
   <data name="WeekTasksHeader" xml:space="preserve">
-    <value>later this week</value>
-  </data>
-  <data name="NoDueTasksHeader" xml:space="preserve">
-    <value>no due</value>
-  </data>
-  <data name="OverdueTasksHeader" xml:space="preserve">
-    <value>overdue</value>
-  </data>
-  <data name="TaskCompleteButton" xml:space="preserve">
-    <value>complete</value>
-  </data>
-  <data name="TaskPostponeButton" xml:space="preserve">
-    <value>postpone</value>
-  </data>
-  <data name="ListPageTitle" xml:space="preserve">
-    <value>LIST</value>
-  </data>
-  <data name="MoreDonateButton" xml:space="preserve">
-    <value>donate</value>
-  </data>
-  <data name="SearchPageHeader" xml:space="preserve">
-    <value>search</value>
-  </data>
-  <data name="SmartAddExample" xml:space="preserve">
-    <value>Eg: pick up the milk today !1 #personal</value>
-  </data>
-  <data name="SmartAddHeader" xml:space="preserve">
-    <value>smart add</value>
-  </data>
-  <data name="TagsHeader" xml:space="preserve">
-    <value>tags</value>
-  </data>
-  <data name="TagPageTitle" xml:space="preserve">
-    <value>TAG</value>
-  </data>
-  <data name="LogInMessageBoxText" xml:space="preserve">
-    <value>You must log in and authorize the app before continuing</value>
-  </data>
-  <data name="LogInMessageBoxTitle" xml:space="preserve">
-    <value>Welcome to WinMilk!</value>
-  </data>
-  <data name="LogOutMessageBoxText" xml:space="preserve">
-    <value>Log out and erase your settings?</value>
-  </data>
-  <data name="LogOutMessageBoxTitle" xml:space="preserve">
-    <value>Log out</value>
-  </data>
-  <data name="MoreReportButton" xml:space="preserve">
-    <value>report bug or suggest feature</value>
-  </data>
-  <data name="AboutAuthorLink" xml:space="preserve">
-    <value>Juliana Peña</value>
-  </data>
-  <data name="AboutCreatedBy" xml:space="preserve">
-    <value>Created by</value>
-  </data>
-  <data name="AboutDisclaimer" xml:space="preserve">
-    <value>This app uses the Remember The Milk API but is not endorsed or certified by Remember The Milk.</value>
-  </data>
-  <data name="AboutCoffeeLink" xml:space="preserve">
-    <value>Buy me a cup of coffee!</value>
-  </data>
-  <data name="AboutCoffeePrompt" xml:space="preserve">
-    <value>Like this app?</value>
-  </data>
-  <data name="AboutOK" xml:space="preserve">
-    <value>ok</value>
-  </data>
-  <data name="AboutPageHeader" xml:space="preserve">
-    <value>about</value>
-  </data>
-  <data name="AboutRTMLink" xml:space="preserve">
-    <value>Go To Remember the Milk</value>
-  </data>
-  <data name="AboutVersion" xml:space="preserve">
-    <value>Version 1.1</value>
+    <value>esta semana</value>
   </data>
   <data name="AboutVisitSite" xml:space="preserve">
-    <value>Visit WinMilk's site</value>
+    <value>Visita el sitio de WinMilk</value>
   </data>
 </root>

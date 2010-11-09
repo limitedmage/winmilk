@@ -20,6 +20,13 @@ namespace WinMilk.Gui
         private void Author_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
+            page.URL = "http://julianapena.com";
+            page.Show();
+        }
+
+        private void Site_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowserTask page = new WebBrowserTask();
             page.URL = "http://julianapena.com/projects/winmilk";
             page.Show();
         }

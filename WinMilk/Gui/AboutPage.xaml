@@ -54,6 +54,10 @@
                                      Click="Coffee_Click"/>
                 </toolkit:WrapPanel>
 
+                <HyperlinkButton HorizontalAlignment="Left"
+                                     Content="{Binding Path=Loc.AboutVisitSite, Source={StaticResource L10N}}"
+                                     Click="Site_Click" Margin="0,10"/>
+
                 <TextBlock FontSize="24" TextWrapping="Wrap" Margin="0,10" Text="{Binding Path=Loc.AboutDisclaimer, Source={StaticResource L10N}}"/>
 
                 <HyperlinkButton HorizontalAlignment="Left"

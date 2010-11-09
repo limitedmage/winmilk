@@ -391,11 +391,25 @@ namespace IronCow
                 {
                     if (DueDateTime.Value.Date == DateTime.Today)
                     {
-                        dueString += "Today";
+                        if (System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName == "es")
+                        {
+                            dueString += "hoy";
+                        }
+                        else
+                        {
+                            dueString += "today";
+                        }
                     }
                     else if (DateTime.Today.AddDays(1) == DueDateTime.Value.Date)
                     {
-                        dueString += "Tomorrow";
+                        if (System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName == "es")
+                        {
+                            dueString += "mañana";
+                        }
+                        else
+                        {
+                            dueString += "tomorrow";
+                        }
                     }
                     else if (DateTime.Today < DueDateTime.Value.Date && DateTime.Today.AddDays(6) >= DueDateTime.Value.Date)
                     {
