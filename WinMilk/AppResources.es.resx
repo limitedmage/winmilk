@@ -220,7 +220,7 @@
     <value>sin límite</value>
   </data>
   <data name="OverdueTasksHeader" xml:space="preserve">
-    <value>vencidas</value>
+    <value>atrasadas</value>
   </data>
   <data name="PinAppbar" xml:space="preserve">
     <value>prender a hub</value>
@@ -290,5 +290,35 @@
   </data>
   <data name="AboutVisitSite" xml:space="preserve">
     <value>Visita el sitio de WinMilk</value>
+  </data>
+  <data name="AddTaskDue" xml:space="preserve">
+    <value>Límite</value>
+  </data>
+  <data name="AddTaskDueDay" xml:space="preserve">
+    <value>Día</value>
+  </data>
+  <data name="AddTaskDueNever" xml:space="preserve">
+    <value>Nunca</value>
+  </data>
+  <data name="AddTaskDueTime" xml:space="preserve">
+    <value>Hora</value>
+  </data>
+  <data name="AddTaskList" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="AddTaskName" xml:space="preserve">
+    <value>Nomb.</value>
+  </data>
+  <data name="AddTaskPriority" xml:space="preserve">
+    <value>Prioridad</value>
+  </data>
+  <data name="AddTaskPriorityNone" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="AddTaskTags" xml:space="preserve">
+    <value>Etiq.</value>
+  </data>
+  <data name="AddTaskTitle" xml:space="preserve">
+    <value>agregar tarea</value>
   </data>
 </root>

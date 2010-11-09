@@ -98,7 +98,7 @@
                             </TextBlock>
 							<StackPanel Orientation="Vertical" Grid.Column="1" >
                             	<TextBlock Text="{Binding LongDueDateString}" FontSize="{StaticResource PhoneFontSizeLarge}" TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding EstimateString}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Visibility="{Binding HasEstimate, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap"/>
+                                <!--<TextBlock Text="{Binding EstimateString}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Visibility="{Binding HasEstimate, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap"/>-->
                                 <!--<TextBlock Text="Repeats Weekly" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap"/>-->
 							</StackPanel>
                         </Grid>
