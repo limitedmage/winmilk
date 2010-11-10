@@ -6,6 +6,7 @@
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING"/>
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT"/>
+		<Capability Name="ID_CAP_IDENTITY_DEVICE"/>
     </Capabilities>
     <Tasks>
       <DefaultTask  Name ="_default" NavigationPage="Gui/PivotLandingPage.xaml"/>

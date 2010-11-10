@@ -73,6 +73,11 @@ namespace WinMilk.Gui
             postpone.Text = AppResources.TaskPostponeButton;
             postpone.Click += new EventHandler(PostponeButton_Click);
             ApplicationBar.Buttons.Add(postpone);
+
+            ApplicationBarIconButton edit = new ApplicationBarIconButton(new Uri("/icons/appbar.edit.rest.png", UriKind.Relative));
+            edit.Text = AppResources.TaskEditButton;
+            edit.Click += new EventHandler(EditButton_Click);
+            ApplicationBar.Buttons.Add(edit);
         }
 
         #endregion
@@ -112,6 +117,14 @@ namespace WinMilk.Gui
                         this.NavigationService.GoBack();
                     });
                 });
+            }
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (CurrentTask != null && !IsLoading)
+            {
+                NavigationService.Navigate(new Uri("/Gui/EditTaskPage.xaml?id=" + Uri.EscapeUriString(CurrentTask.Id.ToString()), UriKind.Relative));
             }
         }
 

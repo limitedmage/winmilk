@@ -7,6 +7,7 @@ using IronCow.Rest;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WinMilk.Helper;
+using Microsoft.Phone.Info;
 
 namespace WinMilk
 {
@@ -102,18 +103,39 @@ namespace WinMilk
         public static void OnCacheLists(Response response)
         {
             ListsResponse = response;
+
+            // track caching
+            var an = new Helper.AnalyticsHelper();
+            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            var id = Convert.ToBase64String(value);
+            an.Track("CacheLists", id);
         }
 
         public static void OnCacheTasks(Response response)
         {
             TasksResponse = response;
+
+            // track caching
+            var an = new Helper.AnalyticsHelper();
+            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            var id = Convert.ToBase64String(value);
+            an.Track("CacheTasks", id);
         }
 
         // Code to execute when the application is launching (eg, from Start)
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            // initialize smart dispatcher
+            SmartDispatcher.Initialize(RootFrame.Dispatcher);
+
             LoadData();
+
+            // track launch
+            var analyticsHelper = new AnalyticsHelper();
+            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            var id = Convert.ToBase64String(value);
+            analyticsHelper.Track("Launch", id);
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -177,6 +199,13 @@ namespace WinMilk
                     MessageBox.Show(ex.Message, ex.GetType().ToString(), MessageBoxButton.OK);
                 });
             }
+
+            // track unhandled exception
+            Exception exc = e.ExceptionObject;
+            var an = new Helper.AnalyticsHelper();
+            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            var id = Convert.ToBase64String(value);
+            an.Track(exc.GetType().ToString(), exc.Message);
 
             e.Handled = true;
 

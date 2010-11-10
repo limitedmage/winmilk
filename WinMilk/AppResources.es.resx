@@ -142,7 +142,7 @@
     <value>Ir a Remember the Milk</value>
   </data>
   <data name="AboutVersion" xml:space="preserve">
-    <value>Versión 1.1</value>
+    <value>Versión 1.2</value>
   </data>
   <data name="AddTaskAppbar" xml:space="preserve">
     <value>agregar tarea</value>
@@ -320,5 +320,23 @@
   </data>
   <data name="AddTaskTitle" xml:space="preserve">
     <value>agregar tarea</value>
+  </data>
+  <data name="AboutReport" xml:space="preserve">
+    <value>Reportar una falla o hacer una sugerencia</value>
+  </data>
+  <data name="AboutReview" xml:space="preserve">
+    <value>Escribir una opinión de esta app</value>
+  </data>
+  <data name="AuthRetryButton" xml:space="preserve">
+    <value>reintentar</value>
+  </data>
+  <data name="TaskEditButton" xml:space="preserve">
+    <value>editar</value>
+  </data>
+  <data name="EditTaskTitle" xml:space="preserve">
+    <value>editar tarea</value>
+  </data>
+  <data name="EditTaskSaveButton" xml:space="preserve">
+    <value>guardar</value>
   </data>
 </root>

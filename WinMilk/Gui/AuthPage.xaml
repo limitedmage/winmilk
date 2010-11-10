@@ -33,7 +33,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="80" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <ProgressBar IsIndeterminate="{Binding IsLoading}" 
@@ -45,12 +45,18 @@
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                
                 <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
-                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}" Margin="12,13,0,13" />
-                <con:IconButton Text="{Binding Path=Loc.AuthDoneButton, Source={StaticResource L10N}}" Type="check" Click="AuthDoneButton_Click" Grid.Column="1"/>
+                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}" Margin="12,13,0,13" Grid.ColumnSpan="2" />
+                <con:IconButton Text="{Binding Path=Loc.AuthDoneButton, Source={StaticResource L10N}}" Type="check" Click="AuthDoneButton_Click" Grid.Column="1" Grid.Row="1"/>
+                <con:IconButton Text="{Binding Path=Loc.AuthRetryButton, Source={StaticResource L10N}}" Type="refresh" Click="RetryButton_Click" Grid.Column="0" Grid.Row="1"/>
             </Grid>
         </Grid>
         

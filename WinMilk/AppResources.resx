@@ -286,7 +286,7 @@
     <value>Go To Remember the Milk</value>
   </data>
   <data name="AboutVersion" xml:space="preserve">
-    <value>Version 1.1</value>
+    <value>Version 1.2</value>
   </data>
   <data name="AboutVisitSite" xml:space="preserve">
     <value>Visit WinMilk's site</value>
@@ -320,5 +320,23 @@
   </data>
   <data name="AddTaskTitle" xml:space="preserve">
     <value>add task</value>
+  </data>
+  <data name="AboutReport" xml:space="preserve">
+    <value>Report a bug or suggest a feature</value>
+  </data>
+  <data name="AboutReview" xml:space="preserve">
+    <value>Review this app</value>
+  </data>
+  <data name="AuthRetryButton" xml:space="preserve">
+    <value>retry</value>
+  </data>
+  <data name="TaskEditButton" xml:space="preserve">
+    <value>edit</value>
+  </data>
+  <data name="EditTaskTitle" xml:space="preserve">
+    <value>edit task</value>
+  </data>
+  <data name="EditTaskSaveButton" xml:space="preserve">
+    <value>save</value>
   </data>
 </root>

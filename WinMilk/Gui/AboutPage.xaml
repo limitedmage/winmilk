@@ -47,22 +47,30 @@
                                      Click="Author_Click"/>
                 </toolkit:WrapPanel>
 
-                <toolkit:WrapPanel Orientation="Horizontal" Margin="0,10,0,10">
+                <!--<toolkit:WrapPanel Orientation="Horizontal" Margin="0,10,0,10">
                     <TextBlock Text="{Binding Path=Loc.AboutCoffeePrompt, Source={StaticResource L10N}}" FontSize="24"/>
                     <HyperlinkButton HorizontalAlignment="Left"
                                      Content="{Binding Path=Loc.AboutCoffeeLink, Source={StaticResource L10N}}"
                                      Click="Coffee_Click"/>
-                </toolkit:WrapPanel>
+                </toolkit:WrapPanel>-->
 
                 <HyperlinkButton HorizontalAlignment="Left"
                                      Content="{Binding Path=Loc.AboutVisitSite, Source={StaticResource L10N}}"
-                                     Click="Site_Click" Margin="0,10"/>
+                                     Click="Site_Click" Margin="-10,10"/>
+
+                <HyperlinkButton HorizontalAlignment="Left"
+                                     Content="{Binding Path=Loc.AboutReview, Source={StaticResource L10N}}"
+                                     Click="Review_Click" Margin="-10,10"/>
+
+                <HyperlinkButton HorizontalAlignment="Left"
+                                     Content="{Binding Path=Loc.AboutReport, Source={StaticResource L10N}}"
+                                     Click="Report_Click" Margin="-10,10"/>
 
                 <TextBlock FontSize="24" TextWrapping="Wrap" Margin="0,10" Text="{Binding Path=Loc.AboutDisclaimer, Source={StaticResource L10N}}"/>
 
                 <HyperlinkButton HorizontalAlignment="Left"
                                      Content="{Binding Path=Loc.AboutRTMLink, Source={StaticResource L10N}}"
-                                     Click="RTM_Click" Margin="0,10"/>
+                                     Click="RTM_Click" Margin="-10,10"/>
 
             </StackPanel>
 

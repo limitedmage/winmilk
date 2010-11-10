@@ -2,6 +2,7 @@
 using System.Windows;
 using IronCow;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Info;
 
 namespace WinMilk.Gui
 {
@@ -36,8 +37,13 @@ namespace WinMilk.Gui
             InitializeComponent();
         }
 
-        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        private void StartAuth()
         {
+            // track authentication attempt
+            var an = new Helper.AnalyticsHelper();
+            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            var id = Convert.ToBase64String(value);
+            an.Track("AuthAttempt", id);
 
             this.IsLoading = true;
 
@@ -46,12 +52,17 @@ namespace WinMilk.Gui
                 Frob = frob;
                 string url = App.RtmClient.GetAuthenticationUrl(frob, AuthenticationPermissions.Delete);
 
-                Dispatcher.BeginInvoke(() => 
+                Dispatcher.BeginInvoke(() =>
                 {
                     this.IsLoading = false;
                     webBrowser1.Navigate(new Uri(url));
                 });
             });
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartAuth();
         }
 
         private void AuthDoneButton_Click(object sender, EventArgs e)
@@ -70,6 +81,12 @@ namespace WinMilk.Gui
                         {
                             IsLoading = false;
 
+                            // track authentication success
+                            var an = new Helper.AnalyticsHelper();
+                            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+                            var id = Convert.ToBase64String(value);
+                            an.Track("AuthSuccess", id);
+
                             if (NavigationService.CanGoBack)
                             {
                                 PivotLandingPage.sReload = true;
@@ -79,6 +96,11 @@ namespace WinMilk.Gui
                     });
                 });
             }
+        }
+
+        private void RetryButton_Click(object sender, EventArgs e)
+        {
+            StartAuth();
         }
 
         private void webBrowser1_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)

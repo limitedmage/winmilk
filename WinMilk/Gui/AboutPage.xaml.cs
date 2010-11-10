@@ -45,18 +45,34 @@ namespace WinMilk.Gui
             page.Show();
         }
 
+        /*
         private void Coffee_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
             page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
             page.Show();
         }
+        */
 
         private void RTM_Click(object senter, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
             page.URL = "http://rememberthemilk.com";
             page.Show();
+        }
+
+        private void Report_Click(object sender, RoutedEventArgs e)
+        {
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+            emailComposeTask.To = "winmilk@julianapena.com";
+            emailComposeTask.Subject = "WinMilk bug or suggestion";
+            emailComposeTask.Show();
+        }
+
+        private void Review_Click(object sender, RoutedEventArgs e)
+        {
+            MarketplaceReviewTask r = new MarketplaceReviewTask();
+            r.Show();
         }
     }
 }

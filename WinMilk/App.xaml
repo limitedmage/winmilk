@@ -5,9 +5,15 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    
+    xmlns:ga="clr-namespace:Google.WebAnalytics;assembly=Google.WebAnalytics"
+    xmlns:mpc="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:mwa="clr-namespace:Microsoft.WebAnalytics;assembly=Microsoft.WebAnalytics"
+    
     xmlns:unsupported="clr-namespace:WinMilk.Gui.Controls.ProgressBar"
     xmlns:con="clr-namespace:WinMilk.Gui.Controls"
-    xmlns:local="clr-namespace:WinMilk">
+    xmlns:local="clr-namespace:WinMilk"
+    xmlns:helper="clr-namespace:WinMilk.Helper">
 
     <!--Application Resources-->
     <Application.Resources>
@@ -182,6 +188,15 @@
         <shell:PhoneApplicationService 
             Launching="Application_Launching" Closing="Application_Closing" 
             Activated="Application_Activated" Deactivated="Application_Deactivated"/>
+
+
+        <helper:AnalyticsService />
+        <mwa:WebAnalyticsService IsPageTrackingEnabled="False">
+            <mwa:WebAnalyticsService.Services>
+                <ga:GoogleAnalytics WebPropertyId="UA-19611917-1" />
+            </mwa:WebAnalyticsService.Services>
+        </mwa:WebAnalyticsService>
+        
     </Application.ApplicationLifetimeObjects>
 
 </Application>

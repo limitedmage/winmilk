@@ -124,6 +124,24 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Report a bug or suggest a feature.
+        /// </summary>
+        public static string AboutReport {
+            get {
+                return ResourceManager.GetString("AboutReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Review this app.
+        /// </summary>
+        public static string AboutReview {
+            get {
+                return ResourceManager.GetString("AboutReview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go To Remember the Milk.
         /// </summary>
         public static string AboutRTMLink {
@@ -133,7 +151,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Version 1.1.
+        ///   Looks up a localized string similar to Version 1.2.
         /// </summary>
         public static string AboutVersion {
             get {
@@ -322,11 +340,38 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to retry.
+        /// </summary>
+        public static string AuthRetryButton {
+            get {
+                return ResourceManager.GetString("AuthRetryButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string CancelTaskAddLink {
             get {
                 return ResourceManager.GetString("CancelTaskAddLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to save.
+        /// </summary>
+        public static string EditTaskSaveButton {
+            get {
+                return ResourceManager.GetString("EditTaskSaveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to edit task.
+        /// </summary>
+        public static string EditTaskTitle {
+            get {
+                return ResourceManager.GetString("EditTaskTitle", resourceCulture);
             }
         }
         
@@ -552,6 +597,15 @@ namespace WinMilk {
         public static string TaskDetailsHeader {
             get {
                 return ResourceManager.GetString("TaskDetailsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to edit.
+        /// </summary>
+        public static string TaskEditButton {
+            get {
+                return ResourceManager.GetString("TaskEditButton", resourceCulture);
             }
         }
         
