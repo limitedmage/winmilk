@@ -20,6 +20,8 @@
 
         <unsupported:BooleanToVisibilityConverter x:Key="VisibilityConverter" />
         <con:BooleanToScrollBarVisibilityConverter x:Key="ScrollVisibilityConverter" />
+        <con:OverdueToColorConverter x:Key="OverdueToColorConverter" />
+        <con:OverdueToBoldConverter x:Key="OverdueToBoldConverter" />
         
         <local:LocalizedStrings x:Key="L10N" />
 
@@ -157,7 +159,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="5" />
-                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="130" />
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
@@ -175,9 +177,9 @@
                 <Rectangle Fill="{Binding PriorityColor}" Grid.Column="0" Grid.RowSpan="2"/>
 
                 <con:DynamicTextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBlock Text="{Binding DueString}" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="2" />
-                <TextBlock Text="{Binding List}" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="3"/>
-                <TextBlock Text="{Binding TagsString}" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="4" />
+                <con:DynamicTextBlock Text="{Binding DueString}" Foreground="{Binding IsLate, Converter={StaticResource OverdueToColorConverter}}" FontWeight="{Binding IsLate, Converter={StaticResource OverdueToBoldConverter}}" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="2" />
+                <con:DynamicTextBlock Text="{Binding List}" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="3"/>
+                <con:DynamicTextBlock Text="{Binding TagsString}" Foreground="{StaticResource PhoneAccentBrush}" HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeMedium}" Grid.Row="1" Grid.Column="4" />
             </Grid>
         </DataTemplate>
 

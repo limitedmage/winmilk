@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using IronCow;
 using Microsoft.Phone.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace WinMilk.Gui.Controls
 {
@@ -75,5 +77,61 @@ namespace WinMilk.Gui.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    public class OverdueToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is bool)
+            {
+                if ((bool)value) // task is overdue
+                {
+                    // red accent color
+                    return new SolidColorBrush(Color.FromArgb(0xff, 0xe5, 0x14, 0x00));
+                }
+                else
+                {
+                    return Application.Current.Resources["PhoneForegroundBrush"];
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OverdueToBoldConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is bool)
+            {
+                if ((bool)value) // task is overdue
+                {
+                    // red accent color
+                    return FontWeights.SemiBold;
+                }
+                else
+                {
+                    return FontWeights.Normal;
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

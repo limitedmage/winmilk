@@ -50,7 +50,7 @@ namespace IronCow
             if (due != null)
             {
                 request.Parameters.Add("due", due);
-                request.Parameters.Add("parse", "1");
+                //request.Parameters.Add("parse", "1");
             }
             return request;
         }
@@ -105,7 +105,19 @@ namespace IronCow
         public DateTime? Completed { get; private set; }
         public DateTime? Deleted { get; private set; }
         public bool HasDueTime { get; private set; }
-        public bool IsLate { get; private set; }
+        public bool IsLate 
+        {
+            get
+            {
+                if (DueDateTime.HasValue)
+                {
+                    if (HasDueTime && DueDateTime.Value < DateTime.Now) return true;
+                    if (!HasDueTime && DueDateTime.Value.Date < DateTime.Today) return true;
+                }
+
+                return false;
+            }
+        }
         public int Postponed { get; private set; }
         public TaskTagCollection Tags { get; private set; }
         public TaskTaskNoteCollection Notes { get; private set; }
@@ -211,6 +223,26 @@ namespace IronCow
         {
             get { return Name.ToUpper(); }
         }
+        public void ChangeName(string name, VoidCallback callback)
+        {
+            if (name != mName)
+            {
+                RestRequest request = CreateStandardRequest(this, "rtm.tasks.setName", () =>
+                {
+                    mName = name;
+                    OnPropertyChanged("Name");
+                    OnPropertyChanged("NameUpper");
+
+                    callback();
+                });
+                request.Parameters.Add("name", name);
+                Owner.ExecuteRequest(request);
+            }
+            else
+            {
+                callback();
+            }
+        }
 
         private string mUrl;
         public string Url
@@ -247,6 +279,25 @@ namespace IronCow
                     OnPropertyChanged("Url");
                     OnPropertyChanged("HasUrl");
                 }
+            }
+        }
+        public void ChangeUrl(string url, VoidCallback callback)
+        {
+            if (url != mUrl)
+            {
+                RestRequest request = CreateSetUrlRequest(this, url, () =>
+                {
+                    mUrl = url;
+                    OnPropertyChanged("Url");
+                    OnPropertyChanged("HasUrl");
+
+                    callback();
+                });
+                Owner.ExecuteRequest(request);
+            }
+            else
+            {
+                callback();
             }
         }
 
@@ -376,7 +427,31 @@ namespace IronCow
 
                     OnPropertyChanged("Due");
                     OnPropertyChanged("DueDateTime");
+                    OnPropertyChanged("IsLate");
+                    OnPropertyChanged("HasDueTime");
                 }
+            }
+        }
+        public void ChangeDue(DateTime? due, bool hasTime, VoidCallback callback)
+        {
+            if (due != mDueDateTime)
+            {
+                RestRequest request = CreateSetDueDateRequest(this, 
+                    due.HasValue ? due.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") : null, 
+                    () =>
+                    {
+                        this.mDueDateTime = due;
+                        callback();
+                    });
+                Owner.ExecuteRequest(request);
+
+                OnPropertyChanged("Due");
+                OnPropertyChanged("DueString");
+                OnPropertyChanged("DueDateTime");
+            }
+            else
+            {
+                callback();
             }
         }
 
@@ -387,7 +462,7 @@ namespace IronCow
                 string dueString = "";
                 if (DueDateTime.HasValue)
                 {
-                    if (DueDateTime.Value.Date == DateTime.Today)
+                    if (DueDateTime.Value.Date == DateTime.Today && !HasDueTime)
                     {
                         if (System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName == "es")
                         {
@@ -397,6 +472,10 @@ namespace IronCow
                         {
                             dueString += "today";
                         }
+                    }
+                    else if (HasDueTime && DueDateTime.Value.Date == DateTime.Today)
+                    {
+                        dueString += DueDateTime.Value.ToString("t");
                     }
                     else if (DateTime.Today.AddDays(1) == DueDateTime.Value.Date)
                     {
@@ -415,13 +494,10 @@ namespace IronCow
                     }
                     else
                     {
-                        dueString += DueDateTime.Value.ToString("ddd d MMM");
+                        dueString += DueDateTime.Value.ToString("d MMM");
                     }
 
-                    if (this.HasDueTime)
-                    {
-                        dueString += " " + DueDateTime.Value.ToString("t");
-                    }
+                    
                 }
 
                 return dueString;
@@ -935,8 +1011,6 @@ namespace IronCow
 
         private void SetDueAndIsLate(DateTime? dueDateTime, bool hasDueTime)
         {
-            IsLate = false;
-
             if (dueDateTime == null)
             {
                 mDue = null;
@@ -948,12 +1022,6 @@ namespace IronCow
                 UserSettings userSettings = null;
                 if (Owner != null)
                     userSettings = Owner.UserSettings;
-
-                TimeSpan fromToday = dueDateTime.Value.Subtract(DateTime.Now);
-                if (fromToday.Ticks < 0)
-                {
-                    IsLate = true;
-                }
 
                 HasDueTime = hasDueTime;
                 mDueDateTime = dueDateTime;
