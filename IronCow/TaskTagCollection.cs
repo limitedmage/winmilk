@@ -78,6 +78,12 @@ namespace IronCow
             }
         }
 
+        public void SetTagsNoSync(IEnumerable<string> tags)
+        {
+            Items.Clear();
+            foreach (string t in tags) Items.Add(t);
+        }
+
         public void AddRange(IEnumerable<string> tags)
         {
             using (new UnsyncedScope(this))

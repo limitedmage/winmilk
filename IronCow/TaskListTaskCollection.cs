@@ -214,6 +214,21 @@ namespace IronCow
 
         #region ICollection<Task> Members
 
+        public void AddNoSync(Task item)
+        {
+            mImpl.Add(item);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, mImpl.Count - 1));
+        }
+
+        public bool RemoveNoSync(Task item)
+        {
+            int index = mImpl.IndexOf(item);
+            bool result = mImpl.Remove(item);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+
+            return result;
+        }
+
         public void Add(Task item)
         {
             if (item == null)

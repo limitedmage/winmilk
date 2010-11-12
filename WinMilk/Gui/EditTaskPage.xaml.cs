@@ -123,11 +123,75 @@ namespace WinMilk.Gui
                 IsLoading = true;
 
                 // do logic.....
-                
+                // change name
+                SmartDispatcher.BeginInvoke(() =>
+                {
+                    CurrentTask.ChangeName(TaskName.Text, () =>
+                    {
+                        // change priority
+                        SmartDispatcher.BeginInvoke(() =>
+                        {
+                            TaskPriority p;
+                            if (TaskPriority1.IsChecked.HasValue && TaskPriority1.IsChecked.Value) p = TaskPriority.One;
+                            else if (TaskPriority2.IsChecked.HasValue && TaskPriority2.IsChecked.Value) p = TaskPriority.Two;
+                            else if (TaskPriority3.IsChecked.HasValue && TaskPriority3.IsChecked.Value) p = TaskPriority.Three;
+                            else p = TaskPriority.None;
+                            CurrentTask.ChangePriority(p, () =>
+                            {
+                                SmartDispatcher.BeginInvoke(() =>
+                                {
+                                    // change due
+                                    DateTime? due;
+                                    bool hasTime;
+                                    if (DueDayRadio.IsChecked.HasValue && DueDayRadio.IsChecked.Value)
+                                    {
+                                        hasTime = false;
+                                        due = TaskDueDateNoTime.Value;
+                                    }
+                                    else if (DueTimeRadio.IsChecked.HasValue && DueTimeRadio.IsChecked.Value)
+                                    {
+                                        hasTime = true;
+                                        due = TaskDueDate.Value.Value.Date + TaskDueTime.Value.Value.TimeOfDay;
+                                    }
+                                    else
+                                    {
+                                        hasTime = false;
+                                        due = null;
+                                    }
 
-
-                // back to details page
-                if (NavigationService.CanGoBack) NavigationService.GoBack();
+                                    CurrentTask.ChangeDue(due, hasTime, () =>
+                                    {
+                                        // change tags
+                                        SmartDispatcher.BeginInvoke(() =>
+                                        {
+                                            string[] tags = TaskTags.Text.Split(' ', ',');
+                                            CurrentTask.ChangeTags(tags, () =>
+                                            {
+                                                SmartDispatcher.BeginInvoke(() =>
+                                                {
+                                                    // change list
+                                                    CurrentTask.ChangeList((TaskList)TaskList.SelectedItem, () =>
+                                                    {
+                                                        // done editing task
+                                                        // now sync all tasks
+                                                        App.RtmClient.CacheTasks(() =>
+                                                        {
+                                                            // now we can go back to task page
+                                                            SmartDispatcher.BeginInvoke(() =>
+                                                            {
+                                                                if (NavigationService.CanGoBack) NavigationService.GoBack();
+                                                            });
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
             }
         }
 

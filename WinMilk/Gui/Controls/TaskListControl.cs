@@ -115,7 +115,7 @@ namespace WinMilk.Gui.Controls
             {
                 if ((bool)value) // task is overdue
                 {
-                    // red accent color
+                    // show as bold
                     return FontWeights.SemiBold;
                 }
                 else

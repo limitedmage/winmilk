@@ -105,7 +105,7 @@ namespace IronCow
         public DateTime? Completed { get; private set; }
         public DateTime? Deleted { get; private set; }
         public bool HasDueTime { get; private set; }
-        public bool IsLate 
+        public bool IsLate
         {
             get
             {
@@ -150,6 +150,31 @@ namespace IronCow
             }
         }
 
+        public void ChangeTags(string[] tags, VoidCallback callback)
+        {
+            string[] currentTags = Tags.ToArray();
+            // if tags are different
+            if (!(tags.Length == currentTags.Length && tags.Intersect(currentTags).Count() == tags.Length))
+            {
+                RestRequest req = CreateStandardRequest(this, "rtm.tasks.setTags", () =>
+                {
+                    Tags.SetTagsNoSync(tags);
+                    OnPropertyChanged("Tags");
+                    OnPropertyChanged("HasTags");
+                    OnPropertyChanged("TagsString");
+                    callback();
+                });
+
+                req.Parameters.Add("tags", string.Join(",", tags));
+
+                Owner.ExecuteRequest(req);
+            }
+            else
+            {
+                callback();
+            }
+        }
+
         private TaskList mParent;
         public TaskList Parent
         {
@@ -168,6 +193,7 @@ namespace IronCow
             }
         }
 
+
         public string List
         {
             get
@@ -184,16 +210,35 @@ namespace IronCow
             else
                 Owner = mParent.Owner;
             OnPropertyChanged("Parent");
-            OnPropertyChanged("ParentName");
+            OnPropertyChanged("List");
         }
 
-        public string ParentName
+        public void ChangeList(TaskList list, VoidCallback callback)
         {
-            get
+            if (Parent != list)
             {
-                if (Parent == null)
-                    return null;
-                return Parent.Name;
+                RestRequest req = CreateStandardRequest(this, "rtm.tasks.moveTo", () =>
+                {
+                    Rtm.Dispatcher.BeginInvoke(() =>
+                    {
+                        Parent.Tasks.RemoveNoSync(this);
+                        Parent = list;
+                        Parent.Tasks.AddNoSync(this);
+                        OnPropertyChanged("Parent");
+                        OnPropertyChanged("List");
+                    });
+                    callback();
+                });
+
+                req.Parameters.Remove("list_id");
+                req.Parameters.Add("from_list_id", Parent.Id.ToString());
+                req.Parameters.Add("to_list_id", list.Id.ToString());
+
+                Owner.ExecuteRequest(req);
+            }
+            else
+            {
+                callback();
             }
         }
 
@@ -247,7 +292,7 @@ namespace IronCow
         private string mUrl;
         public string Url
         {
-            get 
+            get
             {
                 if (HasUrl)
                 {
@@ -427,6 +472,7 @@ namespace IronCow
 
                     OnPropertyChanged("Due");
                     OnPropertyChanged("DueDateTime");
+                    OnPropertyChanged("DueString");
                     OnPropertyChanged("IsLate");
                     OnPropertyChanged("HasDueTime");
                 }
@@ -436,8 +482,8 @@ namespace IronCow
         {
             if (due != mDueDateTime)
             {
-                RestRequest request = CreateSetDueDateRequest(this, 
-                    due.HasValue ? due.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") : null, 
+                RestRequest request = CreateSetDueDateRequest(this,
+                    due.HasValue ? due.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") : null,
                     () =>
                     {
                         this.mDueDateTime = due;
@@ -448,6 +494,8 @@ namespace IronCow
                 OnPropertyChanged("Due");
                 OnPropertyChanged("DueString");
                 OnPropertyChanged("DueDateTime");
+                OnPropertyChanged("IsLate");
+                OnPropertyChanged("HasDueTime");
             }
             else
             {
@@ -497,7 +545,7 @@ namespace IronCow
                         dueString += DueDateTime.Value.ToString("d MMM");
                     }
 
-                    
+
                 }
 
                 return dueString;
@@ -585,6 +633,25 @@ namespace IronCow
                     OnPropertyChanged("Importance");
                     OnPropertyChanged("PriorityColor");
                 }
+            }
+        }
+        public void ChangePriority(TaskPriority priority, VoidCallback callback)
+        {
+            if (priority != mPriority)
+            {
+                RestRequest request = CreateSetPriorityRequest(this, TaskPriorityToPriorityRequestParameter(priority), () =>
+                {
+                    mPriority = priority;
+                    OnPropertyChanged("Priority");
+                    OnPropertyChanged("Importance");
+                    OnPropertyChanged("PriorityColor");
+                    callback();
+                });
+                Owner.ExecuteRequest(request);
+            }
+            else
+            {
+                callback();
             }
         }
 
@@ -711,7 +778,7 @@ namespace IronCow
 
                     callback();
                 });
-                
+
                 Owner.ExecuteRequest(request);
             }
         }
@@ -745,7 +812,7 @@ namespace IronCow
                 Request request = CreateStandardRequest(this, "rtm.tasks.postpone", () =>
                 {
                     Postponed++;
-                    
+
 
                     if (DueDateTime.HasValue)
                     {
@@ -777,14 +844,14 @@ namespace IronCow
                 Request request = CreateStandardRequest(this, "rtm.tasks.delete", callback);
                 Owner.ExecuteRequest(request);
             }
-            
+
             Deleted = DateTime.Now;
             OnPropertyChanged("Deleted");
         }
 
         public void SetTags(string formattedTags, char[] separators)
         {
-            string[] tags = formattedTags.Split(separators, StringSplitOptions.RemoveEmptyEntries);           
+            string[] tags = formattedTags.Split(separators, StringSplitOptions.RemoveEmptyEntries);
             SetTags(tags);
         }
 
@@ -1027,8 +1094,8 @@ namespace IronCow
                 mDueDateTime = dueDateTime;
 
                 FuzzyDateTime fuzzyDueDateTime = new FuzzyDateTime(dueDateTime.Value, hasDueTime);
-                mDue = DateConverter.FormatDateTime(fuzzyDueDateTime, 
-                    userSettings != null ? userSettings.DateFormat : DateFormat.Default, 
+                mDue = DateConverter.FormatDateTime(fuzzyDueDateTime,
+                    userSettings != null ? userSettings.DateFormat : DateFormat.Default,
                     userSettings != null ? userSettings.TimeFormat : TimeFormat.Default);
             }
         }
