@@ -592,6 +592,33 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to delete.
+        /// </summary>
+        public static string TaskDeleteButton {
+            get {
+                return ResourceManager.GetString("TaskDeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete this task permanently?.
+        /// </summary>
+        public static string TaskDeleteConfirmText {
+            get {
+                return ResourceManager.GetString("TaskDeleteConfirmText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete task.
+        /// </summary>
+        public static string TaskDeleteConfirmTitle {
+            get {
+                return ResourceManager.GetString("TaskDeleteConfirmTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to task.
         /// </summary>
         public static string TaskDetailsHeader {

@@ -44,12 +44,13 @@ namespace IronCow
             return request;
         }
 
-        private static RestRequest CreateSetDueDateRequest(Task task, string due, VoidCallback callback)
+        private static RestRequest CreateSetDueDateRequest(Task task, bool hasTime, string due, VoidCallback callback)
         {
             RestRequest request = CreateStandardRequest(task, "rtm.tasks.setDueDate", callback);
             if (due != null)
             {
                 request.Parameters.Add("due", due);
+                if (hasTime) request.Parameters.Add("has_due_time", "1");
                 //request.Parameters.Add("parse", "1");
             }
             return request;
@@ -215,14 +216,14 @@ namespace IronCow
 
         public void ChangeList(TaskList list, VoidCallback callback)
         {
-            if (Parent != list)
+            if (mParent != list)
             {
                 RestRequest req = CreateStandardRequest(this, "rtm.tasks.moveTo", () =>
                 {
                     Rtm.Dispatcher.BeginInvoke(() =>
                     {
-                        Parent.Tasks.RemoveNoSync(this);
-                        Parent = list;
+                        mParent.Tasks.RemoveNoSync(this);
+                        mParent = list;
                         Parent.Tasks.AddNoSync(this);
                         OnPropertyChanged("Parent");
                         OnPropertyChanged("List");
@@ -465,7 +466,7 @@ namespace IronCow
                     {
                         if (IsSynced)
                         {
-                            RestRequest request = CreateSetDueDateRequest(this, mDue, () => { });
+                            RestRequest request = CreateSetDueDateRequest(this, HasDueTime, mDue, () => { });
                             Owner.ExecuteRequest(request);
                         }
                     }
@@ -482,20 +483,20 @@ namespace IronCow
         {
             if (due != mDueDateTime)
             {
-                RestRequest request = CreateSetDueDateRequest(this,
+                RestRequest request = CreateSetDueDateRequest(this, hasTime,
                     due.HasValue ? due.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ") : null,
                     () =>
                     {
                         this.mDueDateTime = due;
+                        this.HasDueTime = hasTime;
+                        OnPropertyChanged("Due");
+                        OnPropertyChanged("DueString");
+                        OnPropertyChanged("DueDateTime");
+                        OnPropertyChanged("IsLate");
+                        OnPropertyChanged("HasDueTime");
                         callback();
                     });
                 Owner.ExecuteRequest(request);
-
-                OnPropertyChanged("Due");
-                OnPropertyChanged("DueString");
-                OnPropertyChanged("DueDateTime");
-                OnPropertyChanged("IsLate");
-                OnPropertyChanged("HasDueTime");
             }
             else
             {
@@ -841,12 +842,14 @@ namespace IronCow
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't delete a task that has not been synced.");
 
-                Request request = CreateStandardRequest(this, "rtm.tasks.delete", callback);
+                Request request = CreateStandardRequest(this, "rtm.tasks.delete", () =>
+                {
+                    Deleted = DateTime.Now;
+                    OnPropertyChanged("Deleted");
+                    callback();
+                });
                 Owner.ExecuteRequest(request);
             }
-
-            Deleted = DateTime.Now;
-            OnPropertyChanged("Deleted");
         }
 
         public void SetTags(string formattedTags, char[] separators)
@@ -1035,7 +1038,7 @@ namespace IronCow
             // Upload all our values to the server.
             if (!string.IsNullOrEmpty(mDue))
             {
-                RestRequest request = CreateSetDueDateRequest(this, mDue, () => { });
+                RestRequest request = CreateSetDueDateRequest(this, HasDueTime, mDue, () => { });
                 Owner.ExecuteRequest(request);
             }
             if (!string.IsNullOrEmpty(mEstimate))

@@ -4,6 +4,7 @@ using IronCow;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using WinMilk.Helper;
 
 namespace WinMilk.Gui
 {
@@ -78,6 +79,11 @@ namespace WinMilk.Gui
             edit.Text = AppResources.TaskEditButton;
             edit.Click += new EventHandler(EditButton_Click);
             ApplicationBar.Buttons.Add(edit);
+
+            ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/appbar.delete.rest.png", UriKind.Relative));
+            delete.Text = AppResources.TaskDeleteButton;
+            delete.Click += new EventHandler(DeleteButton_Click);
+            ApplicationBar.Buttons.Add(delete);
         }
 
         #endregion
@@ -92,11 +98,13 @@ namespace WinMilk.Gui
 
                 CurrentTask.Complete(() =>
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    App.RtmClient.CacheTasks(() =>
                     {
-                        PivotLandingPage.sReload = true;
-                        IsLoading = false;
-                        this.NavigationService.GoBack();
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            IsLoading = false;
+                            this.NavigationService.GoBack();
+                        });
                     });
                 });
             }
@@ -110,11 +118,13 @@ namespace WinMilk.Gui
 
                 CurrentTask.Postpone(() =>
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    App.RtmClient.CacheTasks(() =>
                     {
-                        PivotLandingPage.sReload = true;
-                        IsLoading = false;
-                        this.NavigationService.GoBack();
+                        SmartDispatcher.BeginInvoke(() =>
+                        {
+                            IsLoading = false;
+                            this.NavigationService.GoBack();
+                        });
                     });
                 });
             }
@@ -128,13 +138,33 @@ namespace WinMilk.Gui
             }
         }
 
-        /// PUNTED TO V2 ///
-        /*
-        private void EditButton_Click(object sender, EventArgs e)
+        private void DeleteButton_Click(object sender, EventArgs e)
         {
+            if (CurrentTask != null && !IsLoading)
+            {
+                MessageBoxResult delete = MessageBox.Show(AppResources.TaskDeleteConfirmText, AppResources.TaskDeleteConfirmTitle, MessageBoxButton.OKCancel);
 
+                if (delete == MessageBoxResult.OK)
+                {
+                    IsLoading = true;
+
+                    CurrentTask.Delete(() =>
+                    {
+                        App.RtmClient.CacheTasks(() =>
+                        {
+                            SmartDispatcher.BeginInvoke(() =>
+                            {
+                                IsLoading = false;
+                                this.NavigationService.GoBack();
+                            });
+                        });
+                    });
+                }
+            }
         }
 
+        /// PUNTED TO V2 ///
+        /*
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
             

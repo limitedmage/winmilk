@@ -16,6 +16,8 @@ namespace WinMilk.Gui
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(EditTaskPage),
                 new PropertyMetadata((bool)false));
 
+        private bool loadedDetails = false;
+
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
@@ -49,7 +51,11 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            LoadTaskDetails();
+            if (!loadedDetails)
+            {
+                LoadTaskDetails();
+                loadedDetails = true;
+            }
             base.OnNavigatedTo(e);
         }
 
@@ -88,7 +94,7 @@ namespace WinMilk.Gui
                 
                 TaskList.SelectedItem = CurrentTask.Parent;
 
-                TaskTags.Text = string.Join(" ", CurrentTask.Tags.ToArray());
+                TaskTags.Text = CurrentTask.TagsString;
 
                 switch (CurrentTask.Priority)
                 {
@@ -146,7 +152,7 @@ namespace WinMilk.Gui
                                     if (DueDayRadio.IsChecked.HasValue && DueDayRadio.IsChecked.Value)
                                     {
                                         hasTime = false;
-                                        due = TaskDueDateNoTime.Value;
+                                        due = TaskDueDateNoTime.Value.Value.Date;
                                     }
                                     else if (DueTimeRadio.IsChecked.HasValue && DueTimeRadio.IsChecked.Value)
                                     {
@@ -164,7 +170,7 @@ namespace WinMilk.Gui
                                         // change tags
                                         SmartDispatcher.BeginInvoke(() =>
                                         {
-                                            string[] tags = TaskTags.Text.Split(' ', ',');
+                                            string[] tags = TaskTags.Text.Split(new char[] {' ', ','}, StringSplitOptions.RemoveEmptyEntries);
                                             CurrentTask.ChangeTags(tags, () =>
                                             {
                                                 SmartDispatcher.BeginInvoke(() =>
@@ -179,6 +185,7 @@ namespace WinMilk.Gui
                                                             // now we can go back to task page
                                                             SmartDispatcher.BeginInvoke(() =>
                                                             {
+                                                                IsLoading = false;
                                                                 if (NavigationService.CanGoBack) NavigationService.GoBack();
                                                             });
                                                         });

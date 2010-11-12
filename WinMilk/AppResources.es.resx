@@ -339,4 +339,13 @@
   <data name="EditTaskSaveButton" xml:space="preserve">
     <value>guardar</value>
   </data>
+  <data name="TaskDeleteButton" xml:space="preserve">
+    <value>borrar</value>
+  </data>
+  <data name="TaskDeleteConfirmText" xml:space="preserve">
+    <value>¿Borrar esta tarea permanentemente?</value>
+  </data>
+  <data name="TaskDeleteConfirmTitle" xml:space="preserve">
+    <value>Borrar tarea</value>
+  </data>
 </root>
