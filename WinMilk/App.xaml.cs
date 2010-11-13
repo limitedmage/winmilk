@@ -130,12 +130,6 @@ namespace WinMilk
             SmartDispatcher.Initialize(RootFrame.Dispatcher);
 
             LoadData();
-
-            // track launch
-            var analyticsHelper = new AnalyticsHelper();
-            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
-            var id = Convert.ToBase64String(value);
-            analyticsHelper.Track("Launch", id);
         }
 
         // Code to execute when the application is activated (brought to foreground)
@@ -251,6 +245,12 @@ namespace WinMilk
 
             // Remove this handler since it is no longer needed
             RootFrame.Navigated -= CompleteInitializePhoneApplication;
+
+            // track launch
+            var analyticsHelper = new AnalyticsHelper();
+            var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            var id = Convert.ToBase64String(value);
+            analyticsHelper.Track("Launch", id);
         }
 
         #endregion
