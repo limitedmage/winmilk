@@ -128,6 +128,16 @@ namespace WinMilk.Gui
             {
                 IsLoading = true;
 
+                /*
+                 * TODO: Clean this mess up
+                 * 
+                 * This is, without a doubt, the most horrible mess
+                 * code I have ever written. u__u
+                 * 
+                 * And yes, this IS C#, not Lisp or some other
+                 * weid esoteric functional language.
+                 */
+
                 // do logic.....
                 // change name
                 SmartDispatcher.BeginInvoke(() =>
