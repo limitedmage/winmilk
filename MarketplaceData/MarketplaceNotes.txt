@@ -1,0 +1,85 @@
+﻿=== Version 1.2 ===
+
+= Tester Notes =
+You can use the following credentials for testing:
+Username: winmilktest
+Password: !!abc123
+
+= Category =
+Productivity
+
+= Support email =
+winmilk@julianapena.com
+
+= Name (en) =
+WinMilk Task Manager
+
+= Detailed Description (en) =
+
+WinMilk is a task manager and to-do list app that syncs with your Remember the Milk account. WinMilk lets you view your RTM tasks by date, list, smart list and tag, as well as search. WinMilk also lets you add new tasks with RTM’s Smart Add syntax and complete and postpone tasks. The app caches data locally so you can see your tasks even if you do not currently have a network connection.
+
+New in 1.2: Task editing and deleting, better display of due dates
+
+For more information on WinMilk, visit http://julianapena.com/projects/winmilk/
+
+= Feature app description (en) =
+Sync tasks with RTM
+
+= Keywords (en) =
+to-do list, task, todo, remember the milk, rtm
+
+= Name (es) =
+WinMilk Tareas
+
+= Detailed Description (es) =
+
+WinMilk es una aplicación para administrar tareas que se sincroniza con Remember the Milk. WinMilk te deja ver tus tareas for fecha, lista, etiqueta y búsqueda. Además, puedes posponer y completar tareas y agregar tareas nuevas. La aplicación usa descarga tus tareas para que las puedas ver incluso si no tienes conexión a red.
+
+Nuevo en 1.2: Editar y borrar tareas, mejor visualización de fechas
+
+Para más información sobre WinMilk, visita http://julianapena.com/projects/winmilk/
+
+= Feature app description (es) =
+Sincroniza tareas con RTM
+
+= Keywords (es) =
+remember the milk, rtm, tareas, to-do, agenda
+
+=== Version 1.1 ===
+
+= Category =
+Productivity
+
+= Support email =
+winmilk@julianapena.com
+
+= Name (en) =
+WinMilk Task Manager
+
+= Detailed Description (en) =
+
+WinMilk is a task manager and to-do list app that syncs with your Remember the Milk account. WinMilk lets you view your RTM tasks by date, list, smart list and tag, as well as search. WinMilk also lets you add new tasks with RTM’s Smart Add syntax and complete and postpone tasks. The app caches data locally so you can see your tasks even if you do not currently have a network connection.
+
+For more information on WinMilk, visit http://julianapena.com/projects/winmilk/
+
+= Feature app description (en) =
+Sync tasks with RTM
+
+= Keywords (en) =
+to-do list, task, todo, remember the milk, rtm
+
+= Name (es) =
+WinMilk Tareas
+
+= Detailed Description (es) =
+
+WinMilk es una aplicación para administrar tareas que se sincroniza con Remember the Milk. WinMilk te deja ver tus tareas for fecha, lista, etiqueta y búsqueda. Además, puedes posponer y completar tareas y agregar tareas nuevas. La aplicación usa descarga tus tareas para que las puedas ver incluso si no tienes conexión a red.
+
+Para más información sobre WinMilk, visita http://julianapena.com/projects/winmilk/
+
+= Feature app description (es) =
+Sincroniza tareas con RTM
+
+= Keywords (es) =
+remember the milk, rtm, tareas, to-do, agenda
+
