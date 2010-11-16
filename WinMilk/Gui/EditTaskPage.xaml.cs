@@ -49,6 +49,17 @@ namespace WinMilk.Gui
             CreateApplicationBar();
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (TaskList.ListPickerMode == ListPickerMode.Expanded)
+            {
+                TaskList.ListPickerMode = ListPickerMode.Normal;
+                e.Cancel = true;
+            }
+
+            base.OnBackKeyPress(e);
+        }
+
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             if (!loadedDetails)

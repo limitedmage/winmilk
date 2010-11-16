@@ -86,12 +86,18 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="{Binding Path=Loc.AddTaskList, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextLargeStyle}" VerticalAlignment="Top" Grid.Column="0" Margin="13,15,0,0"/>
-                    <toolkit:ListPicker x:Name="TaskList" Grid.Column="1" ItemsSource="{Binding TaskLists}">
+                    <toolkit:ListPicker x:Name="TaskList" Grid.Column="1" ItemsSource="{Binding TaskLists}" FullModeHeader="{Binding Path=Loc.AddTaskList, Source={StaticResource L10N}}">
                         <toolkit:ListPicker.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />
                             </DataTemplate>
                         </toolkit:ListPicker.ItemTemplate>
+
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
                     </toolkit:ListPicker>
                 </Grid>
 

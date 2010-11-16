@@ -43,6 +43,17 @@ namespace WinMilk.Gui
             }
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (TaskList.ListPickerMode == ListPickerMode.Expanded)
+            {
+                TaskList.ListPickerMode = ListPickerMode.Normal;
+                e.Cancel = true;
+            }
+
+            base.OnBackKeyPress(e);
+        }
+
         public void CreateApplicationBar()
         {
             // Build ApplicationBar with localized strings
