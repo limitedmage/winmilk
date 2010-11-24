@@ -56,12 +56,11 @@ namespace WinMilk.Gui
 
         private void UpdateCurrentList()
         {
-            string idStr;
+            string id;
 
-            if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
+            if (this.NavigationContext.QueryString.TryGetValue("id", out id))
             {
                 // set current list
-                int id = int.Parse(idStr);
                 CurrentList = App.RtmClient.TaskLists.GetById(id);
 
                 // if current list is smart list, disable add button
@@ -128,7 +127,7 @@ namespace WinMilk.Gui
                 IsLoading = true;
             });
 
-            int? id = CurrentList.IsSmart ? null : (int?) CurrentList.Id;
+            string id = CurrentList.IsSmart ? null : CurrentList.Id;
 
             App.RtmClient.AddTask(e.Text, true, id, () =>
             {

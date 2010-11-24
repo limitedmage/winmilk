@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using IronCow.Rest;
 
 namespace IronCow
 {
-    [DataContract]
     public abstract class RtmElement
     {
-        public const int UnsyncedId = 0;
+        public const string UnsyncedId = "0";
 
         internal abstract Rtm Owner
         {
@@ -21,8 +19,7 @@ namespace IronCow
             set;
         }
 
-        [DataMember]
-        public int Id { get; private set; }
+        public string Id { get; private set; }
         public bool IsSynced { get { return Id != UnsyncedId; } }
 
         protected RtmElement()

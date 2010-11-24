@@ -469,12 +469,12 @@ namespace IronCow
         #endregion
 
         #region Tasks
-        public void GetTasks(int listId, TaskArrayCallback callback)
+        public void GetTasks(string listId, TaskArrayCallback callback)
         {
             GetTasks(listId, null, callback);
         }
 
-        public void GetTasks(string filter, TaskArrayCallback callback)
+        public void GetTasksFromFilter(string filter, TaskArrayCallback callback)
         {
             GetTasks(RtmElement.UnsyncedId, filter, callback);
         }
@@ -505,7 +505,7 @@ namespace IronCow
             return resultTasks;
         }
 
-        public void GetTasks(int listId, string filter, TaskArrayCallback callback)
+        public void GetTasks(string listId, string filter, TaskArrayCallback callback)
         {
             if (SearchMode == SearchMode.LocalOnly || SearchMode == SearchMode.LocalAndRemote)
             {
@@ -700,7 +700,7 @@ namespace IronCow
             return tasks;
         }
 
-        public Task GetTask(int id)
+        public Task GetTask(string id)
         {
             if (TaskLists != null)
             {
@@ -760,7 +760,7 @@ namespace IronCow
             }
         }
 
-        public void AddTask(string name, bool parse, int? listId, VoidCallback callback)
+        public void AddTask(string name, bool parse, string listId, VoidCallback callback)
         {
             if (Client is RestClient)
             {

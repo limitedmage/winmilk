@@ -48,12 +48,10 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            string idStr;
+            string id;
 
-            if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
+            if (this.NavigationContext.QueryString.TryGetValue("id", out id))
             {
-                int id = int.Parse(idStr);
-
                 CurrentTask = App.RtmClient.GetTask(id);
             }
 

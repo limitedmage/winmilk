@@ -4,7 +4,7 @@ namespace IronCow
 {
     public class User
     {
-        public int Id { get; private set; }
+        public string Id { get; private set; }
         public string UserName { get; private set; }
         public string FullName { get; private set; }
 

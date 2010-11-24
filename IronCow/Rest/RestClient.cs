@@ -337,16 +337,16 @@ namespace IronCow.Rest
             AddTask(name, parse, null, timeline, callback);
         }
 
-        public void AddTask(string name, int? listId, int timeline, RawListCallback callback)
+        public void AddTask(string name, string listId, int timeline, RawListCallback callback)
         {
             AddTask(name, false, listId, timeline, callback);
         }
 
-        public void AddTask(string name, bool parse, int? listId, int timeline, RawListCallback callback)
+        public void AddTask(string name, bool parse, string listId, int timeline, RawListCallback callback)
         {
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("timeline", timeline.ToString());
-            if (listId.HasValue)
+            if (listId != null)
                 parameters.Add("list_id", listId.ToString());
             parameters.Add("name", name);
             if (parse)

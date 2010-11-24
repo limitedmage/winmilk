@@ -79,12 +79,10 @@ namespace WinMilk.Gui
             }
             TaskList.ItemsSource = TaskLists;
 
-            string idStr;
+            string id;
 
-            if (this.NavigationContext.QueryString.TryGetValue("id", out idStr))
+            if (this.NavigationContext.QueryString.TryGetValue("id", out id))
             {
-                int id = int.Parse(idStr);
-
                 CurrentTask = App.RtmClient.GetTask(id);
 
                 TaskName.Text = CurrentTask.Name;

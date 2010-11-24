@@ -144,12 +144,12 @@ namespace IronCow
             }
         }
 
-        public Task GetById(int seriesId, int taskId)
+        public Task GetById(string seriesId, string taskId)
         {
             return GetById(seriesId, taskId, false);
         }
 
-        public Task GetById(int seriesId, int taskId, bool throwIfNotFound)
+        public Task GetById(string seriesId, string taskId, bool throwIfNotFound)
         {
             foreach (var item in this)
             {
@@ -188,7 +188,7 @@ namespace IronCow
             Owner.ExecuteRequest(request);
         }
 
-        private void ExecuteMoveTaskRequest(Task item, int fromListId, int toListId)
+        private void ExecuteMoveTaskRequest(Task item, string fromListId, string toListId)
         {
             RestRequest request = new RestRequest("rtm.tasks.moveTo");
             request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
@@ -296,7 +296,7 @@ namespace IronCow
                         else if (item.Parent.IsSynced && item.IsSynced)
                         {
                             // Move the task here from another synced list.
-                            int fromListId = item.Parent.Id;
+                            string fromListId = item.Parent.Id;
                             item.Parent.Tasks.UnsyncedRemove(item);
                             item.SetParentInternal(mList);
                             ExecuteMoveTaskRequest(item, fromListId, mList.Id);

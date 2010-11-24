@@ -49,12 +49,12 @@ namespace IronCow
         #endregion
 
         #region Public Methods
-        public T GetById(int id)
+        public T GetById(string id)
         {
             return GetById(id, false);
         }
 
-        public T GetById(int id, bool throwIfNotFound)
+        public T GetById(string id, bool throwIfNotFound)
         {
             lock (SyncRoot)
             {

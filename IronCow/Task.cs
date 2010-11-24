@@ -98,7 +98,7 @@ namespace IronCow
         #endregion
 
         #region Public Properties
-        public int SeriesId { get; private set; }
+        public string SeriesId { get; private set; }
         public string Source { get; private set; }
         public DateTime Created { get; private set; }
         public DateTime Added { get; private set; }
@@ -355,7 +355,7 @@ namespace IronCow
             }
         }
 
-        private int mLocationId = RtmElement.UnsyncedId;
+        private string mLocationId = RtmElement.UnsyncedId;
         private Location mLocation;
         public Location Location
         {
@@ -961,7 +961,7 @@ namespace IronCow
             Created = DateTime.Parse(series.Created);
             mLocationId = RtmElement.UnsyncedId;
             if (!string.IsNullOrEmpty(series.LocationId))
-                mLocationId = int.Parse(series.LocationId);
+                mLocationId = series.LocationId;
             if (!string.IsNullOrEmpty(series.Modified))
                 Modified = DateTime.Parse(series.Modified);
             else
