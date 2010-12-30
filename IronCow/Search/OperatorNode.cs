@@ -83,6 +83,7 @@ namespace IronCow.Search
             sOperatorDelegates.Add("to", OperatorTo);
             sOperatorDelegates.Add("from", OperatorFrom);
             sOperatorDelegates.Add("includeArchived", OperatorIncludeArchived);
+            sOperatorDelegates.Add("locatedWithin", OperatorLocatedWithin);
         }
 
         private static bool OperatorList(SearchContext context, string argument)
@@ -383,6 +384,12 @@ namespace IronCow.Search
         private static bool OperatorFrom(SearchContext context, string argument)
         {
             throw new NotSupportedException("Operator 'from' is not supported on the client.");
+        }
+
+        private static bool OperatorLocatedWithin(SearchContext context, string argument)
+        {
+            // TODO: implement location-based searches
+            return true;
         }
 
         private static bool OperatorIncludeArchived(SearchContext context, string argument)
