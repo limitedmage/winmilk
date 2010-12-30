@@ -284,7 +284,7 @@ namespace IronCow
             }
 
             // "3 weeks"
-            match = Regex.Match(input, @"^\s*(?<num>\d+)\s*(w|weeks?)\s*$", RegexOptions.IgnoreCase);
+            match = Regex.Match(input, @"^\s*(?<num>\d+)\s*(w|weeks?)(\s+of\s+today)?\s*$", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 int num = int.Parse(match.Groups["num"].Value);
@@ -294,7 +294,7 @@ namespace IronCow
             }
 
             // "1 month"
-            match = Regex.Match(input, @"^\s*(?<num>\d+)\s*(m|months?)\s*$", RegexOptions.IgnoreCase);
+            match = Regex.Match(input, @"^\s*(?<num>\d+)\s*(m|months?)(\s+of\s+today)?\s*$", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 int num = int.Parse(match.Groups["num"].Value);
@@ -304,7 +304,7 @@ namespace IronCow
             }
 
             // "1 year"
-            match = Regex.Match(input, @"^\s*(?<num>\d+)\s*(y|years?)\s*$", RegexOptions.IgnoreCase);
+            match = Regex.Match(input, @"^\s*(?<num>\d+)\s*(y|years?)(\s+of\s+today)?\s*$", RegexOptions.IgnoreCase);
             if (match.Success)
             {
                 int num = int.Parse(match.Groups["num"].Value);

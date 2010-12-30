@@ -58,6 +58,7 @@ namespace IronCow.Search
             sOperatorDelegates.Add("tagContains", OperatorTagContains);
             sOperatorDelegates.Add("isTagged", OperatorIsTagged);
             sOperatorDelegates.Add("location", OperatorLocation);
+            sOperatorDelegates.Add("locatedWithin", OperatorLocatedWithin);
             sOperatorDelegates.Add("isLocated", OperatorIsLocated);
             sOperatorDelegates.Add("isRepeating", OperatorIsRepeating);
             sOperatorDelegates.Add("name", OperatorName);
@@ -83,7 +84,7 @@ namespace IronCow.Search
             sOperatorDelegates.Add("to", OperatorTo);
             sOperatorDelegates.Add("from", OperatorFrom);
             sOperatorDelegates.Add("includeArchived", OperatorIncludeArchived);
-            sOperatorDelegates.Add("locatedWithin", OperatorLocatedWithin);
+            
         }
 
         private static bool OperatorList(SearchContext context, string argument)
@@ -389,7 +390,7 @@ namespace IronCow.Search
         private static bool OperatorLocatedWithin(SearchContext context, string argument)
         {
             // TODO: implement location-based searches
-            return true;
+            return false;
         }
 
         private static bool OperatorIncludeArchived(SearchContext context, string argument)

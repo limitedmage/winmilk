@@ -50,6 +50,9 @@ namespace IronCow
         
         public void SyncEverything(SyncCallback callback)
         {
+            /// This commented section is needed to sync EVERYTHING, but settings, 
+            /// locations and contacts are not yet fully supported, so add them 
+            /// to the uncommmented chain below as they are implemented.
             /*
             SyncUserSettings(() =>
             {
@@ -484,28 +487,38 @@ namespace IronCow
 
         public List<Task> SearchTasksLocally(string filter)
         {
-            var lexicalAnalyzer = new Search.LexicalAnalyzer();
-            var tokens = lexicalAnalyzer.Tokenize(filter);
-            var astRoot = lexicalAnalyzer.BuildAst(tokens);
-
-            bool includeArchivedLists = astRoot.NeedsArchivedLists();
-
-            var resultTasks = new List<Task>();
-            var searchableTaskLists = GetSearchableTaskLists(includeArchivedLists);
-            foreach (var list in searchableTaskLists)
+            try
             {
-                if (list.Tasks != null)
+                var lexicalAnalyzer = new Search.LexicalAnalyzer();
+                var tokens = lexicalAnalyzer.Tokenize(filter);
+                var astRoot = lexicalAnalyzer.BuildAst(tokens);
+                
+                bool includeArchivedLists = astRoot.NeedsArchivedLists();
+
+                var resultTasks = new List<Task>();
+                var searchableTaskLists = GetSearchableTaskLists(includeArchivedLists);
+                foreach (var list in searchableTaskLists)
                 {
-                    foreach (var task in list.Tasks)
+                    if (list.Tasks != null)
                     {
-                        var context = new Search.SearchContext(task, DateFormat.Default);
-                        if (astRoot.ShouldInclude(context))
-                            resultTasks.Add(task);
+                        foreach (var task in list.Tasks)
+                        {
+                            var context = new Search.SearchContext(task, DateFormat.Default);
+                            if (astRoot.ShouldInclude(context))
+                                resultTasks.Add(task);
+                        }
                     }
                 }
+
+                return resultTasks;
             }
-                
-            return resultTasks;
+            catch (Exception e)
+            {
+                // if there was an exception parsing the filter,
+                // just return an empty list and silently fail the search
+
+                return new List<Task>();
+            }
         }
 
         public void GetTasks(string listId, string filter, TaskArrayCallback callback)
