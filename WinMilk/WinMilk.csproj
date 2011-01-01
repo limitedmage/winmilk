@@ -100,9 +100,6 @@
       <DependentUpon>BigIconButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\Controls\BooleanToScrollBarVisibilityConverter.cs" />
-    <Compile Include="Gui\Controls\Dialog.xaml.cs">
-      <DependentUpon>Dialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Gui\Controls\DynamicTextBlock.cs" />
     <Compile Include="Gui\Controls\IconButton.xaml.cs">
       <DependentUpon>IconButton.xaml</DependentUpon>
@@ -164,10 +161,6 @@
     <Page Include="Gui\Controls\BigIconButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Gui\Controls\Dialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\Controls\IconButton.xaml">
       <SubType>Designer</SubType>
