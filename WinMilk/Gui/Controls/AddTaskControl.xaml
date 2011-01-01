@@ -83,7 +83,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp" InputScope="Search"/>
+                <TextBox x:Name="SmartAddBox" Grid.Column="0" KeyUp="SmartAddBox_KeyUp" InputScope="Text"/>
                 <con:BigIconButton x:Name="SmartAddButton" Grid.Column="1" Click="SmartAddButton_Click" Type="add"/>
             </Grid>
 

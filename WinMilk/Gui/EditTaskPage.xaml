@@ -42,7 +42,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock x:Name="textBlock" Text="{Binding Path=Loc.AddTaskName, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextLargeStyle}" VerticalAlignment="Top" Margin="13,15,0,0" Grid.Column="0" />
-                    <TextBox x:Name="TaskName" Grid.Column="1"/>
+                    <TextBox x:Name="TaskName" Grid.Column="1" InputScope="Text"/>
                 </Grid>
 
                 <!-- Due Date -->
@@ -108,7 +108,7 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{Binding Path=Loc.AddTaskTags, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextLargeStyle}" VerticalAlignment="Top" Grid.Column="0" Margin="13,15,0,0"/>
-                    <TextBox x:Name="TaskTags" Grid.Column="1"/>
+                    <TextBox x:Name="TaskTags" Grid.Column="1" InputScope="Text"/>
                 </Grid>
 
                 <!-- Priority -->
