@@ -628,6 +628,24 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to share as email.
+        /// </summary>
+        public static string TaskDetailsShareEmailButton {
+            get {
+                return ResourceManager.GetString("TaskDetailsShareEmailButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to share as message.
+        /// </summary>
+        public static string TaskDetailsShareMessageButton {
+            get {
+                return ResourceManager.GetString("TaskDetailsShareMessageButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to edit.
         /// </summary>
         public static string TaskEditButton {

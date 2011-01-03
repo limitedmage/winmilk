@@ -348,4 +348,10 @@
   <data name="TaskDeleteConfirmTitle" xml:space="preserve">
     <value>Delete task</value>
   </data>
+  <data name="TaskDetailsShareEmailButton" xml:space="preserve">
+    <value>share as email</value>
+  </data>
+  <data name="TaskDetailsShareMessageButton" xml:space="preserve">
+    <value>share as message</value>
+  </data>
 </root>

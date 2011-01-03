@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Collections.Generic;
+
 using IronCow;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -82,6 +84,14 @@ namespace WinMilk.Gui
             delete.Text = AppResources.TaskDeleteButton;
             delete.Click += new EventHandler(DeleteButton_Click);
             ApplicationBar.Buttons.Add(delete);
+
+            ApplicationBarMenuItem sendEmail = new ApplicationBarMenuItem(AppResources.TaskDetailsShareEmailButton);
+            sendEmail.Click += new EventHandler(SendEmailButton_Click);
+            ApplicationBar.MenuItems.Add(sendEmail);
+
+            ApplicationBarMenuItem sendMessage = new ApplicationBarMenuItem(AppResources.TaskDetailsShareMessageButton);
+            sendMessage.Click += new EventHandler(SendMessageButton_Click);
+            ApplicationBar.MenuItems.Add(sendMessage);
         }
 
         #endregion
@@ -159,6 +169,76 @@ namespace WinMilk.Gui
                     });
                 }
             }
+        }
+
+        private void SendEmailButton_Click(object sender, EventArgs e)
+        {
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+            emailComposeTask.Body = GenerateTaskMessage();
+            emailComposeTask.Subject = "Task: " + CurrentTask.Name;
+            emailComposeTask.Show();
+        }
+
+        private void SendMessageButton_Click(object sender, EventArgs e)
+        {
+            SmsComposeTask smsComposeTask = new SmsComposeTask();
+            smsComposeTask.Body = GenerateTaskMessage();
+            smsComposeTask.Show();
+        }
+
+        /// <summary>
+        ///     Creates a message with line breaks using all of the task information.
+        ///     This includes all notes that are part of the task.
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateTaskMessage()
+        {
+            List<string> output = new List<string>();
+            output.Add("Task: " + CurrentTask.Name);
+            if (CurrentTask.DueDateTime.HasValue)
+            {
+                output.Add("When: " + CurrentTask.LongDueDateString);
+            }
+            output.Add("List: " + CurrentTask.List);
+            if (CurrentTask.HasTags)
+            {
+                output.Add("Tags: " + CurrentTask.TagsString);
+            }
+            if (CurrentTask.HasUrl)
+            {
+                output.Add("Url: " + CurrentTask.Url);
+            }
+            if (CurrentTask.Notes.Count > 0)
+            {
+                output.Add("Notes:");
+                int noteNumber = 0;
+                foreach (TaskNote note in CurrentTask.Notes)
+                {
+                    //
+                    // Output notes with divider between each one.
+                    //
+                    noteNumber++;
+                    if (noteNumber > 1)
+                    {
+                        output.Add("-----");
+                    }
+                    if (!string.IsNullOrEmpty(note.Title))
+                    {
+                        output.Add(note.Title);
+                    }
+                    if (!string.IsNullOrEmpty(note.Body))
+                    {
+                        output.Add(note.Body);
+                    }
+                }
+            }
+
+            string formattedOutput = "";
+            foreach (string s in output)
+            {
+                formattedOutput += s + Environment.NewLine;
+            }
+            return formattedOutput;
         }
 
         /// PUNTED TO V2 ///
