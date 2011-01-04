@@ -256,6 +256,11 @@ namespace WinMilk.Gui
             page.Show();
         }
 
+        private void AddNoteButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
         #endregion
     }
 }
