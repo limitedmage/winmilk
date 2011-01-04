@@ -348,10 +348,28 @@
   <data name="TaskDeleteConfirmTitle" xml:space="preserve">
     <value>Borrar tarea</value>
   </data>
-  <data name="TaskDetailsShareEmailButton" xml:space="preserve">
-    <value>share as email</value>
+  <data name="TaskShareEmailButton" xml:space="preserve">
+    <value>compartir por correo</value>
   </data>
-  <data name="TaskDetailsShareMessageButton" xml:space="preserve">
-    <value>share as message</value>
+  <data name="TaskShareMessageButton" xml:space="preserve">
+    <value>compartir por sms</value>
+  </data>
+  <data name="TaskShareDue" xml:space="preserve">
+    <value>Límite</value>
+  </data>
+  <data name="TaskShareList" xml:space="preserve">
+    <value>Lista</value>
+  </data>
+  <data name="TaskShareNotes" xml:space="preserve">
+    <value>Notas</value>
+  </data>
+  <data name="TaskShareTags" xml:space="preserve">
+    <value>Etiquetas</value>
+  </data>
+  <data name="TaskShareTask" xml:space="preserve">
+    <value>Tarea</value>
+  </data>
+  <data name="TaskShareUrl" xml:space="preserve">
+    <value>Url</value>
   </data>
 </root>

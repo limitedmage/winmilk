@@ -628,24 +628,6 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to share as email.
-        /// </summary>
-        public static string TaskDetailsShareEmailButton {
-            get {
-                return ResourceManager.GetString("TaskDetailsShareEmailButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to share as message.
-        /// </summary>
-        public static string TaskDetailsShareMessageButton {
-            get {
-                return ResourceManager.GetString("TaskDetailsShareMessageButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to edit.
         /// </summary>
         public static string TaskEditButton {
@@ -705,6 +687,78 @@ namespace WinMilk {
         public static string TaskPostponeButton {
             get {
                 return ResourceManager.GetString("TaskPostponeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due.
+        /// </summary>
+        public static string TaskShareDue {
+            get {
+                return ResourceManager.GetString("TaskShareDue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to share as email.
+        /// </summary>
+        public static string TaskShareEmailButton {
+            get {
+                return ResourceManager.GetString("TaskShareEmailButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List.
+        /// </summary>
+        public static string TaskShareList {
+            get {
+                return ResourceManager.GetString("TaskShareList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to share as message.
+        /// </summary>
+        public static string TaskShareMessageButton {
+            get {
+                return ResourceManager.GetString("TaskShareMessageButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Notes.
+        /// </summary>
+        public static string TaskShareNotes {
+            get {
+                return ResourceManager.GetString("TaskShareNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tags.
+        /// </summary>
+        public static string TaskShareTags {
+            get {
+                return ResourceManager.GetString("TaskShareTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task.
+        /// </summary>
+        public static string TaskShareTask {
+            get {
+                return ResourceManager.GetString("TaskShareTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url.
+        /// </summary>
+        public static string TaskShareUrl {
+            get {
+                return ResourceManager.GetString("TaskShareUrl", resourceCulture);
             }
         }
         

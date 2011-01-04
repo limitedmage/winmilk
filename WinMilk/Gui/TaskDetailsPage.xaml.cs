@@ -85,11 +85,11 @@ namespace WinMilk.Gui
             delete.Click += new EventHandler(DeleteButton_Click);
             ApplicationBar.Buttons.Add(delete);
 
-            ApplicationBarMenuItem sendEmail = new ApplicationBarMenuItem(AppResources.TaskDetailsShareEmailButton);
+            ApplicationBarMenuItem sendEmail = new ApplicationBarMenuItem(AppResources.TaskShareEmailButton);
             sendEmail.Click += new EventHandler(SendEmailButton_Click);
             ApplicationBar.MenuItems.Add(sendEmail);
 
-            ApplicationBarMenuItem sendMessage = new ApplicationBarMenuItem(AppResources.TaskDetailsShareMessageButton);
+            ApplicationBarMenuItem sendMessage = new ApplicationBarMenuItem(AppResources.TaskShareMessageButton);
             sendMessage.Click += new EventHandler(SendMessageButton_Click);
             ApplicationBar.MenuItems.Add(sendMessage);
         }
@@ -175,7 +175,7 @@ namespace WinMilk.Gui
         {
             EmailComposeTask emailComposeTask = new EmailComposeTask();
             emailComposeTask.Body = GenerateTaskMessage();
-            emailComposeTask.Subject = "Task: " + CurrentTask.Name;
+            emailComposeTask.Subject = AppResources.TaskShareTask + ": " + CurrentTask.Name;
             emailComposeTask.Show();
         }
 
@@ -194,23 +194,23 @@ namespace WinMilk.Gui
         private string GenerateTaskMessage()
         {
             List<string> output = new List<string>();
-            output.Add("Task: " + CurrentTask.Name);
+            output.Add(AppResources.TaskShareTask + ": " + CurrentTask.Name);
             if (CurrentTask.DueDateTime.HasValue)
             {
-                output.Add("When: " + CurrentTask.LongDueDateString);
+                output.Add(AppResources.TaskShareDue + ": " + CurrentTask.LongDueDateString);
             }
-            output.Add("List: " + CurrentTask.List);
+            output.Add(AppResources.TaskShareList + ": " + CurrentTask.List);
             if (CurrentTask.HasTags)
             {
-                output.Add("Tags: " + CurrentTask.TagsString);
+                output.Add(AppResources.TaskShareTags + ": " + CurrentTask.TagsString);
             }
             if (CurrentTask.HasUrl)
             {
-                output.Add("Url: " + CurrentTask.Url);
+                output.Add(AppResources.TaskShareUrl + ": " + CurrentTask.Url);
             }
             if (CurrentTask.Notes.Count > 0)
             {
-                output.Add("Notes:");
+                output.Add(AppResources.TaskShareNotes + ":");
                 int noteNumber = 0;
                 foreach (TaskNote note in CurrentTask.Notes)
                 {
