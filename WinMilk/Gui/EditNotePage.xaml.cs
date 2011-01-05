@@ -15,9 +15,36 @@ namespace WinMilk.Gui
 {
     public partial class EditNotePage : PhoneApplicationPage
     {
+        private enum AddEditAction
+        {
+            Add,
+            Edit
+        };
+
+        private AddEditAction action;
+
         public EditNotePage()
         {
             InitializeComponent();
+        }
+
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (NavigationContext.QueryString["action"] == "add")
+            {
+                action = AddEditAction.Add;
+                AddEditTitle.Text = "..add note";
+            }
+            else
+            {
+                action = AddEditAction.Edit;
+                AddEditTitle.Text = "..edit note";
+            }
+        }
+
+        private void Note_Typed(object sender, KeyEventArgs e)
+        {
+            // tombstone data here!!
         }
     }
 }

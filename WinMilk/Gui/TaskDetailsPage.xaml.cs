@@ -258,7 +258,7 @@ namespace WinMilk.Gui
 
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
-
+            NavigationService.Navigate(new Uri("/Gui/EditNotePage.xaml?action=add&task=" + CurrentTask.Id, UriKind.Relative));
         }
 
         #endregion

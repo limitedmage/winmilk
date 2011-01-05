@@ -10,8 +10,9 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    shell:SystemTray.IsVisible="True"
+    Loaded="PhoneApplicationPage_Loaded">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -33,23 +34,19 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             
-            <TextBox Name="NoteTitle" Grid.Row="0"></TextBox>
-            
-            <TextBox Name="NoteBody" Grid.Row="1"></TextBox>
+            <TextBox Name="NoteTitle" InputScope="Text" KeyUp="Note_Typed" Grid.Row="0"></TextBox>
+
+            <TextBox Name="NoteBody" InputScope="Text" KeyUp="Note_Typed" TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="1"></TextBox>
             
         </Grid>
     </Grid>
  
     <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
+    <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="..save"/>
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="..cancel"/>
         </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
