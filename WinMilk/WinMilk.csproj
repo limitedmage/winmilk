@@ -120,6 +120,9 @@
     <Compile Include="Gui\ListPage.xaml.cs">
       <DependentUpon>ListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\PivotHelpPage.xaml.cs">
+      <DependentUpon>PivotHelpPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
@@ -181,6 +184,10 @@
     <Page Include="Gui\ListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PivotHelpPage.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\SearchPage.xaml">
       <SubType>Designer</SubType>
@@ -357,6 +364,7 @@
     <EmbeddedResource Include="AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
