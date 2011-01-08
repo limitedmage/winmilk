@@ -151,7 +151,7 @@ namespace WinMilk {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Version 1.2.
+        ///   Looks up a localized string similar to Version 1.3.
         /// </summary>
         public static string AboutVersion {
             get {
@@ -534,6 +534,15 @@ namespace WinMilk {
         public static string SearchPageHeader {
             get {
                 return ResourceManager.GetString("SearchPageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to settings.
+        /// </summary>
+        public static string SettingsPageHeader {
+            get {
+                return ResourceManager.GetString("SettingsPageHeader", resourceCulture);
             }
         }
         
