@@ -208,7 +208,6 @@ namespace WinMilk.Gui
             isolatedStore.Save();
         }
 
-        
         /// <summary>
         /// Property to get and set a ListBox Setting Key.
         /// </summary>
