@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
+using System.IO.IsolatedStorage;
+using System.Diagnostics;
 
 namespace WinMilk
 {
@@ -100,4 +102,128 @@ namespace WinMilk
             base.OnNavigatedTo(e);
         }
     }
+
+    /// <summary>
+    ///  Class used to store settings for the application.  Settings are stored in isolated storage.
+    ///  Derived from MSDN sample "How to: Create a Settings Page for Windows Phone"
+    /// </summary>
+    public class AppSettings
+    {
+        IsolatedStorageSettings isolatedStore;
+
+        const string StartPageSettingKeyName = "StartPageSetting";
+
+        const int StartPageSettingDefault = 0;
+
+        /// <summary>
+        /// Constructor that gets the application settings.
+        /// </summary>
+        public AppSettings()
+        {
+            try
+            {
+                // Get the settings for this application.
+                isolatedStore = IsolatedStorageSettings.ApplicationSettings;
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception while using IsolatedStorageSettings: " + e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Update a setting value for our application. If the setting does not
+        /// exist, then add the setting.
+        /// </summary>
+        /// <param name="Key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool AddOrUpdateValue(string Key, Object value)
+        {
+            bool valueChanged = false;
+
+            try
+            {
+                // if new value is different, set the new value.
+                if (isolatedStore[Key] != value)
+                {
+                    isolatedStore[Key] = value;
+                    valueChanged = true;
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                isolatedStore.Add(Key, value);
+                valueChanged = true;
+            }
+            catch (ArgumentException)
+            {
+                isolatedStore.Add(Key, value);
+                valueChanged = true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception while using IsolatedStorageSettings: " + e.ToString());
+            }
+
+            return valueChanged;
+        }
+
+
+        /// <summary>
+        /// Get the current value of the setting, or if it is not found, set the 
+        /// setting to the default setting.
+        /// </summary>
+        /// <typeparam name="valueType"></typeparam>
+        /// <param name="Key"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        private valueType GetValueOrDefault<valueType>(string Key, valueType defaultValue)
+        {
+            valueType value;
+
+            try
+            {
+                value = (valueType)isolatedStore[Key];
+            }
+            catch (KeyNotFoundException)
+            {
+                value = defaultValue;
+            }
+            catch (ArgumentException)
+            {
+                value = defaultValue;
+            }
+
+            return value;
+        }
+
+
+        /// <summary>
+        /// Save the settings.
+        /// </summary>
+        public void Save()
+        {
+            isolatedStore.Save();
+        }
+
+        
+        /// <summary>
+        /// Property to get and set a ListBox Setting Key.
+        /// </summary>
+        public int StartPageSetting
+        {
+            get
+            {
+                return GetValueOrDefault<int>(StartPageSettingKeyName, StartPageSettingDefault);
+            }
+            set
+            {
+                AddOrUpdateValue(StartPageSettingKeyName, value);
+                Save();
+            }
+        }
+    }
+
 }

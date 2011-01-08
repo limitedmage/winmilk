@@ -111,6 +111,21 @@ namespace WinMilk.Gui
             CreateApplicationBar();
 
             IsLoading = false;
+            
+            // Start on the pivot that the user has selected on the settings page.
+            AppSettings settings = new AppSettings();
+            if (settings.StartPageSetting == 0)
+            {
+                Pivot.SelectedItem = TasksPanel;
+            }
+            else if (settings.StartPageSetting == 1)
+            {
+                Pivot.SelectedItem = ListsPanel;
+            }
+            else if (settings.StartPageSetting == 2)
+            {
+                Pivot.SelectedItem = TagsPanel;
+            }
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
