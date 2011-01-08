@@ -6,7 +6,7 @@ using Microsoft.Phone.Tasks;
 using System.IO.IsolatedStorage;
 using System.Diagnostics;
 
-namespace WinMilk
+namespace WinMilk.Gui
 {
     public partial class PivotHelpPage : PhoneApplicationPage
     {

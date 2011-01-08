@@ -1,4 +1,5 @@
 ﻿<phone:PhoneApplicationPage 
+    x:Class="WinMilk.Gui.PivotHelpPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -7,9 +8,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:WinMilk_Gui_Controls="clr-namespace:WinMilk.Gui.Controls"
-    xmlns:local="clr-namespace:WinMilk"
+    xmlns:local="clr-namespace:WinMilk.Gui"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
-    x:Class="WinMilk.PivotHelpPage"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
@@ -34,8 +34,8 @@
                 <ScrollViewer Margin="0">
                     <StackPanel>
                         <Canvas Height="197">
-                            <TextBox TextWrapping="Wrap" Text="Select start page:" Width="282" Background="#BF000000" Foreground="White" BorderBrush="{x:Null}" FontSize="32"/>
-                            <ListBox BorderThickness="25,0,0,0" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="282" Height="179" SelectedIndex="{Binding StartPageSetting, Mode=TwoWay, Source={StaticResource appSettings}}" Canvas.Top="14">
+                            <TextBox TextWrapping="Wrap" Text="Start page:" Width="198" Background="#BF000000" Foreground="White" BorderBrush="{x:Null}" FontSize="32"/>
+                            <ListBox BorderThickness="25,0,0,0" Width="150" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="171" Height="179" SelectedIndex="{Binding StartPageSetting, Mode=TwoWay, Source={StaticResource appSettings}}" Canvas.Top="12">
                                 <ListBoxItem Content="tasks" FontSize="42"/>
                                 <ListBoxItem Content="lists" FontSize="42"/>
                                 <ListBoxItem Content="tags" FontSize="42"/>
