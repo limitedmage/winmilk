@@ -111,6 +111,21 @@ namespace WinMilk.Gui
             CreateApplicationBar();
 
             IsLoading = false;
+            
+            // Start on the pivot that the user has selected on the settings page.
+            AppSettings settings = new AppSettings();
+            if (settings.StartPageSetting == 0)
+            {
+                Pivot.SelectedItem = TasksPanel;
+            }
+            else if (settings.StartPageSetting == 1)
+            {
+                Pivot.SelectedItem = ListsPanel;
+            }
+            else if (settings.StartPageSetting == 2)
+            {
+                Pivot.SelectedItem = TagsPanel;
+            }
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -146,6 +161,10 @@ namespace WinMilk.Gui
             ApplicationBarMenuItem about = new ApplicationBarMenuItem(AppResources.MoreAboutButton);
             about.Click += new EventHandler(AboutButton_Click);
             ApplicationBar.MenuItems.Add(about);
+
+            ApplicationBarMenuItem settings = new ApplicationBarMenuItem(AppResources.MoreSettingsButton);
+            settings.Click += new EventHandler(SettingsButton_Click);
+            ApplicationBar.MenuItems.Add(settings);
 
             /*** Removed as per Microsoft Policies :( ***/
             /*ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
@@ -354,11 +373,6 @@ namespace WinMilk.Gui
             SyncData();
         }
 
-        private void SettingsButton_Click(object sender, EventArgs e)
-        {
-            this.NavigationService.Navigate(new Uri("/Gui/SettingsPage.xaml", UriKind.Relative));
-        }
-
         private void LogoutButton_Click(object sender, EventArgs e)
         {
             MessageBoxResult logout = MessageBox.Show(AppResources.LogOutMessageBoxText, AppResources.LogOutMessageBoxTitle, MessageBoxButton.OKCancel);
@@ -381,7 +395,12 @@ namespace WinMilk.Gui
 
         private void AboutButton_Click(object sender, EventArgs e)
         {
-            this.NavigationService.Navigate(new Uri("/Gui/AboutPage.xaml", UriKind.Relative));
+            this.NavigationService.Navigate(new Uri("/Gui/PivotHelpPage.xaml?Page=About", UriKind.Relative));
+        }
+
+        private void SettingsButton_Click(object sender, EventArgs e)
+        {
+            this.NavigationService.Navigate(new Uri("/Gui/PivotHelpPage.xaml?Page=Settings", UriKind.Relative));
         }
 
         private void AddTaskPopup_Submit(object sender, WinMilk.Gui.Controls.SubmitEventArgs e)
