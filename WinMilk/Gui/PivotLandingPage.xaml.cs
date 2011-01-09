@@ -8,6 +8,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using WinMilk.Helper;
+using WinMilk.Gui.Controls;
 
 namespace WinMilk.Gui
 {
@@ -110,8 +111,15 @@ namespace WinMilk.Gui
             InitializeComponent();
             CreateApplicationBar();
 
+            // Setup our context menus.
+            OverdueList.AddContextMenu(TaskListContextMenuClick);
+            TodayList.AddContextMenu(TaskListContextMenuClick);
+            TomorrowList.AddContextMenu(TaskListContextMenuClick);
+            WeekList.AddContextMenu(TaskListContextMenuClick);
+            NoDueList.AddContextMenu(TaskListContextMenuClick);
+
             IsLoading = false;
-            
+
             // Start on the pivot that the user has selected on the settings page.
             AppSettings settings = new AppSettings();
             if (settings.StartPageSetting == 0)
@@ -427,6 +435,40 @@ namespace WinMilk.Gui
             emailComposeTask.To = "winmilk@julianapena.com";
             emailComposeTask.Subject = "WinMilk bug or suggestion";
             emailComposeTask.Show();
+        }
+
+        /// <summary>
+        ///     This event is fired when a context menu action for an item is selected (Complete/Postpone).
+        /// </summary>
+        private void TaskListContextMenuClick(string menuItem, Task task)
+        {
+            // now that we have the associated task, we can take action on it.
+            if (menuItem == "Complete")
+            {
+                task.Complete(() =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        IsLoading = false;
+                    });
+
+                    sReload = true;
+                    LoadData();
+                });
+            }
+            else if (menuItem == "Postpone")
+            {
+                task.Postpone(() =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        IsLoading = false;
+                    });
+
+                    sReload = true;
+                    LoadData();
+                });
+            }
         }
 
         /*** Removed as per Microsoft Policies :( ***/

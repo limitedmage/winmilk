@@ -34,6 +34,8 @@ namespace WinMilk.Gui
         public ListPage()
         {
             InitializeComponent();
+
+            TaskList.AddContextMenu(TaskListContextMenuClick);
         }
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
@@ -149,6 +151,38 @@ namespace WinMilk.Gui
             }
 
             base.OnBackKeyPress(e);
+        }
+
+        /// <summary>
+        ///     This event is fired when a context menu action for an item is selected (Complete/Postpone).
+        /// </summary>
+        private void TaskListContextMenuClick(string menuItem, Task task)
+        {
+            // now that we have the associated task, we can take action on it.
+            if (menuItem == "Complete")
+            {
+                task.Complete(() =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        IsLoading = false;
+                    });
+
+                    ResyncLists();
+                });
+            }
+            else if (menuItem == "Postpone")
+            {
+                task.Postpone(() =>
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        IsLoading = false;
+                    });
+
+                    ResyncLists();
+                });
+            }
         }
     }
 }

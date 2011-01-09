@@ -39,6 +39,49 @@ namespace WinMilk.Gui.Controls
         {
         }
 
+        /// <summary>
+        ///     Enables a context menu for the control.
+        /// </summary>
+        /// <param name="callback">Callback which will be called when the context menu is called.</param>
+        public void AddContextMenu(ContextMenuSelected callback)
+        {
+            ContextMenuSelectedEvent = callback;
+
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem menuitem = new MenuItem() { Header = AppResources.TaskCompleteButton, Name = "Complete" };
+            menuitem.Click += new RoutedEventHandler(this.ContextMenuClick);
+            contextMenu.Items.Add(menuitem);
+
+            menuitem = new MenuItem() { Header = AppResources.TaskPostponeButton, Name = "Postpone" };
+            menuitem.Click += new RoutedEventHandler(this.ContextMenuClick);
+            contextMenu.Items.Add(menuitem);
+
+            this.SetValue(ContextMenuService.ContextMenuProperty, contextMenu);
+        }
+
+        /// <summary>
+        ///     Will provide a callback when a task is selected via a context menu.
+        /// </summary>
+        /// <param name="menuItem">The name of the context menu item that was selected.</param>
+        /// <param name="task">The task that was selected via context menu.</param>
+        public delegate void ContextMenuSelected(string menuItem, Task task);
+
+        protected ContextMenuSelected ContextMenuSelectedEvent
+        {
+            get;
+            set;
+        }
+
+        private void ContextMenuClick(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = (MenuItem)sender;
+
+            if (ContextMenuSelectedEvent != null)
+            {
+                ContextMenuSelectedEvent(menuItem.Name, MostRecentTaskClick);
+            }
+        }
+
         private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.SelectedIndex == -1)
@@ -74,6 +117,32 @@ namespace WinMilk.Gui.Controls
                 PropertyChanged(this, new PropertyChangedEventArgs("HasItems"));
 
             base.OnItemsChanged(e);
+        }
+
+        /// <summary>
+        ///     Used to keep track of which context menu item was selected.
+        /// </summary>
+        private Task MostRecentTaskClick
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        ///     Sets the MostRecentTaskClick property in order to support ContextMenus.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnMouseLeftButtonDown(System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is FrameworkElement)
+            {
+                FrameworkElement frameworkElement = (FrameworkElement)e.OriginalSource;
+                if (frameworkElement.DataContext is Task)
+                {
+                    MostRecentTaskClick = (Task)frameworkElement.DataContext;
+                }
+            } 
+            base.OnMouseLeftButtonDown(e);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -30,6 +30,8 @@ namespace WinMilk.Gui
         public TagPage()
         {
             InitializeComponent();
+
+            TaskList.AddContextMenu(TaskListContextMenuClick);
         }
 
         public void LoadTag()
@@ -50,6 +52,31 @@ namespace WinMilk.Gui
                         break;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        ///     This event is fired when a context menu action for an item is selected (Complete/Postpone).
+        /// </summary>
+        private void TaskListContextMenuClick(string menuItem, Task task)
+        {
+            // now that we have the associated task, we can take action on it.
+            if (menuItem == "Complete")
+            {
+                task.Complete(() =>
+                {
+                    // Task was marked as complete, just remove it from the list.
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        CurrentTag.Tasks.Remove(task);
+                    });
+                });
+            }
+            else if (menuItem == "Postpone")
+            {
+                task.Postpone(() =>
+                {
+                });
             }
         }
 

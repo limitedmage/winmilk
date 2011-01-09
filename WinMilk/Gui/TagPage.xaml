@@ -36,7 +36,7 @@
 
             <!--ContentPanel - place additional content here-->
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" DataContext="{Binding CurrentTag}">
-                <con:TaskListControl ItemsSource="{Binding Tasks}" />
+                <con:TaskListControl x:Name="TaskList" ItemsSource="{Binding Tasks}" />
             </Grid>
         </Grid>
 
