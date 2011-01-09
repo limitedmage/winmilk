@@ -8,9 +8,9 @@ namespace IronCow
         {
             RestRequest request = new RestRequest("rtm.tasks.notes.add", r => taskNote.Sync(r.Note));
             request.Parameters.Add("timeline", task.Owner.GetTimeline().ToString());
-            request.Parameters.Add("list_id", task.Parent.Id.ToString());
-            request.Parameters.Add("taskseries_id", task.SeriesId.ToString());
-            request.Parameters.Add("task_id", task.Id.ToString());
+            request.Parameters.Add("list_id", task.Parent.Id);
+            request.Parameters.Add("taskseries_id", task.SeriesId);
+            request.Parameters.Add("task_id", task.Id);
             request.Parameters.Add("note_title", taskNote.Title);
             request.Parameters.Add("note_text", taskNote.Body);
             return request;
