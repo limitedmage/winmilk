@@ -547,6 +547,15 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start page.
+        /// </summary>
+        public static string SettingsStartPage {
+            get {
+                return ResourceManager.GetString("SettingsStartPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Eg: pick up the milk today !1 #personal.
         /// </summary>
         public static string SmartAddExample {

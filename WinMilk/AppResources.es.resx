@@ -211,7 +211,7 @@
     <value>buscar</value>
   </data>
   <data name="MoreSettingsButton" xml:space="preserve">
-    <value>configuración</value>
+    <value>opciones</value>
   </data>
   <data name="MoreTagsButton" xml:space="preserve">
     <value>etiquetas</value>
@@ -373,6 +373,9 @@
     <value>Url</value>
   </data>
   <data name="SettingsPageHeader" xml:space="preserve">
-    <value>configuración</value>
+    <value>opciones</value>
+  </data>
+  <data name="SettingsStartPage" xml:space="preserve">
+    <value>Página de inicio</value>
   </data>
 </root>

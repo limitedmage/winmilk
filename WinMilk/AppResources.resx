@@ -375,4 +375,7 @@
   <data name="SettingsPageHeader" xml:space="preserve">
     <value>settings</value>
   </data>
+  <data name="SettingsStartPage" xml:space="preserve">
+    <value>Start page</value>
+  </data>
 </root>

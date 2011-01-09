@@ -33,14 +33,11 @@
             <controls:PivotItem Name="Settings" Header="{Binding Loc.SettingsPageHeader, Source={StaticResource L10N}}">
                 <ScrollViewer Margin="0">
                     <StackPanel>
-                        <Canvas Height="197">
-                            <TextBox TextWrapping="Wrap" Text="Start page:" Width="198" Background="#BF000000" Foreground="White" BorderBrush="{x:Null}" FontSize="32"/>
-                            <ListBox BorderThickness="25,0,0,0" Width="285" HorizontalAlignment="Right" VerticalAlignment="Top" Canvas.Left="171" Height="179" SelectedIndex="{Binding StartPageSetting, Mode=TwoWay, Source={StaticResource appSettings}}" Canvas.Top="12">
-                                <ListBoxItem Content="{Binding Loc.TasksHeader, Source={StaticResource L10N}}" FontSize="42"/>
-                                <ListBoxItem Content="{Binding Loc.ListsHeader, Source={StaticResource L10N}}" FontSize="42"/>
-                                <ListBoxItem Content="{Binding Loc.TagsHeader, Source={StaticResource L10N}}" FontSize="42"/>
-                           </ListBox>
-                        </Canvas>
+                        <toolkit:ListPicker Header="{Binding Loc.SettingsStartPage, Source={StaticResource L10N}}" SelectedIndex="{Binding StartPageSetting, Mode=TwoWay, Source={StaticResource appSettings}}">
+                            <toolkit:ListPickerItem Content="{Binding Loc.TasksHeader, Source={StaticResource L10N}}" />
+                            <toolkit:ListPickerItem Content="{Binding Loc.ListsHeader, Source={StaticResource L10N}}" />
+                            <toolkit:ListPickerItem Content="{Binding Loc.TagsHeader, Source={StaticResource L10N}}" />
+                        </toolkit:ListPicker>
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>

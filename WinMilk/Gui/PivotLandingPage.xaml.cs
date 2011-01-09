@@ -162,6 +162,11 @@ namespace WinMilk.Gui
             search.Click += new EventHandler(SearchButton_Click);
             ApplicationBar.Buttons.Add(search);
 
+            ApplicationBarIconButton settings = new ApplicationBarIconButton(new Uri("/icons/appbar.feature.settings.rest.png", UriKind.Relative));
+            settings.Text = AppResources.MoreSettingsButton;
+            settings.Click += new EventHandler(SettingsButton_Click);
+            ApplicationBar.Buttons.Add(settings);
+
             ApplicationBarMenuItem logout = new ApplicationBarMenuItem(AppResources.MoreLogoutButton);
             logout.Click += new EventHandler(LogoutButton_Click);
             ApplicationBar.MenuItems.Add(logout);
@@ -169,15 +174,6 @@ namespace WinMilk.Gui
             ApplicationBarMenuItem about = new ApplicationBarMenuItem(AppResources.MoreAboutButton);
             about.Click += new EventHandler(AboutButton_Click);
             ApplicationBar.MenuItems.Add(about);
-
-            ApplicationBarMenuItem settings = new ApplicationBarMenuItem(AppResources.MoreSettingsButton);
-            settings.Click += new EventHandler(SettingsButton_Click);
-            ApplicationBar.MenuItems.Add(settings);
-
-            /*** Removed as per Microsoft Policies :( ***/
-            /*ApplicationBarMenuItem donate = new ApplicationBarMenuItem(AppResources.MoreDonateButton);
-            donate.Click += new EventHandler(DonateButton_Click);
-            ApplicationBar.MenuItems.Add(donate);*/
 
             ApplicationBarMenuItem report = new ApplicationBarMenuItem(AppResources.MoreReportButton);
             report.Click += new EventHandler(ReportButton_Click);
