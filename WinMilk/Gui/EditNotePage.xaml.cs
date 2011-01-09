@@ -39,6 +39,8 @@ namespace WinMilk.Gui
             {
                 action = AddEditAction.Edit;
                 AddEditTitle.Text = "..edit note";
+
+                // load data from note
             }
         }
 
