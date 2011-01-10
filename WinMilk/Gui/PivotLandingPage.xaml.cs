@@ -399,12 +399,12 @@ namespace WinMilk.Gui
 
         private void AboutButton_Click(object sender, EventArgs e)
         {
-            this.NavigationService.Navigate(new Uri("/Gui/PivotHelpPage.xaml?Page=About", UriKind.Relative));
+            this.NavigationService.Navigate(new Uri("/Gui/SettingsPage.xaml?Page=About", UriKind.Relative));
         }
 
         private void SettingsButton_Click(object sender, EventArgs e)
         {
-            this.NavigationService.Navigate(new Uri("/Gui/PivotHelpPage.xaml?Page=Settings", UriKind.Relative));
+            this.NavigationService.Navigate(new Uri("/Gui/SettingsPage.xaml?Page=Settings", UriKind.Relative));
         }
 
         private void AddTaskPopup_Submit(object sender, WinMilk.Gui.Controls.SubmitEventArgs e)

@@ -8,9 +8,9 @@ using System.Diagnostics;
 
 namespace WinMilk.Gui
 {
-    public partial class PivotHelpPage : PhoneApplicationPage
+    public partial class SettingsPage : PhoneApplicationPage
     {
-        public PivotHelpPage()
+        public SettingsPage()
         {
             InitializeComponent();
         }
@@ -44,15 +44,6 @@ namespace WinMilk.Gui
             page.URL = "http://winmilk.codeplex.com/";
             page.Show();
         }
-
-        /*
-        private void Coffee_Click(object sender, RoutedEventArgs e)
-        {
-            WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
-            page.Show();
-        }
-        */
 
         private void RTM_Click(object senter, RoutedEventArgs e)
         {
@@ -100,6 +91,17 @@ namespace WinMilk.Gui
                 }
             }
             base.OnNavigatedTo(e);
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            if (StartSetting.ListPickerMode == ListPickerMode.Expanded)
+            {
+                StartSetting.ListPickerMode = ListPickerMode.Normal;
+                e.Cancel = true;
+            }
+
+            base.OnBackKeyPress(e);
         }
     }
 
