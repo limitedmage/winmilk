@@ -59,7 +59,7 @@ namespace WinMilk.Gui
             // Build ApplicationBar with localized strings
             ApplicationBar = new ApplicationBar();
 
-            ApplicationBarIconButton add = new ApplicationBarIconButton(new Uri("/icons/appbar.add.rest.png", UriKind.Relative));
+            ApplicationBarIconButton add = new ApplicationBarIconButton(new Uri("/icons/appbar.save.rest.png", UriKind.Relative));
             add.Text = AppResources.AddTaskAppbar;
             add.Click += new EventHandler(Add_Click);
             ApplicationBar.Buttons.Add(add);

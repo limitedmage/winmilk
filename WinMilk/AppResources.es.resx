@@ -378,4 +378,22 @@
   <data name="SettingsStartPage" xml:space="preserve">
     <value>Página de inicio</value>
   </data>
+  <data name="EditNotePageAddHeader" xml:space="preserve">
+    <value>añadir nota</value>
+  </data>
+  <data name="EditNotePageDeleteNoteMessage" xml:space="preserve">
+    <value>Nota será borrada permanentemente.</value>
+  </data>
+  <data name="EditNotePageDeleteNoteTitle" xml:space="preserve">
+    <value>¿Borrar nota?</value>
+  </data>
+  <data name="EditNotePageEditHeader" xml:space="preserve">
+    <value>editar nota</value>
+  </data>
+  <data name="EditNotePageNoteError" xml:space="preserve">
+    <value>Error: No hay nota seleccionada</value>
+  </data>
+  <data name="EditNotePageTaskError" xml:space="preserve">
+    <value>Error: No hay tarea seleccionada</value>
+  </data>
 </root>

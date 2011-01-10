@@ -358,6 +358,60 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to add note.
+        /// </summary>
+        public static string EditNotePageAddHeader {
+            get {
+                return ResourceManager.GetString("EditNotePageAddHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note will be deleted permanently..
+        /// </summary>
+        public static string EditNotePageDeleteNoteMessage {
+            get {
+                return ResourceManager.GetString("EditNotePageDeleteNoteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete note?.
+        /// </summary>
+        public static string EditNotePageDeleteNoteTitle {
+            get {
+                return ResourceManager.GetString("EditNotePageDeleteNoteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to edit note.
+        /// </summary>
+        public static string EditNotePageEditHeader {
+            get {
+                return ResourceManager.GetString("EditNotePageEditHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: No note selected.
+        /// </summary>
+        public static string EditNotePageNoteError {
+            get {
+                return ResourceManager.GetString("EditNotePageNoteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: No task selected.
+        /// </summary>
+        public static string EditNotePageTaskError {
+            get {
+                return ResourceManager.GetString("EditNotePageTaskError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to save.
         /// </summary>
         public static string EditTaskSaveButton {

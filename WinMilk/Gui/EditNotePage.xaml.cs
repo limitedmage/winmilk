@@ -55,7 +55,7 @@ namespace WinMilk.Gui
                 CurrentTask = App.RtmClient.GetTask(NavigationContext.QueryString["task"]);
                 if (CurrentTask == null)
                 {
-                    MessageBox.Show("..Error: No task selected");
+                    MessageBox.Show(AppResources.EditNotePageTaskError);
                     NavigationService.GoBack();
                     return;
                 }
@@ -64,7 +64,7 @@ namespace WinMilk.Gui
             }
             else
             {
-                MessageBox.Show("..Error: No task selected");
+                MessageBox.Show(AppResources.EditNotePageTaskError);
                 NavigationService.GoBack();
                 return;
             }
@@ -72,7 +72,7 @@ namespace WinMilk.Gui
             if (NavigationContext.QueryString["action"] == "edit")
             {
                 Action = AddEditAction.Edit;
-                AddEditTitle.Text = "..edit note";
+                AddEditTitle.Text = AppResources.EditNotePageEditHeader;
 
                 // TODO: load data from note
                 if (NavigationContext.QueryString.ContainsKey("note"))
@@ -80,7 +80,7 @@ namespace WinMilk.Gui
                     CurrentNote = CurrentTask.GetNote(NavigationContext.QueryString["note"]);
                     if (CurrentNote == null)
                     {
-                        MessageBox.Show("..Error: No note selected");
+                        MessageBox.Show(AppResources.EditNotePageNoteError);
                         NavigationService.GoBack();
                         return;
                     }
@@ -90,7 +90,7 @@ namespace WinMilk.Gui
                 }
                 else
                 {
-                    MessageBox.Show("..Error: No note selected");
+                    MessageBox.Show(AppResources.EditNotePageNoteError);
                     NavigationService.GoBack();
                     return;
                 }
@@ -98,7 +98,7 @@ namespace WinMilk.Gui
             else
             {
                 Action = AddEditAction.Add;
-                AddEditTitle.Text = "..add note";
+                AddEditTitle.Text = AppResources.EditNotePageAddHeader;
             }
         }
 
@@ -114,7 +114,7 @@ namespace WinMilk.Gui
 
         private void Note_Typed(object sender, KeyEventArgs e)
         {
-            // tombstone data here!!
+            // TODO: tombstone data here!!
         }
 
         private void Save_Click(object sender, EventArgs e)
@@ -132,6 +132,25 @@ namespace WinMilk.Gui
                     {
                         IsLoading = false;
                         NavigationService.GoBack();
+                    });
+                });
+            }
+            else if (Action == AddEditAction.Add)
+            {
+                IsLoading = true;
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                NoteTitle.IsEnabled = false;
+                NoteBody.IsEnabled = false;
+
+                CurrentTask.AddNote(NoteTitle.Text, NoteBody.Text, () =>
+                {
+                    App.RtmClient.CacheTasks(() =>
+                    {
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            IsLoading = false;
+                            NavigationService.GoBack();
+                        });
                     });
                 });
             }

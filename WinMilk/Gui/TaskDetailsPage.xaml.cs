@@ -270,7 +270,7 @@ namespace WinMilk.Gui
 
         private void DeleteNoteButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("..Note will be deleted permanently.", "..Delete note?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            if (MessageBox.Show(AppResources.EditNotePageDeleteNoteMessage, AppResources.EditNotePageDeleteNoteTitle, MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
 
                 FrameworkElement b = sender as FrameworkElement;

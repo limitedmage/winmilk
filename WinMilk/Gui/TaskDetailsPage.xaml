@@ -133,7 +133,7 @@
                     <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
                     	<!-- Add note button -->
                         <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
-                            <con:IconButton x:Name="AddNoteButton" Text="{Binding Path=Loc.TaskNotesAddButton, Source={StaticResource L10N}}" Type="add" Click="AddNoteButton_Click"/>
+                            <con:BigIconButton x:Name="AddNoteButton" Text="{Binding Path=Loc.TaskNotesAddButton, Source={StaticResource L10N}}" Type="add" Click="AddNoteButton_Click"/>
 						</StackPanel>
 						
 						<!-- Notes list -->
@@ -153,7 +153,7 @@
                                 <ListBox.ItemTemplate>
                 				<DataTemplate>
                 					<!-- Note template -->
-                                    <StackPanel>
+                                    <StackPanel Margin="0,20,0,0">
                 						<!-- Note title -->
                 						<TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" />
                 						
@@ -162,7 +162,7 @@
                                         
                                         <!-- Note edit and delete in context menu -->
                                         <toolkit:ContextMenuService.ContextMenu>
-                                            <toolkit:ContextMenu IsZoomEnabled="False">
+                                            <toolkit:ContextMenu>
                                                 <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Click="EditNoteButton_Click"/>
                                                 <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Click="DeleteNoteButton_Click"/>
                                             </toolkit:ContextMenu>
