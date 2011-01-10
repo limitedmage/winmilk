@@ -17,7 +17,6 @@ namespace IronCow
             set
             {
                 mTitle = value ?? string.Empty;
-                Upload();
                 OnPropertyChanged("Title");
             }
         }
@@ -29,7 +28,6 @@ namespace IronCow
             set
             {
                 mBody = value ?? string.Empty;
-                Upload();
                 OnPropertyChanged("Body");
             }
         }
@@ -87,15 +85,47 @@ namespace IronCow
             base.OnSyncingChanged();
         }
 
-        private void Upload()
+        public void Upload(IronCow.Rest.RestClient.VoidCallback callback)
         {
             if (Syncing && IsSynced)
             {
-                RestRequest request = new RestRequest("rtm.tasks.notes.edit");
+                RestRequest request = new RestRequest("rtm.tasks.notes.edit", (r) => { callback(); });
                 request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
                 request.Parameters.Add("note_id", Id.ToString());
                 request.Parameters.Add("note_title", Title);
                 request.Parameters.Add("note_text", Body);
+                Owner.ExecuteRequest(request);
+            }
+        }
+
+        public void Edit(string title, string body, IronCow.Rest.RestClient.VoidCallback callback)
+        {
+            if (Syncing && IsSynced)
+            {
+                RestRequest request = new RestRequest("rtm.tasks.notes.edit", (r) => 
+                {
+                    Title = title;
+                    Body = body;
+                    callback(); 
+                });
+                request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
+                request.Parameters.Add("note_id", Id.ToString());
+                request.Parameters.Add("note_title", title);
+                request.Parameters.Add("note_text", body);
+                Owner.ExecuteRequest(request);
+            }
+        }
+
+        public void Delete(IronCow.Rest.RestClient.VoidCallback callback)
+        {
+            if (Syncing && IsSynced)
+            {
+                RestRequest request = new RestRequest("rtm.tasks.notes.delete", (r) => 
+                {
+                    callback();
+                });
+                request.Parameters.Add("timeline", Owner.GetTimeline().ToString());
+                request.Parameters.Add("note_id", Id.ToString());
                 Owner.ExecuteRequest(request);
             }
         }

@@ -7,6 +7,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using WinMilk.Helper;
+using System.Windows.Controls;
+using WinMilk.Gui.Controls;
 
 namespace WinMilk.Gui
 {
@@ -50,14 +52,19 @@ namespace WinMilk.Gui
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            ReloadTask();
+
+            CreateApplicationBar();
+        }
+
+        private void ReloadTask()
+        {
             string id;
 
-            if (this.NavigationContext.QueryString.TryGetValue("id", out id))
+            if (NavigationContext.QueryString.TryGetValue("id", out id))
             {
                 CurrentTask = App.RtmClient.GetTask(id);
             }
-
-            CreateApplicationBar();
         }
 
         private void CreateApplicationBar()
@@ -241,14 +248,6 @@ namespace WinMilk.Gui
             return formattedOutput;
         }
 
-        /// PUNTED TO V2 ///
-        /*
-        private void AddNoteButton_Click(object sender, EventArgs e)
-        {
-            
-        }
-        */
-
         private void Url_Click(object sender, RoutedEventArgs e)
         {
             WebBrowserTask page = new WebBrowserTask();
@@ -259,6 +258,32 @@ namespace WinMilk.Gui
         private void AddNoteButton_Click(object sender, EventArgs e)
         {
             NavigationService.Navigate(new Uri("/Gui/EditNotePage.xaml?action=add&task=" + CurrentTask.Id, UriKind.Relative));
+        }
+
+        private void EditNoteButton_Click(object sender, EventArgs e)
+        {
+            //TaskNote selected = NotesListBox.SelectedItem as TaskNote;
+            //NavigationService.Navigate(new Uri("/Gui/EditNotePage.xaml?action=edit&note=" + selected.Id + "&title=" + Uri.EscapeDataString(selected.Title) + "&body=" + Uri.EscapeDataString(selected.Body), UriKind.Relative));
+        }
+
+        private void DeleteNoteButton_Click(object sender, EventArgs e)
+        {
+            FrameworkElement b = sender as FrameworkElement;
+            TaskNote n = b.DataContext as TaskNote;
+
+            IsLoading = true;
+
+            CurrentTask.DeleteNote(n, () => 
+            {
+                App.RtmClient.CacheTasks(() => 
+                {
+                    Dispatcher.BeginInvoke(() =>
+                    {
+                        ReloadTask();
+                        IsLoading = false;
+                    });
+                });
+            });
         }
 
         #endregion

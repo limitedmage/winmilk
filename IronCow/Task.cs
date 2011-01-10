@@ -852,6 +852,42 @@ namespace IronCow
             }
         }
 
+        public void AddNote(string title, string body, VoidCallback callback)
+        {
+            if (Syncing)
+            {
+                if (!IsSynced)
+                    throw new InvalidOperationException("Can't add note to a task that has not been synced.");
+
+                RestRequest request = CreateStandardRequest(this, "rtm.tasks.notes.add", () =>
+                {
+                    OnPropertyChanged("Notes");
+                    callback();
+                });
+                request.Parameters.Add("note_title", title);
+                request.Parameters.Add("note_text", body);
+                Owner.ExecuteRequest(request);
+            }
+        }
+
+        public void DeleteNote(TaskNote note, VoidCallback callback)
+        {
+            note.Delete(() =>
+            {
+                OnPropertyChanged("Notes");
+                callback();
+            });
+        }
+
+        public void EditNote(TaskNote note, string title, string body, VoidCallback callback)
+        {
+            note.Edit(title, body, () =>
+            {
+                OnPropertyChanged("Notes");
+                callback();
+            });
+        }
+
         public void SetTags(string formattedTags, char[] separators)
         {
             string[] tags = formattedTags.Split(separators, StringSplitOptions.RemoveEmptyEntries);
@@ -1114,6 +1150,16 @@ namespace IronCow
 
             DateFormat dateFormat = /*IsSynced ? Owner.UserSettings.DateFormat :*/ DateFormat.Default;
             mRecurrence = RecurrenceConverter.FormatRecurrence(rawRepeatRule.Rule, rawRepeatRule.Every == 1, dateFormat);
+        }
+
+        public TaskNote GetNote(string id)
+        {
+            foreach (TaskNote n in Notes)
+            {
+                if (n.Id == id) return n;
+            }
+
+            return null;
         }
         #endregion
 

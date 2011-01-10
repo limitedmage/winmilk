@@ -186,11 +186,13 @@
 										<!-- Note body -->
 										<TextBlock Text="{Binding Body}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
 										
-										<!-- Note edit and delete buttons -->
-                                        <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
-                                            <con:IconButton Text="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Type="edit"/>
-                                            <con:IconButton Text="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Type="delete"/>
-										</StackPanel>
+										<!-- Note edit and delete in context menu -->
+                                        <toolkit:ContextMenuService.ContextMenu>
+                                            <toolkit:ContextMenu>
+                                                <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Click="EditNoteButton_Click"/>
+                                                <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Click="DeleteNoteButton_Click"/>
+                                            </toolkit:ContextMenu>
+                                        </toolkit:ContextMenuService.ContextMenu>
                 					</StackPanel>
                 				</DataTemplate>
                 			</ListBox.ItemTemplate>

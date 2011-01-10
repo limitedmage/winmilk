@@ -4,9 +4,9 @@ namespace IronCow
     public class TaskTaskNoteCollection : SynchronizedTaskCollection<TaskNote>
     {
         #region Static Members
-        private static RestRequest CreateAddTaskNoteRequest(Task task, TaskNote taskNote)
+        private static RestRequest CreateAddTaskNoteRequest(Task task, TaskNote taskNote, IronCow.Rest.RestClient.VoidCallback callback)
         {
-            RestRequest request = new RestRequest("rtm.tasks.notes.add", r => taskNote.Sync(r.Note));
+            RestRequest request = new RestRequest("rtm.tasks.notes.add", r => { taskNote.Sync(r.Note); callback(); });
             request.Parameters.Add("timeline", task.Owner.GetTimeline().ToString());
             request.Parameters.Add("list_id", task.Parent.Id);
             request.Parameters.Add("taskseries_id", task.SeriesId);
@@ -16,9 +16,9 @@ namespace IronCow
             return request;
         }
 
-        private static RestRequest CreateDeleteTaskNoteRequest(Task task, TaskNote taskNote)
+        private static RestRequest CreateDeleteTaskNoteRequest(Task task, TaskNote taskNote, IronCow.Rest.RestClient.VoidCallback callback)
         {
-            RestRequest request = new RestRequest("rtm.tasks.notes.delete", r => taskNote.Unsync());
+            RestRequest request = new RestRequest("rtm.tasks.notes.delete", r => { taskNote.Unsync(); callback(); });
             request.Parameters.Add("timeline", task.Owner.GetTimeline().ToString());
             request.Parameters.Add("note_id", taskNote.Id.ToString());
             return request;
@@ -29,7 +29,7 @@ namespace IronCow
             MultiRequest request = new MultiRequest();
             foreach (var taskNote in task.Notes)
             {
-                request.Requests.Add(CreateAddTaskNoteRequest(task, taskNote));
+                request.Requests.Add(CreateAddTaskNoteRequest(task, taskNote, () => { }));
             }
             return request;
         }
@@ -56,6 +56,18 @@ namespace IronCow
         #endregion
 
         #region Public Methods
+        public void AddNote(string title, string body, IronCow.Rest.RestClient.VoidCallback callback)
+        {
+            RestRequest req = CreateAddTaskNoteRequest(Task, new TaskNote(title, body), () =>
+            {
+                Task.Owner.CacheTasks(() => 
+                {
+                    callback();
+                });
+            });
+            req.Execute(Task.Owner);
+        }
+
         //private void Resync(bool firstSync, RawTaskSeries series)
         //{
         //    if (series.Notes != null)
@@ -162,19 +174,19 @@ namespace IronCow
             MultiRequest request = new MultiRequest();
             foreach (var taskNote in this)
             {
-                request.Requests.Add(CreateDeleteTaskNoteRequest(Task, taskNote));
+                request.Requests.Add(CreateDeleteTaskNoteRequest(Task, taskNote, () => { }));
             }
             return request;
         }
 
         protected override Request CreateAddItemRequest(TaskNote item)
         {
-            return CreateAddTaskNoteRequest(Task, item);
+            return CreateAddTaskNoteRequest(Task, item, () => { });
         }
 
         protected override Request CreateRemoveItemRequest(TaskNote item)
         {
-            return CreateDeleteTaskNoteRequest(Task, item);
+            return CreateDeleteTaskNoteRequest(Task, item, () => { });
         }
 
         protected override void ClearItems()
