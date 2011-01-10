@@ -262,28 +262,34 @@ namespace WinMilk.Gui
 
         private void EditNoteButton_Click(object sender, EventArgs e)
         {
-            //TaskNote selected = NotesListBox.SelectedItem as TaskNote;
-            //NavigationService.Navigate(new Uri("/Gui/EditNotePage.xaml?action=edit&note=" + selected.Id + "&title=" + Uri.EscapeDataString(selected.Title) + "&body=" + Uri.EscapeDataString(selected.Body), UriKind.Relative));
+            FrameworkElement b = sender as FrameworkElement;
+            TaskNote n = b.DataContext as TaskNote;
+
+            NavigationService.Navigate(new Uri("/Gui/EditNotePage.xaml?action=edit&task=" + CurrentTask.Id + "&note=" + n.Id, UriKind.Relative));
         }
 
         private void DeleteNoteButton_Click(object sender, EventArgs e)
         {
-            FrameworkElement b = sender as FrameworkElement;
-            TaskNote n = b.DataContext as TaskNote;
-
-            IsLoading = true;
-
-            CurrentTask.DeleteNote(n, () => 
+            if (MessageBox.Show("..Note will be deleted permanently.", "..Delete note?", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                App.RtmClient.CacheTasks(() => 
+
+                FrameworkElement b = sender as FrameworkElement;
+                TaskNote n = b.DataContext as TaskNote;
+
+                IsLoading = true;
+
+                CurrentTask.DeleteNote(n, () =>
                 {
-                    Dispatcher.BeginInvoke(() =>
+                    App.RtmClient.CacheTasks(() =>
                     {
-                        ReloadTask();
-                        IsLoading = false;
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            ReloadTask();
+                            IsLoading = false;
+                        });
                     });
                 });
-            });
+            }
         }
 
         #endregion

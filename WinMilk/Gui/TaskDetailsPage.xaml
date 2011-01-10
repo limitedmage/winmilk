@@ -17,44 +17,6 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     shell:SystemTray.IsVisible="True">
     
-    <phone:PhoneApplicationPage.Resources>
-        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
-        	<Setter Property="Background" Value="Transparent"/>
-        	<Setter Property="BorderThickness" Value="0"/>
-        	<Setter Property="BorderBrush" Value="Transparent"/>
-        	<Setter Property="Padding" Value="0"/>
-        	<Setter Property="HorizontalContentAlignment" Value="Left"/>
-        	<Setter Property="VerticalContentAlignment" Value="Top"/>
-        	<Setter Property="Template">
-        		<Setter.Value>
-        			<ControlTemplate TargetType="ListBoxItem">
-        				<Border x:Name="LayoutRoot" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-        					<VisualStateManager.VisualStateGroups>
-        						<VisualStateGroup x:Name="CommonStates">
-        							<VisualState x:Name="Normal"/>
-        							<VisualState x:Name="MouseOver"/>
-        							<VisualState x:Name="Disabled">
-        								<Storyboard>
-        									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource TransparentBrush}"/>
-        									</ObjectAnimationUsingKeyFrames>
-        									<DoubleAnimation Duration="0" To=".5" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentContainer"/>
-        								</Storyboard>
-        							</VisualState>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="SelectionStates">
-        							<VisualState x:Name="Unselected"/>
-        							<VisualState x:Name="Selected"/>
-        						</VisualStateGroup>
-        					</VisualStateManager.VisualStateGroups>
-        					<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{StaticResource PhoneForegroundBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-        				</Border>
-        			</ControlTemplate>
-        		</Setter.Value>
-        	</Setter>
-        </Style>
-    </phone:PhoneApplicationPage.Resources>
-    
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         
@@ -175,26 +137,38 @@
 						</StackPanel>
 						
 						<!-- Notes list -->
-                		<ListBox ItemsSource="{Binding Notes}" x:Name="NotesListBox" Height="471" ItemContainerStyle="{StaticResource ListBoxItemStyle}"> 
-                			<ListBox.ItemTemplate>
+                		<ListBox ItemsSource="{Binding Notes}" x:Name="NotesListBox" Height="471">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                                <ListBox.ItemTemplate>
                 				<DataTemplate>
                 					<!-- Note template -->
-                					<StackPanel Margin="0,20,0,0">
+                                    <StackPanel>
                 						<!-- Note title -->
                 						<TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" />
                 						
 										<!-- Note body -->
 										<TextBlock Text="{Binding Body}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
-										
-										<!-- Note edit and delete in context menu -->
+                                        
+                                        <!-- Note edit and delete in context menu -->
                                         <toolkit:ContextMenuService.ContextMenu>
-                                            <toolkit:ContextMenu>
+                                            <toolkit:ContextMenu IsZoomEnabled="False">
                                                 <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Click="EditNoteButton_Click"/>
                                                 <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Click="DeleteNoteButton_Click"/>
                                             </toolkit:ContextMenu>
                                         </toolkit:ContextMenuService.ContextMenu>
-                					</StackPanel>
-                				</DataTemplate>
+                                    </StackPanel>
+                                </DataTemplate>
                 			</ListBox.ItemTemplate>
                 		</ListBox>
                 	</StackPanel>
