@@ -250,6 +250,15 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repeat.
+        /// </summary>
+        public static string AddTaskRecurrence {
+            get {
+                return ResourceManager.GetString("AddTaskRecurrence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to add.
         /// </summary>
         public static string AddTasksButton {
@@ -579,6 +588,105 @@ namespace WinMilk {
         public static string PinAppbar {
             get {
                 return ResourceManager.GetString("PinAppbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to after 2 weeks.
+        /// </summary>
+        public static string RecurrAfter2Weeks {
+            get {
+                return ResourceManager.GetString("RecurrAfter2Weeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to after 1 day.
+        /// </summary>
+        public static string RecurrAfterDay {
+            get {
+                return ResourceManager.GetString("RecurrAfterDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to after 1 month.
+        /// </summary>
+        public static string RecurrAfterMonth {
+            get {
+                return ResourceManager.GetString("RecurrAfterMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to after 1 week.
+        /// </summary>
+        public static string RecurrAfterWeek {
+            get {
+                return ResourceManager.GetString("RecurrAfterWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to after 1 year.
+        /// </summary>
+        public static string RecurrAfterYear {
+            get {
+                return ResourceManager.GetString("RecurrAfterYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to biweekly.
+        /// </summary>
+        public static string RecurrBiweekly {
+            get {
+                return ResourceManager.GetString("RecurrBiweekly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to daily.
+        /// </summary>
+        public static string RecurrDaily {
+            get {
+                return ResourceManager.GetString("RecurrDaily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to monthly.
+        /// </summary>
+        public static string RecurrMonthly {
+            get {
+                return ResourceManager.GetString("RecurrMonthly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to never.
+        /// </summary>
+        public static string RecurrNever {
+            get {
+                return ResourceManager.GetString("RecurrNever", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to weekly.
+        /// </summary>
+        public static string RecurrWeekly {
+            get {
+                return ResourceManager.GetString("RecurrWeekly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to yearly.
+        /// </summary>
+        public static string RecurrYearly {
+            get {
+                return ResourceManager.GetString("RecurrYearly", resourceCulture);
             }
         }
         

@@ -396,4 +396,40 @@
   <data name="EditNotePageTaskError" xml:space="preserve">
     <value>Error: No task selected</value>
   </data>
+  <data name="AddTaskRecurrence" xml:space="preserve">
+    <value>Repeat</value>
+  </data>
+  <data name="RecurrAfter2Weeks" xml:space="preserve">
+    <value>after 2 weeks</value>
+  </data>
+  <data name="RecurrAfterDay" xml:space="preserve">
+    <value>after 1 day</value>
+  </data>
+  <data name="RecurrAfterMonth" xml:space="preserve">
+    <value>after 1 month</value>
+  </data>
+  <data name="RecurrAfterWeek" xml:space="preserve">
+    <value>after 1 week</value>
+  </data>
+  <data name="RecurrAfterYear" xml:space="preserve">
+    <value>after 1 year</value>
+  </data>
+  <data name="RecurrBiweekly" xml:space="preserve">
+    <value>biweekly</value>
+  </data>
+  <data name="RecurrDaily" xml:space="preserve">
+    <value>daily</value>
+  </data>
+  <data name="RecurrMonthly" xml:space="preserve">
+    <value>monthly</value>
+  </data>
+  <data name="RecurrNever" xml:space="preserve">
+    <value>never</value>
+  </data>
+  <data name="RecurrWeekly" xml:space="preserve">
+    <value>weekly</value>
+  </data>
+  <data name="RecurrYearly" xml:space="preserve">
+    <value>yearly</value>
+  </data>
 </root>

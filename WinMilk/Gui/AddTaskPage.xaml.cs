@@ -6,11 +6,23 @@ using IronCow;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WinMilk.Helper;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WinMilk.Gui
 {
     public partial class AddTaskPage : PhoneApplicationPage
     {
+        public static readonly Dictionary<string, string> RecurrenceTypes = new Dictionary<string, string>
+        {
+            {AppResources.RecurrNever, string.Empty},
+            {AppResources.RecurrDaily, "daily"},
+            {AppResources.RecurrWeekly, "weekly"},
+            {AppResources.RecurrBiweekly, "biweekly"},
+            {AppResources.RecurrMonthly, "monthly"},
+            {AppResources.RecurrYearly, "yearly"}
+        };
+
         public static readonly DependencyProperty IsLoadingProperty =
             DependencyProperty.Register("IsLoading", typeof(bool), typeof(AddTaskPage),
                 new PropertyMetadata((bool)false));
@@ -51,6 +63,9 @@ namespace WinMilk.Gui
             {
                 TaskName.Text = Uri.UnescapeDataString(text);
             }
+
+            // bind recurrence
+            TaskRecurrence.ItemsSource = RecurrenceTypes.Keys.ToList();
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
@@ -138,6 +153,13 @@ namespace WinMilk.Gui
                 else if (TaskPriority3.IsChecked.HasValue && TaskPriority3.IsChecked.Value)
                 {
                     smartaddstr.Append("!3 ");
+                }
+
+                // recurrence
+                string selectedRecurrence = RecurrenceTypes[TaskRecurrence.SelectedItem as string];
+                if (selectedRecurrence != string.Empty)
+                {
+                    smartaddstr.Append("*" + selectedRecurrence);
                 }
 
                 // Add the task

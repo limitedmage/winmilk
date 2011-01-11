@@ -145,6 +145,24 @@
                     </StackPanel>
                 </Grid>
 
+                <!-- List -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{Binding Path=Loc.AddTaskRecurrence, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextLargeStyle}" VerticalAlignment="Top" Grid.Column="0" Margin="13,15,0,0"/>
+                    <toolkit:ListPicker x:Name="TaskRecurrence" Grid.Column="1" FullModeHeader="{Binding Path=Loc.AddTaskRecurrence, Source={StaticResource L10N}}">
+                        <toolkit:ListPicker.FullModeItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Margin="{StaticResource PhoneTouchTargetLargeOverhang}" />
+                            </DataTemplate>
+                        </toolkit:ListPicker.FullModeItemTemplate>
+                    </toolkit:ListPicker>
+                </Grid>
+
+
             </StackPanel>
 
         </ScrollViewer>
