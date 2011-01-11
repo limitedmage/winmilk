@@ -467,16 +467,6 @@ namespace WinMilk.Gui
             }
         }
 
-        /*** Removed as per Microsoft Policies :( ***/
-        /*
-        private void DonateButton_Click(object sender, EventArgs e)
-        {
-            WebBrowserTask page = new WebBrowserTask();
-            page.URL = "http://julianapena.com/donate.html?ref=WinMilk";
-            page.Show();
-        }
-        */
-
         #endregion
     }
 }

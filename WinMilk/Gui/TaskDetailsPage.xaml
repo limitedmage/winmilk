@@ -130,48 +130,51 @@
 			<!-- Notes -->
             <controls:PivotItem x:Name="NotesPivotItem" Header="{Binding Path=Loc.TaskNotesHeader, Source={StaticResource L10N}}">
                 <Grid>
-                    <StackPanel Orientation="Vertical" d:LayoutOverrides="Height">
-                    	<!-- Add note button -->
-                        <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True">
-                            <con:BigIconButton x:Name="AddNoteButton" Text="{Binding Path=Loc.TaskNotesAddButton, Source={StaticResource L10N}}" Type="add" Click="AddNoteButton_Click"/>
-						</StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Add note button -->
+                    <StackPanel Orientation="Horizontal" con:TiltEffect.IsTiltEnabled="True" Grid.Row="0">
+                        <con:BigIconButton x:Name="AddNoteButton" Text="{Binding Path=Loc.TaskNotesAddButton, Source={StaticResource L10N}}" Type="add" Click="AddNoteButton_Click"/>
+					</StackPanel>
 						
-						<!-- Notes list -->
-                		<ListBox ItemsSource="{Binding Notes}" x:Name="NotesListBox" Height="471">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
+					<!-- Notes list -->
+                	<ListBox ItemsSource="{Binding Notes}" x:Name="NotesListBox" Grid.Row="1">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
 
-                                <ListBox.ItemTemplate>
-                				<DataTemplate>
-                					<!-- Note template -->
-                                    <StackPanel Margin="0,20,0,0">
-                						<!-- Note title -->
-                						<TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" />
+                        <ListBox.ItemTemplate>
+                			<DataTemplate>
+                				<!-- Note template -->
+                                <StackPanel Margin="0,20,0,0">
+                					<!-- Note title -->
+                					<TextBlock Text="{Binding Title}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeLarge}" />
                 						
-										<!-- Note body -->
-										<TextBlock Text="{Binding Body}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+									<!-- Note body -->
+									<TextBlock Text="{Binding Body}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
                                         
-                                        <!-- Note edit and delete in context menu -->
-                                        <toolkit:ContextMenuService.ContextMenu>
-                                            <toolkit:ContextMenu>
-                                                <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Click="EditNoteButton_Click"/>
-                                                <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Click="DeleteNoteButton_Click"/>
-                                            </toolkit:ContextMenu>
-                                        </toolkit:ContextMenuService.ContextMenu>
-                                    </StackPanel>
-                                </DataTemplate>
-                			</ListBox.ItemTemplate>
-                		</ListBox>
-                	</StackPanel>
+                                    <!-- Note edit and delete in context menu -->
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesEditButton, Source={StaticResource L10N}}" Click="EditNoteButton_Click"/>
+                                            <toolkit:MenuItem Header="{Binding Path=Loc.TaskNotesDeleteButton, Source={StaticResource L10N}}" Click="DeleteNoteButton_Click"/>
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
+                                </StackPanel>
+                            </DataTemplate>
+                		</ListBox.ItemTemplate>
+                	</ListBox>
                 </Grid>
             </controls:PivotItem>
         </controls:Pivot>

@@ -119,6 +119,9 @@ namespace WinMilk.Gui
 
         private void Save_Click(object sender, EventArgs e)
         {
+            // fix linebreak bugs
+            NoteBody.Text = NoteBody.Text.Replace("\r", "\n");
+
             if (Action == AddEditAction.Edit)
             {
                 IsLoading = true;
