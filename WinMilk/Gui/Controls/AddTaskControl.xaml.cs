@@ -161,8 +161,14 @@ namespace WinMilk.Gui.Controls
 
         private void AdvancedAddButton_Click(object sender, RoutedEventArgs e)
         {
+            string uri = "/Gui/AddTaskPage.xaml";
+            if (SmartAddBox.Text != string.Empty && SmartAddBox.Text != null)
+            {
+                uri += "?text=" + Uri.EscapeDataString(SmartAddBox.Text);
+            }
+
             PhoneApplicationFrame frame = App.Current.RootVisual as PhoneApplicationFrame;
-            frame.Navigate(new Uri("/Gui/AddTaskPage.xaml", UriKind.Relative));
+            frame.Navigate(new Uri(uri, UriKind.Relative));
 
             Close();
         }

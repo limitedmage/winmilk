@@ -43,6 +43,16 @@ namespace WinMilk.Gui
             }
         }
 
+        private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            // if data was passed from AddTaskControl, populate fields
+            string text;
+            if (NavigationContext.QueryString.TryGetValue("text", out text))
+            {
+                TaskName.Text = Uri.UnescapeDataString(text);
+            }
+        }
+
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             if (TaskList.ListPickerMode == ListPickerMode.Expanded)
@@ -165,7 +175,5 @@ namespace WinMilk.Gui
             if (TaskDueDateNoTime != null) TaskDueDateNoTime.Visibility = Visibility.Collapsed;
             if (TaskDueDateTime != null) TaskDueDateTime.Visibility = Visibility.Visible;
         }
-
-
     }
 }
