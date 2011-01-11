@@ -817,11 +817,11 @@ namespace IronCow
 
                     if (DueDateTime.HasValue)
                     {
-                        DueDateTime = DueDateTime.Value.AddDays(1);
+                        SetDueAndIsLate(DueDateTime.Value.AddDays(1), HasDueTime);
                     }
                     else
                     {
-                        DueDateTime = DateTime.Today;
+                        SetDueAndIsLate(DateTime.Today, false);
                     }
 
                     OnPropertyChanged("Postponed");
