@@ -770,19 +770,17 @@ namespace IronCow
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't complete a task that has not been synced.");
 
-                this.Owner.GetOrStartTimeline((t) =>
+                Request request = CreateStandardRequest(this, "rtm.tasks.complete", () =>
                 {
-                    Request request = CreateStandardRequest(this, "rtm.tasks.complete", () =>
-                    {
-                        Completed = DateTime.Now;
-                        OnPropertyChanged("Completed");
-                        OnPropertyChanged("IsCompleted");
-                        OnPropertyChanged("IsIncomplete");
+                    Completed = DateTime.Now;
+                    OnPropertyChanged("Completed");
+                    OnPropertyChanged("IsCompleted");
+                    OnPropertyChanged("IsIncomplete");
 
-                        callback();
-                    });
-                    Owner.ExecuteRequest(request);
+                    callback();
                 });
+
+                Owner.ExecuteRequest(request);
             }
         }
 
@@ -812,33 +810,28 @@ namespace IronCow
                 if (!IsSynced)
                     throw new InvalidOperationException("Can't postpone a task that has not been synced.");
 
-                this.Owner.GetOrStartTimeline((t) =>
+                Request request = CreateStandardRequest(this, "rtm.tasks.postpone", () =>
                 {
+                    Postponed++;
 
-                    Request request = CreateStandardRequest(this, "rtm.tasks.postpone", () =>
+
+                    if (DueDateTime.HasValue)
                     {
-                        Postponed++;
+                        SetDueAndIsLate(DueDateTime.Value.AddDays(1), HasDueTime);
+                    }
+                    else
+                    {
+                        SetDueAndIsLate(DateTime.Today, false);
+                    }
 
+                    OnPropertyChanged("Postponed");
+                    OnPropertyChanged("DueString");
+                    OnPropertyChanged("DueDateTime");
+                    OnPropertyChanged("Due");
 
-                        if (DueDateTime.HasValue)
-                        {
-                            SetDueAndIsLate(DueDateTime.Value.AddDays(1), HasDueTime);
-                        }
-                        else
-                        {
-                            SetDueAndIsLate(DateTime.Today, false);
-                        }
-
-                        OnPropertyChanged("Postponed");
-                        OnPropertyChanged("DueString");
-                        OnPropertyChanged("DueDateTime");
-                        OnPropertyChanged("Due");
-
-                        callback();
-                    });
-
-                    Owner.ExecuteRequest(request);
+                    callback();
                 });
+                Owner.ExecuteRequest(request);
             }
         }
 

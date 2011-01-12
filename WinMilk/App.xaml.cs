@@ -58,6 +58,7 @@ namespace WinMilk
         public static void LoadData()
         {
             string RtmAuthToken = IsolatedStorageHelper.GetObject<string>("RtmAuthToken");
+            int Timeline = IsolatedStorageHelper.GetObject<int>("RtmTimeline");
             ListsResponse = IsolatedStorageHelper.GetObject<Response>("ListsResponse");
             TasksResponse = IsolatedStorageHelper.GetObject<Response>("TasksResponse");
 
@@ -69,6 +70,7 @@ namespace WinMilk
             {
                 RtmClient = new Rtm(RtmApiKey, RtmSharedKey);
             }
+            RtmClient.CurrentTimeline = Timeline;
 
             RtmClient.CacheListsEvent += OnCacheLists;
             RtmClient.CacheTasksEvent += OnCacheTasks;
@@ -86,6 +88,7 @@ namespace WinMilk
         public static void SaveData()
         {
             IsolatedStorageHelper.SaveObject<string>("RtmAuthToken", RtmClient.AuthToken);
+            IsolatedStorageHelper.SaveObject<int>("RtmTimeline", RtmClient.CurrentTimeline);
             IsolatedStorageHelper.SaveObject<Response>("ListsResponse", ListsResponse);
             IsolatedStorageHelper.SaveObject<Response>("TasksResponse", TasksResponse);
         }
