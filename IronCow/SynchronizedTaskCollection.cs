@@ -225,11 +225,7 @@ namespace IronCow
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-                if (Rtm.Dispatcher != null && !Rtm.Dispatcher.CheckAccess())
-                    Rtm.Dispatcher.BeginInvoke(new Action(() => PropertyChanged(this, new PropertyChangedEventArgs(propertyName))));
-                else
-                    PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            RtmElement.OnPropertyChanged(this, propertyName, PropertyChanged);
         }
 
         #endregion

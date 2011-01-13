@@ -1,5 +1,6 @@
 ﻿using System;
 using IronCow.Rest;
+using System.ComponentModel;
 
 namespace IronCow
 {
@@ -72,6 +73,25 @@ namespace IronCow
 
         protected virtual void OnOwnerChanged()
         {
+        }
+
+        /// <summary>
+        ///     This method is commonly used by other classes, providing one implementation 
+        ///     here to eliminate duplicate code.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="propertyChanged">By storing the event handler in this variable, we eliminate a race condition
+        ///     where the original event handler becomes null and we later try to dereference it.</param>
+        public static void OnPropertyChanged(object sender, string propertyName, PropertyChangedEventHandler propertyChanged)
+        {
+            if (propertyChanged != null)
+                if (Rtm.Dispatcher != null && !Rtm.Dispatcher.CheckAccess())
+                    Rtm.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            propertyChanged(sender, new PropertyChangedEventArgs(propertyName));
+                        }));
+                else
+                    propertyChanged(sender, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
