@@ -817,7 +817,20 @@ namespace IronCow
 
                     if (DueDateTime.HasValue)
                     {
-                        SetDueAndIsLate(DueDateTime.Value.AddDays(1), HasDueTime);
+                        if (DueDateTime.Value.Date < DateTime.Today)
+                        {
+                            // task is overdue
+                            DateTime newDate = DateTime.Today;
+                            if (HasDueTime)
+                            {
+                                newDate += DueDateTime.Value.TimeOfDay;
+                            }
+                            SetDueAndIsLate(newDate, HasDueTime);
+                        }
+                        else
+                        {
+                            SetDueAndIsLate(DueDateTime.Value.AddDays(1), HasDueTime);
+                        }
                     }
                     else
                     {
