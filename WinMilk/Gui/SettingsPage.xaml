@@ -33,7 +33,7 @@
             <controls:PivotItem Name="Settings" Header="{Binding Loc.SettingsPageHeader, Source={StaticResource L10N}}">
                 <ScrollViewer Margin="0">
                     <StackPanel>
-                        <toolkit:ListPicker Name="StartSetting" Header="{Binding Loc.SettingsStartPage, Source={StaticResource L10N}}" SelectedIndex="{Binding StartPageSetting, Mode=TwoWay, Source={StaticResource appSettings}}">
+                        <toolkit:ListPicker Name="StartSetting" Header="{Binding Loc.SettingsStartPage, Source={StaticResource L10N}}">
                             <toolkit:ListPickerItem Content="{Binding Loc.TasksHeader, Source={StaticResource L10N}}" />
                             <toolkit:ListPickerItem Content="{Binding Loc.ListsHeader, Source={StaticResource L10N}}" />
                             <toolkit:ListPickerItem Content="{Binding Loc.TagsHeader, Source={StaticResource L10N}}" />
