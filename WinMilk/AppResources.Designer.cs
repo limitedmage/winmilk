@@ -70,6 +70,24 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WinMilk is an open source project hosted at Codeplex..
+        /// </summary>
+        public static string AboutCodeplex {
+            get {
+                return ResourceManager.GetString("AboutCodeplex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to CodePlex project site.
+        /// </summary>
+        public static string AboutCodeplexLink {
+            get {
+                return ResourceManager.GetString("AboutCodeplexLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Buy me a cup of coffee!.
         /// </summary>
         public static string AboutCoffeeLink {
@@ -84,6 +102,15 @@ namespace WinMilk {
         public static string AboutCoffeePrompt {
             get {
                 return ResourceManager.GetString("AboutCoffeePrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Anyone can contribute to WinMilk. External contributors for this version are Justin Caton, Aelman and Nanabite..
+        /// </summary>
+        public static string AboutContributors {
+            get {
+                return ResourceManager.GetString("AboutContributors", resourceCulture);
             }
         }
         

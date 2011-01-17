@@ -453,4 +453,13 @@
   <data name="AuthPageAskAccountYesButton" xml:space="preserve">
     <value>Sí</value>
   </data>
+  <data name="AboutCodeplex" xml:space="preserve">
+    <value>WinMilk es un proyecto de código abierto alojado en CodePlex.</value>
+  </data>
+  <data name="AboutCodeplexLink" xml:space="preserve">
+    <value>Ir al sitio del proyecto en CodePlex</value>
+  </data>
+  <data name="AboutContributors" xml:space="preserve">
+    <value>Cualquiera puede contribuir a WinMilk. Contribuidores externos para esta versión son Justin Caton, Aelman y Nanabite.</value>
+  </data>
 </root>
