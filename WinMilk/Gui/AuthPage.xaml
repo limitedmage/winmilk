@@ -16,6 +16,12 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Loaded="PhoneApplicationPage_Loaded"
     con:TiltEffect.IsTiltEnabled="True">
+    
+    <phone:PhoneApplicationPage.Resources>
+
+        
+
+    </phone:PhoneApplicationPage.Resources>
 
 	<Grid x:Name="LayoutRoot" Background="{StaticResource PhoneBackgroundBrush}">
 		<Grid.RowDefinitions>
@@ -28,38 +34,91 @@
             <TextBlock x:Name="ApplicationTitle" Text="{Binding Path=Loc.AuthPageTitle, Source={StaticResource L10N}}" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
-        <!--This section is empty. Place new content here Grid.Row="1"-->
-		<Grid Grid.Row="1" x:Name="ContentGrid" Margin="0,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <Grid x:Name="ContentGrid" Grid.Row="1">
+            <!-- content goes here -->
 
-            <ProgressBar IsIndeterminate="{Binding IsLoading}" 
+            <StackPanel Name="AskAccount">
+
+                <TextBlock TextWrapping="Wrap" Text="..Welcome to WinMilk! WinMilk requires a Remember the Milk account." FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+                <TextBlock TextWrapping="Wrap" Text="..Remember the Milk is a web service that lets you manage tasks online. WinMilk will always keep your tasks in sync with RTM." FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+                <TextBlock TextWrapping="Wrap" Text="..Do you already have a Remember the Milk account?" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+
+                <Grid Margin="{StaticResource PhoneTouchTargetOverhang}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button Content="..Yes" Grid.Column="0" Name="YesAccountButton" Click="YesAccountButton_Click" />
+                    <Button Content="..No" Grid.Column="1" Name="NoAccountButton" Click="NoAccountButton_Click" />
+                </Grid>
+
+            </StackPanel>
+
+            <Grid Name="AuthBrowser" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ProgressBar IsIndeterminate="{Binding IsLoading}" 
                          Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}"  
                          Style="{StaticResource PerformanceProgressBar}" />
 
-            <phone:WebBrowser Name="webBrowser1" Grid.Row="1" Navigating="webBrowser1_Navigating" Navigated="webBrowser1_Navigated"/>
+                <phone:WebBrowser Name="webBrowser1" Grid.Row="1" Navigating="webBrowser1_Navigating" Navigated="webBrowser1_Navigated"/>
 
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
+                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}" Margin="12,13,0,13" Grid.ColumnSpan="2" />
+                    <con:IconButton Text="{Binding Path=Loc.AuthDoneButton, Source={StaticResource L10N}}" Type="check" Click="AuthDoneButton_Click" Grid.Column="1" Grid.Row="1"/>
+                    <con:IconButton Text="{Binding Path=Loc.AuthRetryButton, Source={StaticResource L10N}}" Type="refresh" Click="RetryButton_Click" Grid.Column="0" Grid.Row="1"/>
+                </Grid>
+            </Grid>
+
+            <Grid Name="CreateAccountBrowser" Visibility="Collapsed">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                
-                <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="AuthStatus" 
-                           Text="{Binding Path=Loc.AuthInstructions, Source={StaticResource L10N}}" Margin="12,13,0,13" Grid.ColumnSpan="2" />
-                <con:IconButton Text="{Binding Path=Loc.AuthDoneButton, Source={StaticResource L10N}}" Type="check" Click="AuthDoneButton_Click" Grid.Column="1" Grid.Row="1"/>
-                <con:IconButton Text="{Binding Path=Loc.AuthRetryButton, Source={StaticResource L10N}}" Type="refresh" Click="RetryButton_Click" Grid.Column="0" Grid.Row="1"/>
+
+                <ProgressBar IsIndeterminate="{Binding IsLoading}" 
+                         Visibility="{Binding IsLoading, Converter={StaticResource VisibilityConverter}}"  
+                         Style="{StaticResource PerformanceProgressBar}" />
+
+                <phone:WebBrowser Name="AccountBrowser" Grid.Row="1" Navigating="webBrowser1_Navigating" Navigated="webBrowser1_Navigated"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="CreateStatus" 
+                           Text="..After creating the account, tap the continue button" Margin="12,13,0,13" Grid.ColumnSpan="2" />
+                    <con:IconButton Text="..continue" Type="check" Click="CreateDoneButton_Click" Grid.Column="1" Grid.Row="1"/>
+                    <con:IconButton Text="{Binding Path=Loc.AuthRetryButton, Source={StaticResource L10N}}" Type="refresh" Click="CreateRetryButton_Click" Grid.Column="0" Grid.Row="1"/>
+                </Grid>
             </Grid>
+
         </Grid>
+
         
-        
-	</Grid>
+
+    </Grid>
 </phone:PhoneApplicationPage>

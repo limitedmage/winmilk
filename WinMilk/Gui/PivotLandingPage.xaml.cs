@@ -331,7 +331,7 @@ namespace WinMilk.Gui
         {
             SmartDispatcher.BeginInvoke(() =>
             {
-                MessageBoxResult login = MessageBox.Show(AppResources.LogInMessageBoxText, AppResources.LogInMessageBoxTitle, MessageBoxButton.OK);
+                //MessageBoxResult login = MessageBox.Show(AppResources.LogInMessageBoxText, AppResources.LogInMessageBoxTitle, MessageBoxButton.OK);
                 this.NavigationService.Navigate(new Uri("/Gui/AuthPage.xaml", UriKind.Relative));
             });
         }

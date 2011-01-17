@@ -3,6 +3,7 @@ using System.Windows;
 using IronCow;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
+using System.Windows.Controls;
 
 namespace WinMilk.Gui
 {
@@ -62,7 +63,14 @@ namespace WinMilk.Gui
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
-            StartAuth();
+            //StartAuth();
+            ShowAskAccount();
+        }
+
+        private void ShowAskAccount()
+        {
+            //ContentGrid.Children.Clear();
+            
         }
 
         private void AuthDoneButton_Click(object sender, EventArgs e)
@@ -111,6 +119,32 @@ namespace WinMilk.Gui
         private void webBrowser1_Navigating(object sender, NavigatingEventArgs e)
         {
             this.IsLoading = true;
+        }
+
+        private void NoAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            AskAccount.Visibility = Visibility.Collapsed;
+            CreateAccountBrowser.Visibility = Visibility.Visible;
+            AccountBrowser.Source = new Uri("http://www.rememberthemilk.com/signup/");
+        }
+
+        private void YesAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            AskAccount.Visibility = Visibility.Collapsed;
+            AuthBrowser.Visibility = Visibility.Visible;
+            StartAuth();
+        }
+
+        private void CreateDoneButton_Click(object sender, EventArgs e)
+        {
+            CreateAccountBrowser.Visibility = Visibility.Collapsed;
+            AuthBrowser.Visibility = Visibility.Visible;
+            StartAuth();
+        }
+
+        private void CreateRetryButton_Click(object sender, EventArgs e)
+        {
+            AccountBrowser.Source = new Uri("http://www.rememberthemilk.com/signup/");
         }
     }
 }
