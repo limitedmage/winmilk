@@ -432,4 +432,25 @@
   <data name="RecurrYearly" xml:space="preserve">
     <value>yearly</value>
   </data>
+  <data name="AuthContinueButton" xml:space="preserve">
+    <value>continue</value>
+  </data>
+  <data name="AuthCreateInstructions" xml:space="preserve">
+    <value>After creating the account, tap the continue button</value>
+  </data>
+  <data name="AuthPageAskAccountLine1" xml:space="preserve">
+    <value>Welcome to WinMilk! WinMilk requires a Remember the Milk account.</value>
+  </data>
+  <data name="AuthPageAskAccountLine2" xml:space="preserve">
+    <value>Remember the Milk is a web service that lets you manage tasks online. WinMilk will always keep your tasks in sync with RTM.</value>
+  </data>
+  <data name="AuthPageAskAccountLine3" xml:space="preserve">
+    <value>Do you already have a Remember the Milk account?</value>
+  </data>
+  <data name="AuthPageAskAccountNoButton" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="AuthPageAskAccountYesButton" xml:space="preserve">
+    <value>Yes</value>
+  </data>
 </root>

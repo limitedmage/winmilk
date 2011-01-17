@@ -39,17 +39,17 @@
 
             <StackPanel Name="AskAccount">
 
-                <TextBlock TextWrapping="Wrap" Text="..Welcome to WinMilk! WinMilk requires a Remember the Milk account." FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
-                <TextBlock TextWrapping="Wrap" Text="..Remember the Milk is a web service that lets you manage tasks online. WinMilk will always keep your tasks in sync with RTM." FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
-                <TextBlock TextWrapping="Wrap" Text="..Do you already have a Remember the Milk account?" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Loc.AuthPageAskAccountLine1, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Loc.AuthPageAskAccountLine2, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
+                <TextBlock TextWrapping="Wrap" Text="{Binding Path=Loc.AuthPageAskAccountLine3, Source={StaticResource L10N}}" FontSize="{StaticResource PhoneFontSizeLarge}" Margin="{StaticResource PhoneTouchTargetOverhang}" />
 
                 <Grid Margin="{StaticResource PhoneTouchTargetOverhang}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button Content="..Yes" Grid.Column="0" Name="YesAccountButton" Click="YesAccountButton_Click" />
-                    <Button Content="..No" Grid.Column="1" Name="NoAccountButton" Click="NoAccountButton_Click" />
+                    <Button Content="{Binding Path=Loc.AuthPageAskAccountYesButton, Source={StaticResource L10N}}" Grid.Column="0" Name="YesAccountButton" Click="YesAccountButton_Click" />
+                    <Button Content="{Binding Path=Loc.AuthPageAskAccountNoButton, Source={StaticResource L10N}}" Grid.Column="1" Name="NoAccountButton" Click="NoAccountButton_Click" />
                 </Grid>
 
             </StackPanel>
@@ -110,8 +110,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="CreateStatus" 
-                           Text="..After creating the account, tap the continue button" Margin="12,13,0,13" Grid.ColumnSpan="2" />
-                    <con:IconButton Text="..continue" Type="check" Click="CreateDoneButton_Click" Grid.Column="1" Grid.Row="1"/>
+                           Text="{Binding Path=Loc.AuthCreateInstructions, Source={StaticResource L10N}}" Margin="12,13,0,13" Grid.ColumnSpan="2" />
+                    <con:IconButton Text="{Binding Path=Loc.AuthContinueButton, Source={StaticResource L10N}}" Type="next" Click="CreateDoneButton_Click" Grid.Column="1" Grid.Row="1"/>
                     <con:IconButton Text="{Binding Path=Loc.AuthRetryButton, Source={StaticResource L10N}}" Type="refresh" Click="CreateRetryButton_Click" Grid.Column="0" Grid.Row="1"/>
                 </Grid>
             </Grid>

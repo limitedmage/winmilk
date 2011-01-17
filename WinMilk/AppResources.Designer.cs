@@ -322,6 +322,24 @@ namespace WinMilk {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to continue.
+        /// </summary>
+        public static string AuthContinueButton {
+            get {
+                return ResourceManager.GetString("AuthContinueButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After creating the account, tap the continue button.
+        /// </summary>
+        public static string AuthCreateInstructions {
+            get {
+                return ResourceManager.GetString("AuthCreateInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to done.
         /// </summary>
         public static string AuthDoneButton {
@@ -336,6 +354,51 @@ namespace WinMilk {
         public static string AuthInstructions {
             get {
                 return ResourceManager.GetString("AuthInstructions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to WinMilk! WinMilk requires a Remember the Milk account..
+        /// </summary>
+        public static string AuthPageAskAccountLine1 {
+            get {
+                return ResourceManager.GetString("AuthPageAskAccountLine1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remember the Milk is a web service that lets you manage tasks online. WinMilk will always keep your tasks in sync with RTM..
+        /// </summary>
+        public static string AuthPageAskAccountLine2 {
+            get {
+                return ResourceManager.GetString("AuthPageAskAccountLine2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you already have a Remember the Milk account?.
+        /// </summary>
+        public static string AuthPageAskAccountLine3 {
+            get {
+                return ResourceManager.GetString("AuthPageAskAccountLine3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string AuthPageAskAccountNoButton {
+            get {
+                return ResourceManager.GetString("AuthPageAskAccountNoButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string AuthPageAskAccountYesButton {
+            get {
+                return ResourceManager.GetString("AuthPageAskAccountYesButton", resourceCulture);
             }
         }
         
