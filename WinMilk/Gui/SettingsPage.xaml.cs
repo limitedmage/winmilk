@@ -5,6 +5,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
 using System.IO.IsolatedStorage;
 using System.Diagnostics;
+using System.Windows.Data;
 
 namespace WinMilk.Gui
 {
@@ -13,6 +14,14 @@ namespace WinMilk.Gui
         public SettingsPage()
         {
             InitializeComponent();
+
+            // Defining the binding in code and not in XAML fixes an issue where the current selection
+            // doesn't show when first navigating to the page.
+            AppSettings settings = new AppSettings();
+            Binding binding = new Binding("StartPageSetting");
+            binding.Mode = BindingMode.TwoWay;
+            binding.Source = settings;
+            StartSetting.SetBinding(ListPicker.SelectedIndexProperty, binding);
         }
 
         #region AboutPageEvents
