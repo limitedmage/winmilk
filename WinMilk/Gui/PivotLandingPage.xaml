@@ -117,7 +117,7 @@
                                         </Rectangle.Fill>
                                     </Rectangle>
 
-                                    <con:DynamicTextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="1" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" HorizontalAlignment="Left" />
+                                    <con:DynamicTextBlock Text="{Binding LocName}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="1" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" HorizontalAlignment="Left" />
                                     <TextBlock Text="{Binding Count}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding HasItems, Converter={StaticResource VisibilityConverter}}" />
                                 </Grid>
                             </DataTemplate>

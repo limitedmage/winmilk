@@ -78,6 +78,20 @@ namespace IronCow
             }
         }
 
+        public string LocName
+        {
+            get
+            {
+                if (System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName == "es")
+                {
+                    if (Name == "Inbox") return "Buzón de entrada";
+                    if (Name == "Sent") return "Enviadas";
+                }
+
+                return Name;
+            }
+        }
+
         private TaskListTaskCollection mTasks;
         public TaskListTaskCollection Tasks
         {
