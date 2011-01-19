@@ -5,6 +5,13 @@ You can use the following credentials for testing:
 Username: winmilktest
 Password: !!abc123
 
+Please note that task names, list names, tags,
+note contents, and other account-specific information
+is set by the user and is not translated by the application
+when changing locales.
+You may confirm this by logging in with the same account
+in the www.rememberthemilk.com website.
+
 = Category =
 Productivity
 

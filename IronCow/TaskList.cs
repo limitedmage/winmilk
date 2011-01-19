@@ -84,7 +84,7 @@ namespace IronCow
             {
                 if (System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName == "es")
                 {
-                    if (Name == "Inbox") return "Buzón de entrada";
+                    if (Name == "Inbox") return "Buzón";
                     if (Name == "Sent") return "Enviadas";
                 }
 
