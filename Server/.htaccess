@@ -1,0 +1,4 @@
+Options +FollowSymLinks 
+
+RewriteEngine on
+RewriteRule ^([0-9]+).png$ /tile.php?count=$1 [QSA,L]
