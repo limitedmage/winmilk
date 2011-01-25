@@ -128,6 +128,8 @@ namespace WinMilk
             var value = (byte[])DeviceExtendedProperties.GetValue("DeviceUniqueId");
             var id = Convert.ToBase64String(value);
             an.Track("CacheTasks", id);
+
+            PushNotificationHelper p = new PushNotificationHelper(RtmClient.GetTodayTasks().Count + RtmClient.GetOverdueTasks().Count);
         }
 
         // Code to execute when the application is launching (eg, from Start)

@@ -32,12 +32,13 @@ class WindowsPhonePushClient
     {
         $msg = "<?xml version=\"1.0\" encoding=\"utf-8\"?>" .
                 "<wp:Notification xmlns:wp=\"WPNotification\">" .
-                   "</wp><wp:Tile>".
-                      "</wp><wp:BackgroundImage>" . $image_url . "</wp>" .
-                      "<wp:Count>" . $count . "</wp>" .
-                      "<wp:Title>" . $title . "</wp>" .
-                   " " .
-                "";
+                   "<wp:Tile>".
+                      "<wp:BackgroundImage>$image_url</wp:BackgroundImage>" .
+                      "<wp:Count>$count</wp:Count>" .
+                      "<wp:Title>$title</wp:Title>" .
+                   "</wp:Tile>" .
+                "</wp:Notification>";
+        
  
         return $this->_send_push(array(
                                     'X-WindowsPhone-Target: token',
@@ -85,6 +86,8 @@ class WindowsPhonePushClient
         curl_close($ch);
  
         return array(
+				'msg' => $msg,
+				'output' => $output,
             'X-SubscriptionStatus'     => $this->_get_header_value($output, 'X-SubscriptionStatus'),
             'X-NotificationStatus'     => $this->_get_header_value($output, 'X-NotificationStatus'),
             'X-DeviceConnectionStatus' => $this->_get_header_value($output, 'X-DeviceConnectionStatus')
@@ -99,15 +102,15 @@ class WindowsPhonePushClient
 
 function send_tile($device_url, $count)
 {
-	$client = new WindowsPushClient($device_url);
-	$client->send_tile_update("http://winmilk.julianapena.com/$count.png", "", "WinMilk");
+	$client = new WindowsPhonePushClient($device_url);
+	return $client->send_tile_update("http://winmilk.julianapena.com/$count.png", 0, "WinMilk");
 }
 
 function main()
 {
 	if (isset($_REQUEST["device_url"]) && isset($_REQUEST["count"]))
 	{
-		send_tile($_REQUEST["device_url"], $_REQUEST["count"]);
+		print_r(send_tile($_REQUEST["device_url"], $_REQUEST["count"]));
 	}
 }
 
