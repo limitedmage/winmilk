@@ -9,7 +9,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit" xmlns:WinMilk_Gui_Controls="clr-namespace:WinMilk.Gui.Controls"
     xmlns:local="clr-namespace:WinMilk.Gui"
-    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="768"
     SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
@@ -38,6 +38,23 @@
                             <toolkit:ListPickerItem Content="{Binding Loc.ListsHeader, Source={StaticResource L10N}}" />
                             <toolkit:ListPickerItem Content="{Binding Loc.TagsHeader, Source={StaticResource L10N}}" />
                         </toolkit:ListPicker>
+                        
+                        <toolkit:ListPicker Name="LiveTileSetting" Header="..Live Tile" SelectionChanged="LiveTileSetting_SelectionChanged">
+                            <toolkit:ListPickerItem Name="PushOff" Content="..Off" />
+                            <toolkit:ListPickerItem Name="PushToday" Content="..Due today" />
+                            <toolkit:ListPickerItem Name="PushTodayTomorrow" Content="..Due today and tomorrow" />
+                            <toolkit:ListPickerItem Name="PushIncomplete" Content="..All incomplete" />
+                        </toolkit:ListPicker>
+                        
+                        <TextBlock Margin="{StaticResource PhoneTouchTargetOverhang}" TextWrapping="Wrap">
+                            ..Live Tile is updated every time the app opens and when tasks are synchonized.
+                        </TextBlock>
+
+                        <TextBlock Margin="12,0,12,0" TextWrapping="Wrap">
+                            ..Live Tile Status:
+                        </TextBlock>
+
+                        <TextBlock Name="PushStatus" Text="None" Margin="12,0,12,0" TextWrapping="Wrap" />
                     </StackPanel>
                 </ScrollViewer>
             </controls:PivotItem>

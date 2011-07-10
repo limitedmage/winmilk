@@ -112,6 +112,14 @@ namespace WinMilk.Gui
 
             base.OnBackKeyPress(e);
         }
+
+        private void LiveTileSetting_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+
+            }
+        }
     }
 
     /// <summary>

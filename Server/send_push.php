@@ -110,7 +110,25 @@ function main()
 {
 	if (isset($_REQUEST["device_url"]) && isset($_REQUEST["count"]))
 	{
-		print_r(send_tile($_REQUEST["device_url"], $_REQUEST["count"]));
+		$a = send_tile($_REQUEST["device_url"], $_REQUEST["count"]);
+		
+		if (isset($a["X-SubscriptionStatus"]) && isset($a["X-NotificationStatus"]) && isset($a["X-DeviceConnectionStatus"]))
+		{
+			echo $a["X-SubscriptionStatus"];
+			echo "\n";
+			echo $a["X-NotificationStatus"];
+			echo "\n";
+			echo $a["X-DeviceConnectionStatus"];
+			echo "\n";
+		}
+		else
+		{
+			echo "Error\nError\nError\n";
+		}
+	}
+	else
+	{
+		echo "Error\nError\nError\n";
 	}
 }
 

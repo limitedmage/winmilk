@@ -129,7 +129,7 @@ namespace WinMilk
             var id = Convert.ToBase64String(value);
             an.Track("CacheTasks", id);
 
-            PushNotificationHelper p = new PushNotificationHelper(RtmClient.GetTodayTasks().Count + RtmClient.GetOverdueTasks().Count);
+            PushNotificationHelper p = new PushNotificationHelper(RtmClient.TaskLists["Inbox"]);
         }
 
         // Code to execute when the application is launching (eg, from Start)
